@@ -123,39 +123,34 @@ public class LibrarianPage extends JPanel{
 		    gbcMain.gridwidth = 1;
 		    this.add(returned, gbcMain);
 
-		    
-
-		    
-
 		
-		    
 		    
 		    //NORTH
 		    gbcMain.gridx = 0;
-		    gbcMain.insets = new Insets(0,-420,320,0);
+		    gbcMain.insets = new Insets(0,-220,280,0);
 		    gbcMain.gridwidth = 1;
 		    this.add(key, gbcMain);
 		    
-		    gbcMain.insets = new Insets(0,-300,320,0);
+		    gbcMain.insets = new Insets(0,-100,280,0);
 		    gbcMain.gridwidth = 1;
 		    this.add(logout, gbcMain);
 		    
  
-		    gbcMain.insets = new Insets(0,0,540,-1100);
+		    gbcMain.insets = new Insets(0,0,540,-650);
 		    gbcMain.gridwidth = 1;
 		    this.add(name, gbcMain);
 		
 
-			 gbcMain.insets = new Insets(0,0,470,-1100);
+			 gbcMain.insets = new Insets(0,0,470,-650);
 			 gbcMain.gridwidth = 1;
 			 this.add(namePage, gbcMain);
 			
 			
-		    gbcMain.insets = new Insets(0,0,320,-2400);
+		    gbcMain.insets = new Insets(0,0,250,-1400);
 		    gbcMain.gridwidth = 1;
 		    this.add(userID, gbcMain);
 		    
-		    gbcMain.insets = new Insets(0,0,320,-2550);
+		    gbcMain.insets = new Insets(0,0,250,-1550);
 		    gbcMain.gridwidth = 1;
 		    this.add(ID, gbcMain);
 	}

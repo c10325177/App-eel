@@ -90,7 +90,7 @@ public class ManageCustomer extends JPanel{
 	    
 	    //JLabel
 	    gbcMain.anchor = GridBagConstraints.CENTER;
-	    gbcMain.insets = new Insets(0,-1370,240,0);
+	    gbcMain.insets = new Insets(0,-800,240,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(home, gbcMain);
 	    
@@ -169,13 +169,13 @@ public class ManageCustomer extends JPanel{
 	    
 	    
 	    //User ID stuff
-	    gbcMain.insets = new Insets(0,910,300,0);
+	    gbcMain.insets = new Insets(0,0,300,-680);
 	    gbcMain.gridwidth = 1;
 	    this.add(userID, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,1060,300,0);
+	    gbcMain.insets = new Insets(0,0,300,-790);
 	    gbcMain.gridwidth = 1;
-	    this.add(ID, gbcMain);    
+	    this.add(ID, gbcMain);      
 	  	    
 	}
 	

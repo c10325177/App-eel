@@ -53,7 +53,7 @@ public class LoginPage extends JPanel {
 	    
 	    
 	    //CENTER
-	    gbcMain.insets = new Insets(-200,-530,0,0);
+	    gbcMain.insets = new Insets(-200,-270,0,0);
 	    gbcMain.anchor = GridBagConstraints.CENTER;
 	    gbcMain.gridx = 1;
 	    gbcMain.gridy = 0;
@@ -61,31 +61,31 @@ public class LoginPage extends JPanel {
 	    gbcMain.gridwidth = 2;
  	    this.add(name, gbcMain);
  	    
- 	    gbcMain.insets = new Insets(-100,-215,-100,0);
+ 	    gbcMain.insets = new Insets(-100,-110,-100,0);
  	    gbcMain.gridx = 1;
  	    gbcMain.gridheight = 1;
  	    gbcMain.gridwidth = 1;
  	    gbcMain.ipady = 0;
  	    this.add(username, gbcMain);
 	   
- 	    gbcMain.insets = new Insets(-100,-440,-100,0);
+ 	    gbcMain.insets = new Insets(-100,-225,-100,0);
  	    gbcMain.gridx = 1;
  	    gbcMain.gridwidth = GridBagConstraints.REMAINDER;
 	    this.add(user, gbcMain);
 	    
-	    gbcMain.insets = new Insets(-0,-60,-75,-928);
+	    gbcMain.insets = new Insets(-0,-355,-75,-928);
 	    gbcMain.gridx = 0;
 	    gbcMain.gridy = 0;
 	    gbcMain.gridwidth = 1;
 	    gbcMain.gridheight = 1;
 	    this.add(password, gbcMain);
 	    
-	    gbcMain.insets = new Insets(-0,-40,-75,400);
+	    gbcMain.insets = new Insets(-0,175,-75,400);
 	    gbcMain.gridx = 1;
 	    gbcMain.gridwidth = GridBagConstraints.REMAINDER;
 	    this.add(pass, gbcMain);
 	    
-	    gbcMain.insets = new Insets(-0,-40,-165,-100);
+	    gbcMain.insets = new Insets(-0,0,-165,-100);
 	    gbcMain.gridx = 1;
 	    gbcMain.gridwidth = 1;
 	    gbcMain.gridheight = 1;

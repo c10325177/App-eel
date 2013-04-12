@@ -58,7 +58,6 @@ public class ManageUser extends JPanel{
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.home.setForeground(Color.red);
-		//this.bookTitle.setFont(new Font("Serif", Font.BOLD, 12));
 		userID.setFont(new Font("Serif", Font.BOLD, 12));
 		name.setFont(new Font("Serif", Font.BOLD, 12));
 		accessLevel.setFont(new Font("Serif", Font.BOLD, 12));
@@ -94,7 +93,7 @@ public class ManageUser extends JPanel{
 	    
 	    //JLabel
 	    gbcMain.anchor = GridBagConstraints.CENTER;
-	    gbcMain.insets = new Insets(0,-1370,240,0);
+	    gbcMain.insets = new Insets(0,-800,240,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(home, gbcMain);
 	    
@@ -163,7 +162,6 @@ public class ManageUser extends JPanel{
 	    
 	    //JTable
 	    JScrollPane pane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	    //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	    
 	    gbcMain.insets = new Insets(0,-80,290,0);
 	    gbcMain.ipady = -300;
@@ -184,13 +182,13 @@ public class ManageUser extends JPanel{
 	    
 	    
 	    //User ID stuff
-	    gbcMain.insets = new Insets(0,910,300,0);
+	    gbcMain.insets = new Insets(0,0,300,-680);
 	    gbcMain.gridwidth = 1;
 	    this.add(userID, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,1060,300,0);
+	    gbcMain.insets = new Insets(0,0,300,-790);
 	    gbcMain.gridwidth = 1;
-	    this.add(ID, gbcMain);    
+	    this.add(ID, gbcMain);   
 	  	    
 	}
 	

@@ -16,11 +16,12 @@ public class MyFrame extends JFrame implements ActionListener {
 	private LibrarianPage  libPage= new LibrarianPage();
 	private ManageUser manageUser = new ManageUser();
 	private ManageCustomer manageCustomer = new ManageCustomer();
+	private LibraryReports libraryReports = new LibraryReports();
 
 	
 	//Layout of the main Panel
 	private CardLayout c = new CardLayout();
-	private String[] listPage = {"LoginPage" , "AdministratorPage", "Manage Books", "Librarian Page", "Manage User", "Manage Customer"};
+	private String[] listPage = {"LoginPage" , "AdministratorPage", "Manage Books", "Librarian Page", "Manage User", "Manage Customer", "Library Reports"};
 
 	
 	public MyFrame(){
@@ -33,11 +34,13 @@ public class MyFrame extends JFrame implements ActionListener {
         this.add(libPage, listPage[3]);
         this.add(manageUser, listPage[4]);
         this.add(manageCustomer, listPage[5]);
+        this.add(libraryReports, listPage[6]);
         loginPage.getLogin().addActionListener(this);
         adminPage.getLogout().addActionListener(this);
         adminPage.getManageBook().addActionListener(this);
         adminPage.getCustomerDetails().addActionListener(this);
         adminPage.getManageAccounts().addActionListener(this);
+        adminPage.getLibraryReport().addActionListener(this);
         libPage.getLogout().addActionListener(this);
         libPage.getManageBook().addActionListener(this);
         libPage.getCustomerDetails().addActionListener(this);
@@ -45,6 +48,7 @@ public class MyFrame extends JFrame implements ActionListener {
         //listener on the button who manage the different Account(Librarian, admin)
         manageUser.getHome().addActionListener(this);
         manageCustomer.getHome().addActionListener(this);
+        libraryReports.getHome().addActionListener(this);
         
        
 
@@ -84,15 +88,22 @@ public class MyFrame extends JFrame implements ActionListener {
 		//if you click on the button Manage Customer from the Admin Page or from the Librarian Page
 		if (e ==  adminPage.getCustomerDetails()|| e ==  libPage.getCustomerDetails() ){
 			//Display the Manage Customer Page
-			c.show(this.getContentPane(), listPage[4]);	
+			c.show(this.getContentPane(), listPage[5]);	
 			manageCustomer.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
 		//if you click on the button Manage Account from the Admin Page
 		if (e ==  adminPage.getManageAccounts()){
 			//Display the Manage Account Page
-			c.show(this.getContentPane(), listPage[5]);
+			c.show(this.getContentPane(), listPage[4]);
 			manageUser.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
+		//if you click on the button Library Reports from the Admin Page
+		if (e ==  adminPage.getLibraryReport()){
+			//Display the Manage Account Page
+			c.show(this.getContentPane(), listPage[6]);
+			libraryReports.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
 		
@@ -119,7 +130,12 @@ public class MyFrame extends JFrame implements ActionListener {
 		if (e ==  manageCustomer.getHome()){
 			//Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[1]);
-		}	
+		}
+		
+		if (e ==  libraryReports.getHome()){
+			//Display the Manage Account Page
+			c.show(this.getContentPane(), listPage[1]);
+		}
 	}
 
 }
