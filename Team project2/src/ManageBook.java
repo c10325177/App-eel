@@ -1,5 +1,7 @@
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import java.awt.*;
 public class ManageBook extends JPanel{
@@ -28,9 +30,19 @@ public class ManageBook extends JPanel{
 	private JButton deleteBook = new JButton("     Delete Book      ");
 	
 	private Color background = new Color(152,178,255);
-	private JButton back = new JButton("      Back      ");
+	private JButton back = new JButton("      Home      ");
 	
-
+	
+	//barry new layout	
+	private JButton submitSearch = new JButton("      Search      ");
+	private JTextField searchText = new JTextField(10);
+	String[] items = {"Book Title","Lib Code","Author","Genre","Location","Available"};
+	private JComboBox searchType = new JComboBox(items);
+		
+	//Results stuff
+    DefaultTableModel model = new DefaultTableModel(10,6);
+    private JTable searchResults = new JTable(model);
+    JScrollPane searchResultsPane = new JScrollPane(searchResults);   
 	
 	public ManageBook(){
 		
@@ -44,9 +56,12 @@ public class ManageBook extends JPanel{
 		genre.setFont(new Font("Serif", Font.BOLD, 12));
 		location.setFont(new Font("Serif", Font.BOLD, 12));
 		available.setFont(new Font("Serif", Font.BOLD, 12));
-	
 		
-		
+		//Results table stuff
+		model.setColumnIdentifiers(items);
+		Dimension d = searchResults.getPreferredSize();
+		searchResultsPane.setPreferredSize(
+		    new Dimension(d.width,searchResults.getRowHeight()*10+1));
 		
 		//BACKGROUND
 	    gbcMain.insets = new Insets(0,0,100,20);
@@ -61,8 +76,7 @@ public class ManageBook extends JPanel{
 	    
 	    gbcMain.ipady = 0;
 	    gbcMain.anchor = GridBagConstraints.FIRST_LINE_END;
-	    this.add(booksLogo, gbcMain);
-	    
+	    this.add(booksLogo, gbcMain);   
 	    
 	    gbcMain.insets = new Insets(0,-300,0,-270);
 	    gbcMain.gridx = 1;
@@ -70,79 +84,97 @@ public class ManageBook extends JPanel{
 	    gbcMain.anchor = GridBagConstraints.SOUTH;
 	    this.add(logoAppEel, gbcMain);
 	    
-	    
-	    //JLabel
+	    //back button
 	    gbcMain.anchor = GridBagConstraints.CENTER;
 	    gbcMain.insets = new Insets(0,-1370,240,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(back, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-300,170,0);
+	   //Results stuff	   
+	    gbcMain.insets = new Insets(0,-80,200,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(searchResultsPane, gbcMain);	    
+	    
+	    //Search stuff
+	    gbcMain.insets = new Insets(0,-390,0,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(searchType, gbcMain);
+	    
+	    gbcMain.insets = new Insets(0,-90,0,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(searchText, gbcMain);
+	    
+	    gbcMain.insets = new Insets(0,210,0,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(submitSearch, gbcMain);
+	    
+	    
+	    //JLabels south	    
+	    gbcMain.insets = new Insets(0,-300,-130,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(bookTitle, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-315,110,0);
+	    gbcMain.insets = new Insets(0,-315,-190,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(libCode, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-320,50,0);
+	    gbcMain.insets = new Insets(0,-320,-250,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(author , gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-330,-10,0);
+	    gbcMain.insets = new Insets(0,-330,-310,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(genre , gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-305,-70,0);
+	    gbcMain.insets = new Insets(0,-305,-370,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(location , gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-305,-130,0);
+	    gbcMain.insets = new Insets(0,-305,-430,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(available , gbcMain);
+	     
 	    
-	    
-	    
-	    //JtextField
-	    gbcMain.insets = new Insets(0,0,170,0);
+	    //JtextFields south
+	    gbcMain.insets = new Insets(0,0,-130,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(JTFbookTitle, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,110,0);
+	    gbcMain.insets = new Insets(0,0,-190,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(JTFlibCode, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,50,0);
+	    gbcMain.insets = new Insets(0,0,-250,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(JTFauthor, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-10,0);
+	    gbcMain.insets = new Insets(0,0,-310,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(JTFgenre, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-70,0);
+	    gbcMain.insets = new Insets(0,0,-370,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(JTFlocation, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-130,0);
+	    gbcMain.insets = new Insets(0,0,-430,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(JTFavailable, gbcMain);
 	    
 	    
 	    //JButton
-	    gbcMain.insets = new Insets(0,-300,-240,0);
+	    gbcMain.insets = new Insets(0,-300,-510,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(addRow, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,20,-240,0);
+	    gbcMain.insets = new Insets(0,20,-510,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(updateDB, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-300,-300,0);
+	    gbcMain.insets = new Insets(0,-300,-570,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(discardChanges, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,20,-300,0);
+	    gbcMain.insets = new Insets(0,20,-570,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(deleteBook, gbcMain);
 	    
