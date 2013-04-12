@@ -48,7 +48,8 @@ public class MyFrame extends JFrame implements ActionListener {
 		Object e = event.getSource();
 		if (e == loginPage.getLogin()){
 			
-			if (loginPage.getUsername().getText() == "admin" && loginPage.getPassword().getText() == "admin" ){
+			//if (loginPage.getUsername().getText() == "admin" && loginPage.getPassword().getText() == "admin" ){
+			if (loginPage.getUsername().equals("admin") && loginPage.getPassword().equals("admin")){
 			c.show(this.getContentPane(), listPage[1]);
 			}
 		}
@@ -74,7 +75,6 @@ public class MyFrame extends JFrame implements ActionListener {
 	}
 	
 	public void setValue(){
-		 loginPage.getUsername().setText(loginPage.getUsername().getText());
+		 //loginPage.getUsername().setText(loginPage.getUsername());
 	}
-
 }

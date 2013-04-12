@@ -150,19 +150,19 @@ public class AdminPage extends JPanel{
 		    gbcMain.gridwidth = 1;
 		    this.add(name, gbcMain);
 		
-			if(loginPage.getUsername().getText() == "admin" && loginPage.getPassword().getText() == "admin")
+			if(loginPage.getUsername().equals("admin") && loginPage.getPassword().equals("admin"))
 			{  
 			    gbcMain.insets = new Insets(0,0,470,-1100);
 			    gbcMain.gridwidth = 1;
 			    this.add(namePageLib, gbcMain);
-			    System.out.println(loginPage.getPassword().getText());
+			    System.out.println(loginPage.getPassword());
 			}
 			else
 			{
 			    gbcMain.insets = new Insets(0,0,470,-1100);
 			    gbcMain.gridwidth = 1;
 			    this.add(namePage, gbcMain);
-			    System.out.println(loginPage.getUsername().getText());
+			    System.out.println(loginPage.getUsername());
 			}
 			
 		    gbcMain.insets = new Insets(0,0,320,-2400);
