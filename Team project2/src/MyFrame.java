@@ -75,6 +75,7 @@ public class MyFrame extends JFrame implements ActionListener {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
@@ -157,21 +158,49 @@ public class MyFrame extends JFrame implements ActionListener {
 			c.show(this.getContentPane(), listPage[1]);
 		}
 		
+		
+		//BOOK DB STUFF
+		
 		if(e == manageBook.getSearch()){
 			
 		}
 		
-		if(e == manageBook.getUpdate()){
-			
+		if(e == manageBook.getUpdate()){	       
+			dbconnect.UpdateBook(Integer.valueOf(manageBook.getLibCode().getText()),
+				manageBook.getISBN().getText(),
+	        	manageBook.getAuthor().getText(),
+	        	manageBook.getBookTitle().getText(),
+	        	manageBook.getGenre().getText(),
+	        	manageBook.getlocation().getText(),
+	        	manageBook.getAvailable().getText());
+	
+			manageBook.getAuthor().setText("");
+			manageBook.getAvailable().setText("");
+			manageBook.getlocation().setText("");
+			manageBook.getBookTitle().setText("");
+			manageBook.getGenre().setText("");
+			manageBook.getISBN().setText("");		
 		}
 		
-		if(e == manageBook.getInsert()){
-			
-			
+		if(e == manageBook.getInsert()){	
+	       
+			dbconnect.InsertBook(manageBook.getISBN().getText(),
+	        	manageBook.getAuthor().getText(),
+	        	manageBook.getBookTitle().getText(),
+	        	manageBook.getGenre().getText(),
+	        	manageBook.getlocation().getText(),
+	        	manageBook.getAvailable().getText());
+	
+			manageBook.getAuthor().setText("");
+			manageBook.getAvailable().setText("");
+			manageBook.getlocation().setText("");
+			manageBook.getBookTitle().setText("");
+			manageBook.getGenre().setText("");
+			manageBook.getISBN().setText("");
 		}
 		
 		if(e == manageBook.getDelete()){
-		
+			dbconnect.DeleteBook(Integer.valueOf(manageBook.getLibCode().getText()));
 		}
 		
 		if(e == manageBook.getDiscard()){
@@ -179,26 +208,41 @@ public class MyFrame extends JFrame implements ActionListener {
 			manageBook.getAvailable().setText("");
 			manageBook.getlocation().setText("");
 			manageBook.getBookTitle().setText("");
-			manageBook.getLibCode().setText("");
 			manageBook.getGenre().setText("");
+			manageBook.getISBN().setText("");
 		}
 			
-		if(e == manageCustomer.getDiscard()){
-			manageCustomer.getname().setText("");
-			manageCustomer.getAddress().setText("");
-			manageCustomer.getBalance().setText("");
-			manageCustomer.getCustomerID().setText("");
-		}		
+			
+		//CUSTOMER DB STUFF
 		
 		if(e == manageCustomer.getSearch()){
 			
 		}
 		
-		if(e == manageCustomer.getUpdate()){
+		else if(e == manageUser.getDelete()){
+		dbconnect.DeleteUser(Integer.valueOf(manageUser.getuserID().getText()));
+		System.out.println("UID: "+Integer.valueOf(manageUser.getuserID().getText()));
 			
+		manageUser.getuserID().setText("");
+		manageUser.getname().setText("");
+		manageUser.getPassword().setText("");
+		manageUser.getConfirmPassword().setText("");
+		manageUser.getAccessLevel().setSelectedItem("User");	
 		}
 		
-		if(e == manageCustomer.getInsert()){
+		else if(e == manageCustomer.getUpdate()){			
+			 dbconnect.UpdateCustomer(Integer.valueOf(manageCustomer.getCustomerID().getText()),
+		        		manageCustomer.getname().getText(),
+		        		manageCustomer.getAddress().getText(),        		        				
+		        		Double.parseDouble(manageCustomer.getBalance().getText().toString()));	
+		        
+				manageCustomer.getname().setText("");
+				manageCustomer.getAddress().setText("");
+				manageCustomer.getBalance().setText("");
+				manageCustomer.getCustomerID().setText("");					
+		}
+		
+		else if(e == manageCustomer.getInsert()){
 		
 	        dbconnect.InsertCustomer(Integer.valueOf(manageCustomer.getCustomerID().getText()),
 	        		manageCustomer.getname().getText(),
@@ -210,12 +254,22 @@ public class MyFrame extends JFrame implements ActionListener {
 			manageCustomer.getBalance().setText("");
 			manageCustomer.getCustomerID().setText("");				
 		}
+	
 		
-		if(e == manageCustomer.getDelete()){
+		else if(e == manageCustomer.getDiscard()){
+			manageCustomer.getname().setText("");
+			manageCustomer.getAddress().setText("");
+			manageCustomer.getBalance().setText("");
+			manageCustomer.getCustomerID().setText("");
+		}		
 		
+		else if(e == manageCustomer.getDelete()){
+			dbconnect.DeleteCustomer(Integer.valueOf(manageCustomer.getCustomerID().getText()));		
 		}
 		
-		if(e == manageUser.getDiscard()){
+		//USER DB STUFF
+		
+		else if(e == manageUser.getDiscard()){
 			manageUser.getuserID().setText("");
 			manageUser.getname().setText("");
 			manageUser.getPassword().setText("");
@@ -223,21 +277,46 @@ public class MyFrame extends JFrame implements ActionListener {
 			manageUser.getAccessLevel().setSelectedItem("User");
 		}
 		
-		if(e == manageUser.getSearch()){
+		else if(e == manageUser.getSearch()){
 			
 		}
 		
-		if(e == manageUser.getUpdate()){
+		else if(e == manageUser.getInsert()){			
+			if(manageUser.getPassword().getText().equals(manageUser.getConfirmPassword().getText()))
+			{
+				dbconnect.InsertUser(Integer.valueOf(manageUser.getuserID().getText()),
+					manageUser.getname().getText(),
+					manageUser.getAccessLevel().getSelectedItem().toString(),
+					manageUser.getPassword().getText());
 			
+				System.out.println("Access Level Value:" + manageUser.getAccessLevel().getSelectedItem().toString());
+				
+				manageUser.getuserID().setText("");
+				manageUser.getname().setText("");
+				manageUser.getPassword().setText("");
+				manageUser.getConfirmPassword().setText("");
+				manageUser.getAccessLevel().setSelectedItem("User");
+			}
 		}
 		
-		if(e == manageUser.getInsert()){
+		else if(e == manageUser.getUpdate()){
+			if(manageUser.getPassword().getText().equals(manageUser.getConfirmPassword().getText()))
+			{
+				dbconnect.UpdateUser(Integer.valueOf(manageUser.getuserID().getText()),
+					manageUser.getname().getText(),
+					manageUser.getAccessLevel().getSelectedItem().toString(),
+					manageUser.getPassword().getText());
 			
+				System.out.println("Access Level Value:" + manageUser.getAccessLevel().getSelectedItem().toString());
+				
+				manageUser.getuserID().setText("");
+				manageUser.getname().setText("");
+				manageUser.getPassword().setText("");
+				manageUser.getConfirmPassword().setText("");
+				manageUser.getAccessLevel().setSelectedItem("User");						
+		}
 			
-		}
-		
-		if(e == manageUser.getDelete()){
-		
-		}
+
+	}
 	}
 }

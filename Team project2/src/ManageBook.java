@@ -14,14 +14,16 @@ public class ManageBook extends JPanel implements ActionListener{
 	private JLabel userID = new JLabel("User ID: ");
 
 	private JLabel bookTitle = new JLabel("BOOK TITLE");
-	private JLabel libCode = new JLabel("LIB CODE");
+	private JLabel ISBN = new JLabel("ISBN");
 	private JLabel author = new JLabel("AUTHOR");
 	private JLabel genre = new JLabel("GENRE");
 	private JLabel location = new JLabel("LOCATION");
 	private JLabel available = new JLabel("AVAILABLE");
+	private JLabel libCode = new JLabel("LIB CODE");
+	private JLabel currentLibCode = new JLabel("25");
 	
 	private JTextField JTFbookTitle = new JTextField(10);
-	private JTextField JTFlibCode = new JTextField(10);
+	private JTextField JTFISBN = new JTextField(10);
 	private JTextField JTFauthor = new JTextField(10);
 	private JTextField JTFgenre = new JTextField(10);
 	private JTextField JTFlocation = new JTextField(10);
@@ -63,7 +65,7 @@ public class ManageBook extends JPanel implements ActionListener{
 		this.setLayout(new GridBagLayout());
 		this.home.setForeground(Color.red);
 		this.bookTitle.setFont(new Font("Serif", Font.BOLD, 12));
-		libCode.setFont(new Font("Serif", Font.BOLD, 12));
+		ISBN.setFont(new Font("Serif", Font.BOLD, 12));
 		author.setFont(new Font("Serif", Font.BOLD, 12));
 		genre.setFont(new Font("Serif", Font.BOLD, 12));
 		location.setFont(new Font("Serif", Font.BOLD, 12));
@@ -96,19 +98,24 @@ public class ManageBook extends JPanel implements ActionListener{
 	    gbcMain.anchor = GridBagConstraints.SOUTH;
 	    this.add(logoAppEel, gbcMain);  
 	    
-	    //JLabel
+	    //JLabel   	    
 	    gbcMain.anchor = GridBagConstraints.CENTER;
 	    gbcMain.insets = new Insets(0,-800,240,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(home, gbcMain);
 	    
+	    gbcMain.anchor = GridBagConstraints.CENTER;
+	    gbcMain.insets = new Insets(0,-300,-20,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(libCode, gbcMain);	
+	       
 	    gbcMain.insets = new Insets(0,-300,-80,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(bookTitle, gbcMain);
+	    this.add(ISBN, gbcMain);
 	    
 	    gbcMain.insets = new Insets(0,-315,-140,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(libCode, gbcMain);
+	    this.add(bookTitle, gbcMain);
 	    
 	    gbcMain.insets = new Insets(0,-320,-200,0);
 	    gbcMain.gridwidth = 1;
@@ -126,16 +133,19 @@ public class ManageBook extends JPanel implements ActionListener{
 	    gbcMain.gridwidth = 1;
 	    this.add(available , gbcMain);
 	    
+	      
+	    //JtextField      
+	    gbcMain.insets = new Insets(0,0,-20,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(currentLibCode, gbcMain);
 	    
-	    
-	    //JtextField
 	    gbcMain.insets = new Insets(0,0,-80,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFbookTitle, gbcMain);
+	    this.add(JTFISBN, gbcMain);
 	    
 	    gbcMain.insets = new Insets(0,0,-140,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFlibCode, gbcMain);
+	    this.add(JTFbookTitle, gbcMain);
 	    
 	    gbcMain.insets = new Insets(0,0,-200,0);
 	    gbcMain.gridwidth = 1;
@@ -223,12 +233,16 @@ public class ManageBook extends JPanel implements ActionListener{
 			return(this.JTFlocation);
 		}
 		
+		public JLabel getLibCode(){
+			return(this.currentLibCode);
+		}
+		
 		public JTextField getAvailable(){
 			return(this.JTFavailable);
 		}
-		
-		public JTextField getLibCode(){
-			return(this.JTFlibCode);
+			
+		public JTextField getISBN(){
+			return(this.JTFISBN);
 		}
 		
 		public JTextField getSearchJTF(){

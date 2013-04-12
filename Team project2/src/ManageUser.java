@@ -38,7 +38,7 @@ public class ManageUser extends JPanel{
 	private String[] itemBox = {"User ID", "Name", "Access Level"};
 	private JComboBox combo = new JComboBox(itemBox);
 	
-	private String[] accessLevelItemBox = {"User", "Admin"};
+	private String[] accessLevelItemBox = {"Librarian", "Admin"};
 	private JComboBox accessLevelCombo = new JComboBox(accessLevelItemBox);	
 	
 	private String[] header = {"User ID", "Name", "Access Level"};
@@ -225,6 +225,7 @@ public class ManageUser extends JPanel{
 	}
 	
 	public JButton getDelete(){
+		System.out.println("Getting Delet");
 		return(this.deleteUser);
 	}
 	
