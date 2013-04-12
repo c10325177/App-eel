@@ -9,45 +9,47 @@ public class ManageUser extends JPanel{
 	private JLabel logoDIT = new JLabel(new ImageIcon("properLogo.png"));
 	private JLabel booksLogo = new JLabel(new ImageIcon("library_book.png"));
 	private JLabel logoAppEel = new JLabel(new ImageIcon("copyright.png"));
+	private JLabel userID = new JLabel("User ID: ");
 
-	private JLabel bookTitle = new JLabel("BOOK TITLE");
-	private JLabel libCode = new JLabel("LIB CODE");
-	private JLabel author = new JLabel("AUTHOR");
-	private JLabel genre = new JLabel("GENRE");
-	private JLabel location = new JLabel("LOCATION");
-	private JLabel available = new JLabel("AVAILABLE");
+	private JLabel user_ID = new JLabel("USER ID");
+	private JLabel name = new JLabel("NAME");
+	private JLabel accessLevel = new JLabel("ACCESS LEVEL");
+	private JLabel password = new JLabel("PASSWORD");
+	private JLabel confirmPassword = new JLabel("CONFIRM PASSWORD");
 	
-	private JTextField JTFbookTitle = new JTextField(10);
-	private JTextField JTFlibCode = new JTextField(10);
-	private JTextField JTFauthor = new JTextField(10);
-	private JTextField JTFgenre = new JTextField(10);
-	private JTextField JTFlocation = new JTextField(10);
-	private JTextField JTFavailable = new JTextField(10);
+	private JTextField JTFuserID = new JTextField(10);
+	private JTextField JTFname = new JTextField(10);
+	private JPasswordField JPFpassword = new JPasswordField(10);
+	private JPasswordField JPFconfirmPassword = new JPasswordField(10);
 	private JTextField JTFsearch = new JTextField(10);
 	
-	private JButton addRow = new JButton(" Add row to table ");
-	private JButton updateDB = new JButton("Update Database ");
+	private JButton addUser = new JButton("       Add User        ");
+	private JButton updateUser = new JButton("       Update User   ");
 	private JButton discardChanges = new JButton("Discard Changes ");
-	private JButton deleteBook = new JButton("     Delete Book      ");
+	private JButton deleteUser = new JButton("     Delete User      ");
 	private JButton search = new JButton("Search ");
+	private JButton home = new JButton("      Home     ", homeIcon);
 	
 	private Color background = new Color(152,178,255);
-	private JButton home = new JButton("      Home      ", homeIcon);
+
+	//JTexfield where it displayed the user ID
+	private JTextField ID = new JTextField(5);	
 	
-	
-	private String[] itemBox = {"Title", "Lib code", "Author"};
+	private String[] itemBox = {"User ID", "Name", "Access Level"};
 	private JComboBox combo = new JComboBox(itemBox);
 	
+	private String[] accessLevelItemBox = {"User", "Admin"};
+	private JComboBox accessLevelCombo = new JComboBox(accessLevelItemBox);	
 	
-	private String[] header = {"Title", "Lib code", "Author", "Genre", "Location", "Available   "};
+	private String[] header = {"User ID", "Name", "Access Level"};
 	private Object data[][] = new Object[][]{
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh"}
     };
 	private JTable table = new JTable(data, header);
 	public ManageUser(){
@@ -56,20 +58,18 @@ public class ManageUser extends JPanel{
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.home.setForeground(Color.red);
-		this.bookTitle.setFont(new Font("Serif", Font.BOLD, 12));
-		libCode.setFont(new Font("Serif", Font.BOLD, 12));
-		author.setFont(new Font("Serif", Font.BOLD, 12));
-		genre.setFont(new Font("Serif", Font.BOLD, 12));
-		location.setFont(new Font("Serif", Font.BOLD, 12));
-		available.setFont(new Font("Serif", Font.BOLD, 12));
+		//this.bookTitle.setFont(new Font("Serif", Font.BOLD, 12));
+		userID.setFont(new Font("Serif", Font.BOLD, 12));
+		name.setFont(new Font("Serif", Font.BOLD, 12));
+		accessLevel.setFont(new Font("Serif", Font.BOLD, 12));
+		password.setFont(new Font("Serif", Font.BOLD, 12));	
+		accessLevelCombo.setPreferredSize(new Dimension(115, 20));
 		
 		//put and set an Icon on the different button
 		home.setVerticalTextPosition(AbstractButton.BOTTOM);
 		home.setHorizontalTextPosition(AbstractButton.CENTER);
 		home.setBorderPainted(false);
-		home.setContentAreaFilled(false);
-	
-		
+		home.setContentAreaFilled(false);		
 		
 		//BACKGROUND
 	    gbcMain.insets = new Insets(0,0,100,20);
@@ -85,14 +85,12 @@ public class ManageUser extends JPanel{
 	    gbcMain.ipady = 0;
 	    gbcMain.anchor = GridBagConstraints.FIRST_LINE_END;
 	    this.add(booksLogo, gbcMain);
-	    
-	    
+	        
 	    gbcMain.insets = new Insets(0,-300,0,-270);
 	    gbcMain.gridx = 1;
 	    gbcMain.gridy = 0;
 	    gbcMain.anchor = GridBagConstraints.SOUTH;
-	    this.add(logoAppEel, gbcMain);
-	    
+	    this.add(logoAppEel, gbcMain);  
 	    
 	    //JLabel
 	    gbcMain.anchor = GridBagConstraints.CENTER;
@@ -100,86 +98,79 @@ public class ManageUser extends JPanel{
 	    gbcMain.gridwidth = 1;
 	    this.add(home, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-300,-80,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(bookTitle, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-315,-140,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(libCode, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-320,-200,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(author , gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-330,-260,0);
+	    gbcMain.insets = new Insets(0,-370,-100,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(genre , gbcMain);
+	    this.add(user_ID, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-305,-320,0);
+	    gbcMain.insets = new Insets(0,-380,-160,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(location , gbcMain);
+	    this.add(name, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-305,-380,0);
+	    gbcMain.insets = new Insets(0,-330,-220,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(available , gbcMain);
+	    this.add(accessLevel , gbcMain);
 	    
+	    gbcMain.insets = new Insets(0,-345,-280,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(password , gbcMain);
+	    
+	    gbcMain.insets = new Insets(0,-290,-340,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(confirmPassword , gbcMain);
 	    
 	    
 	    //JtextField
-	    gbcMain.insets = new Insets(0,0,-80,0);
+	    gbcMain.insets = new Insets(0,0,-100,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFbookTitle, gbcMain);
+	    this.add(JTFuserID, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-140,0);
+	    gbcMain.insets = new Insets(0,0,-160,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFlibCode, gbcMain);
+	    this.add(JTFname, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-200,0);
+	    gbcMain.insets = new Insets(0,0,-220,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFauthor, gbcMain);
+	    this.add(accessLevelCombo, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-260,0);
+	    gbcMain.insets = new Insets(0,0,-280,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFgenre, gbcMain);
+	    this.add(JPFpassword, gbcMain);	
 	    
-	    gbcMain.insets = new Insets(0,0,-320,0);
+	    gbcMain.insets = new Insets(0,0,-340,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFlocation, gbcMain);
-	    
-	    gbcMain.insets = new Insets(0,0,-380,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(JTFavailable, gbcMain);
-	    
+	    this.add(JPFconfirmPassword, gbcMain);		    
 	    
 	    //JButton
-	    gbcMain.insets = new Insets(0,-300,-490,0);
+	    gbcMain.insets = new Insets(0,-300,-440,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(addRow, gbcMain);
+	    this.add(addUser, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,20,-490,0);
+	    gbcMain.insets = new Insets(0,20,-440,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(updateDB, gbcMain);
+	    this.add(updateUser, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-300,-550,0);
+	    gbcMain.insets = new Insets(0,-300,-510,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(discardChanges, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,20,-550,0);
+	    gbcMain.insets = new Insets(0,20,-510,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(deleteBook, gbcMain);
+	    this.add(deleteUser, gbcMain);
 	    
 	    
 	    //JTable
 	    JScrollPane pane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	    //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	    
-	    gbcMain.insets = new Insets(0,20,250,0);
+	    gbcMain.insets = new Insets(0,-80,290,0);
 	    gbcMain.ipady = -300;
 	    this.add(pane, gbcMain);
 	    
 	    //JcomboBox
-	    gbcMain.insets = new Insets(0,20,60,300);
+	    gbcMain.insets = new Insets(0,20,60,380);
 	    gbcMain.ipady = 0;
 	    this.add(combo, gbcMain);
 	    
@@ -192,8 +183,15 @@ public class ManageUser extends JPanel{
 	    this.add(search, gbcMain);
 	    
 	    
+	    //User ID stuff
+	    gbcMain.insets = new Insets(0,910,300,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(userID, gbcMain);
 	    
-	    
+	    gbcMain.insets = new Insets(0,1060,300,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(ID, gbcMain);    
+	  	    
 	}
 	
 	public JButton getHome(){
@@ -216,4 +214,8 @@ public class ManageUser extends JPanel{
 	    public Object getValueAt(int rowIndex, int columnIndex) {
 	        return data[rowIndex][columnIndex];
 	    }
+	    
+		public JTextField getUserID(){
+			return(this.ID);
+		}
 }

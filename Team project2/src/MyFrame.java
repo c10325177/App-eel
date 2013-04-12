@@ -78,18 +78,21 @@ public class MyFrame extends JFrame implements ActionListener {
 		if (e ==  adminPage.getManageBook()|| e ==  libPage.getManageBook() ){
 			//display the ManageBook page 
 			c.show(this.getContentPane(), listPage[2]);
+			manageBook.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
 		//if you click on the button Manage Customer from the Admin Page or from the Librarian Page
 		if (e ==  adminPage.getCustomerDetails()|| e ==  libPage.getCustomerDetails() ){
 			//Display the Manage Customer Page
-			c.show(this.getContentPane(), listPage[4]);
+			c.show(this.getContentPane(), listPage[4]);	
+			manageCustomer.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
 		//if you click on the button Manage Account from the Admin Page
 		if (e ==  adminPage.getManageAccounts()){
 			//Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[5]);
+			manageUser.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
 		
@@ -116,9 +119,7 @@ public class MyFrame extends JFrame implements ActionListener {
 		if (e ==  manageCustomer.getHome()){
 			//Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[1]);
-		}
-		
-		
+		}	
 	}
 
 }

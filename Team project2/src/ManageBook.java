@@ -9,6 +9,7 @@ public class ManageBook extends JPanel{
 	private JLabel logoDIT = new JLabel(new ImageIcon("properLogo.png"));
 	private JLabel booksLogo = new JLabel(new ImageIcon("library_book.png"));
 	private JLabel logoAppEel = new JLabel(new ImageIcon("copyright.png"));
+	private JLabel userID = new JLabel("User ID: ");
 
 	private JLabel bookTitle = new JLabel("BOOK TITLE");
 	private JLabel libCode = new JLabel("LIB CODE");
@@ -25,16 +26,17 @@ public class ManageBook extends JPanel{
 	private JTextField JTFavailable = new JTextField(10);
 	private JTextField JTFsearch = new JTextField(10);
 	
-	private JButton addRow = new JButton(" Add row to table ");
-	private JButton updateDB = new JButton("Update Database ");
+	private JButton addRow = new JButton("         Add Book       ");
+	private JButton updateDB = new JButton("        Update Book     ");
 	private JButton discardChanges = new JButton("Discard Changes ");
-	private JButton deleteBook = new JButton("     Delete Book      ");
+	private JButton deleteBook = new JButton("       Delete Book        ");
 	private JButton search = new JButton("Search ");
 	private JButton home = new JButton("      Home     ", homeIcon);
 	
 	private Color background = new Color(152,178,255);
 
-	
+	//JTexfield where it displayed the user ID
+	private JTextField ID = new JTextField(5);	
 	
 	private String[] itemBox = {"Title", "Lib code", "Author"};
 	private JComboBox combo = new JComboBox(itemBox);
@@ -62,16 +64,13 @@ public class ManageBook extends JPanel{
 		author.setFont(new Font("Serif", Font.BOLD, 12));
 		genre.setFont(new Font("Serif", Font.BOLD, 12));
 		location.setFont(new Font("Serif", Font.BOLD, 12));
-		available.setFont(new Font("Serif", Font.BOLD, 12));
-		
+		available.setFont(new Font("Serif", Font.BOLD, 12));	
 		
 		//put and set an Icon on the different button
 		home.setVerticalTextPosition(AbstractButton.BOTTOM);
 		home.setHorizontalTextPosition(AbstractButton.CENTER);
 		home.setBorderPainted(false);
-		home.setContentAreaFilled(false);
-		
-		
+		home.setContentAreaFilled(false);		
 		
 		//BACKGROUND
 	    gbcMain.insets = new Insets(0,0,100,20);
@@ -93,8 +92,7 @@ public class ManageBook extends JPanel{
 	    gbcMain.gridx = 1;
 	    gbcMain.gridy = 0;
 	    gbcMain.anchor = GridBagConstraints.SOUTH;
-	    this.add(logoAppEel, gbcMain);
-	    
+	    this.add(logoAppEel, gbcMain);  
 	    
 	    //JLabel
 	    gbcMain.anchor = GridBagConstraints.CENTER;
@@ -194,8 +192,16 @@ public class ManageBook extends JPanel{
 	    this.add(search, gbcMain);
 	    
 	    
+	    //User ID stuff
+	    gbcMain.insets = new Insets(0,910,300,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(userID, gbcMain);
 	    
+	    gbcMain.insets = new Insets(0,1060,300,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(ID, gbcMain);
 	    
+	  	    
 	}
 	
 	public JButton getHome(){
@@ -218,4 +224,8 @@ public class ManageBook extends JPanel{
 	    public Object getValueAt(int rowIndex, int columnIndex) {
 	        return data[rowIndex][columnIndex];
 	    }
+	    
+		public JTextField getUserID(){
+			return(this.ID);
+		}
 }

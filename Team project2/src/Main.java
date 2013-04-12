@@ -13,7 +13,5 @@ public class Main {
 		frame.setPreferredSize(new Dimension(1600, 800));
 		frame.pack();
 		frame.setVisible(true);
-
 	}
-
 }

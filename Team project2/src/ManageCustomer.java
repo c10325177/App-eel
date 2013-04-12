@@ -1,5 +1,4 @@
 
-
 import javax.swing.*;
 
 import java.awt.*;
@@ -10,45 +9,43 @@ public class ManageCustomer extends JPanel{
 	private JLabel logoDIT = new JLabel(new ImageIcon("properLogo.png"));
 	private JLabel booksLogo = new JLabel(new ImageIcon("library_book.png"));
 	private JLabel logoAppEel = new JLabel(new ImageIcon("copyright.png"));
+	private JLabel userID = new JLabel("User ID: ");
 
-	private JLabel bookTitle = new JLabel("BOOK TITLE");
-	private JLabel libCode = new JLabel("LIB CODE");
-	private JLabel author = new JLabel("AUTHOR");
-	private JLabel genre = new JLabel("GENRE");
-	private JLabel location = new JLabel("LOCATION");
-	private JLabel available = new JLabel("AVAILABLE");
+	private JLabel customerID = new JLabel("CUSTOMER ID");
+	private JLabel name = new JLabel("NAME");
+	private JLabel address = new JLabel("ADDRESS");
+	private JLabel balance = new JLabel("BALANCE");
 	
-	private JTextField JTFbookTitle = new JTextField(10);
-	private JTextField JTFlibCode = new JTextField(10);
-	private JTextField JTFauthor = new JTextField(10);
-	private JTextField JTFgenre = new JTextField(10);
-	private JTextField JTFlocation = new JTextField(10);
-	private JTextField JTFavailable = new JTextField(10);
+	private JTextField JTFcustomerID = new JTextField(10);
+	private JTextField JTFname = new JTextField(10);
+	private JTextField JTFaddress = new JTextField(10);
+	private JTextField JTFbalance = new JTextField(10);
 	private JTextField JTFsearch = new JTextField(10);
 	
-	private JButton addRow = new JButton(" Add row to table ");
-	private JButton updateDB = new JButton("Update Database ");
+	private JButton addCustomer = new JButton(" Add Customer     ");
+	private JButton updateCustomer = new JButton("       Update Customer   ");
 	private JButton discardChanges = new JButton("Discard Changes ");
-	private JButton deleteBook = new JButton("     Delete Book      ");
+	private JButton deleteCustomer = new JButton("     Delete Customer      ");
 	private JButton search = new JButton("Search ");
+	private JButton home = new JButton("      Home     ", homeIcon);
 	
 	private Color background = new Color(152,178,255);
-	private JButton home = new JButton("      Home      ", homeIcon);
+
+	//JTexfield where it displayed the user ID
+	private JTextField ID = new JTextField(5);	
 	
-	
-	private String[] itemBox = {"Title", "Lib code", "Author"};
+	private String[] itemBox = {"Customer ID", "Name", "Address", "Balance"};
 	private JComboBox combo = new JComboBox(itemBox);
-	
-	
-	private String[] header = {"Title", "Lib code", "Author", "Genre", "Location", "Available   "};
+		
+	private String[] header = {"Customer ID", "Name", "Address", "Balance"};
 	private Object data[][] = new Object[][]{
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
-            {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh", "fdh"},
+            {"dfhdfh", "fdh", "fdh", "fdh"}
     };
 	private JTable table = new JTable(data, header);
 	public ManageCustomer(){
@@ -57,21 +54,17 @@ public class ManageCustomer extends JPanel{
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.home.setForeground(Color.red);
-		this.bookTitle.setFont(new Font("Serif", Font.BOLD, 12));
-		libCode.setFont(new Font("Serif", Font.BOLD, 12));
-		author.setFont(new Font("Serif", Font.BOLD, 12));
-		genre.setFont(new Font("Serif", Font.BOLD, 12));
-		location.setFont(new Font("Serif", Font.BOLD, 12));
-		available.setFont(new Font("Serif", Font.BOLD, 12));
+		//this.bookTitle.setFont(new Font("Serif", Font.BOLD, 12));
+		customerID.setFont(new Font("Serif", Font.BOLD, 12));
+		name.setFont(new Font("Serif", Font.BOLD, 12));
+		address.setFont(new Font("Serif", Font.BOLD, 12));
+		balance.setFont(new Font("Serif", Font.BOLD, 12));	
 		
-		
-	
 		//put and set an Icon on the different button
 		home.setVerticalTextPosition(AbstractButton.BOTTOM);
 		home.setHorizontalTextPosition(AbstractButton.CENTER);
 		home.setBorderPainted(false);
-		home.setContentAreaFilled(false);
-		
+		home.setContentAreaFilled(false);		
 		
 		//BACKGROUND
 	    gbcMain.insets = new Insets(0,0,100,20);
@@ -93,8 +86,7 @@ public class ManageCustomer extends JPanel{
 	    gbcMain.gridx = 1;
 	    gbcMain.gridy = 0;
 	    gbcMain.anchor = GridBagConstraints.SOUTH;
-	    this.add(logoAppEel, gbcMain);
-	    
+	    this.add(logoAppEel, gbcMain);  
 	    
 	    //JLabel
 	    gbcMain.anchor = GridBagConstraints.CENTER;
@@ -102,86 +94,68 @@ public class ManageCustomer extends JPanel{
 	    gbcMain.gridwidth = 1;
 	    this.add(home, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-300,-80,0);
+	    gbcMain.insets = new Insets(0,-300,-160,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(bookTitle, gbcMain);
+	    this.add(customerID, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-315,-140,0);
+	    gbcMain.insets = new Insets(0,-350,-220,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(libCode, gbcMain);
+	    this.add(name, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-320,-200,0);
+	    gbcMain.insets = new Insets(0,-330,-280,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(author , gbcMain);
+	    this.add(address , gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-330,-260,0);
+	    gbcMain.insets = new Insets(0,-330,-340,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(genre , gbcMain);
-	    
-	    gbcMain.insets = new Insets(0,-305,-320,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(location , gbcMain);
-	    
-	    gbcMain.insets = new Insets(0,-305,-380,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(available , gbcMain);
-	    
+	    this.add(balance , gbcMain);
 	    
 	    
 	    //JtextField
-	    gbcMain.insets = new Insets(0,0,-80,0);
+	    gbcMain.insets = new Insets(0,0,-150,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFbookTitle, gbcMain);
+	    this.add(JTFcustomerID, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-140,0);
+	    gbcMain.insets = new Insets(0,0,-220,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFlibCode, gbcMain);
+	    this.add(JTFname, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-200,0);
+	    gbcMain.insets = new Insets(0,0,-280,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFauthor, gbcMain);
+	    this.add(JTFaddress, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,0,-260,0);
+	    gbcMain.insets = new Insets(0,0,-340,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(JTFgenre, gbcMain);
-	    
-	    gbcMain.insets = new Insets(0,0,-320,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(JTFlocation, gbcMain);
-	    
-	    gbcMain.insets = new Insets(0,0,-380,0);
-	    gbcMain.gridwidth = 1;
-	    this.add(JTFavailable, gbcMain);
-	    
+	    this.add(JTFbalance, gbcMain);	    
 	    
 	    //JButton
-	    gbcMain.insets = new Insets(0,-300,-490,0);
+	    gbcMain.insets = new Insets(0,-300,-440,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(addRow, gbcMain);
+	    this.add(addCustomer, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,20,-490,0);
+	    gbcMain.insets = new Insets(0,20,-440,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(updateDB, gbcMain);
+	    this.add(updateCustomer, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,-300,-550,0);
+	    gbcMain.insets = new Insets(0,-300,-510,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(discardChanges, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,20,-550,0);
+	    gbcMain.insets = new Insets(0,20,-510,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(deleteBook, gbcMain);
+	    this.add(deleteCustomer, gbcMain);
 	    
 	    
 	    //JTable
 	    JScrollPane pane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	    table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	    //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	    
-	    gbcMain.insets = new Insets(0,20,250,0);
+	    gbcMain.insets = new Insets(0,-80,290,0);
 	    gbcMain.ipady = -300;
 	    this.add(pane, gbcMain);
 	    
 	    //JcomboBox
-	    gbcMain.insets = new Insets(0,20,60,300);
+	    gbcMain.insets = new Insets(0,20,60,380);
 	    gbcMain.ipady = 0;
 	    this.add(combo, gbcMain);
 	    
@@ -194,8 +168,15 @@ public class ManageCustomer extends JPanel{
 	    this.add(search, gbcMain);
 	    
 	    
+	    //User ID stuff
+	    gbcMain.insets = new Insets(0,910,300,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(userID, gbcMain);
 	    
-	    
+	    gbcMain.insets = new Insets(0,1060,300,0);
+	    gbcMain.gridwidth = 1;
+	    this.add(ID, gbcMain);    
+	  	    
 	}
 	
 	public JButton getHome(){
@@ -218,4 +199,8 @@ public class ManageCustomer extends JPanel{
 	    public Object getValueAt(int rowIndex, int columnIndex) {
 	        return data[rowIndex][columnIndex];
 	    }
+	    
+		public JTextField getUserID(){
+			return(this.ID);
+		}
 }
