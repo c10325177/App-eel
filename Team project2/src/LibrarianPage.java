@@ -6,12 +6,16 @@ public class LibrarianPage extends JPanel{
 	private ImageIcon custDetails = new ImageIcon("cust_details.png");
 	private ImageIcon ilogout = new ImageIcon("logout.png");
 	private ImageIcon books = new ImageIcon("books.png");
+	private ImageIcon iloan = new ImageIcon("loanabook.png");
+	private ImageIcon ireturn = new ImageIcon("returnabook.png");
 	
 	
 	//the buttons on the librarian page
 	private JButton customerDetails = new JButton("Customer Details",custDetails);
 	private JButton manageBooks = new JButton("Manage Books", books);
 	private JButton logout = new JButton("Log Out");
+	private JButton loan = new JButton("Loan", iloan);
+	private JButton returned = new JButton("Return", ireturn);
 	
 	
 	//Labels who are displayed on the librarian page
@@ -46,6 +50,16 @@ public class LibrarianPage extends JPanel{
 		manageBooks.setHorizontalTextPosition(AbstractButton.CENTER);
 		manageBooks.setBorderPainted(false);
 		manageBooks.setContentAreaFilled(false);
+		
+		loan.setVerticalTextPosition(AbstractButton.BOTTOM);
+		loan.setHorizontalTextPosition(AbstractButton.CENTER);
+		loan.setBorderPainted(false);
+		loan.setContentAreaFilled(false);
+		
+		returned.setVerticalTextPosition(AbstractButton.BOTTOM);
+		returned.setHorizontalTextPosition(AbstractButton.CENTER);
+		returned.setBorderPainted(false);
+		returned.setContentAreaFilled(false);
 		
 
 		
@@ -93,15 +107,22 @@ public class LibrarianPage extends JPanel{
 		    
 		    //CENTER
 		    gbcMain.anchor = GridBagConstraints.CENTER;
-		    gbcMain.gridx = 1;
+		    gbcMain.gridx = 0;
 		    gbcMain.gridy = 0;
-		    gbcMain.insets = new Insets(0,-700,0,0);
 		    this.add(customerDetails, gbcMain);
 		    
-		    gbcMain.insets = new Insets(0,-500,0,0);
-		    gbcMain.gridx = 2;
-		    gbcMain.gridwidth = 1;
+		    gbcMain.gridx = 1;
 		    this.add(manageBooks, gbcMain);
+		    
+		    gbcMain.gridx = 2;
+		    gbcMain.gridwidth = GridBagConstraints.REMAINDER;
+		    this.add(loan, gbcMain);
+		    
+		    gbcMain.insets = new Insets(0,-30,-400,0);
+		    gbcMain.gridx = 0;
+		    gbcMain.gridwidth = 1;
+		    this.add(returned, gbcMain);
+
 		    
 
 		    

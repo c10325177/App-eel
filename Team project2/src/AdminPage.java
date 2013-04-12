@@ -9,6 +9,8 @@ public class AdminPage extends JPanel{
 	private ImageIcon ilogout = new ImageIcon("logout.png");
 	private ImageIcon report = new ImageIcon("report.png");
 	private ImageIcon books = new ImageIcon("books.png");
+	private ImageIcon iloan = new ImageIcon("loanabook.png");
+	private ImageIcon ireturn = new ImageIcon("returnabook.png");
 	
 	
 	//the buttons on the administrator page
@@ -17,7 +19,8 @@ public class AdminPage extends JPanel{
 	private JButton libraryReports = new JButton("Library Reports", report);
 	private JButton manageBooks = new JButton("Manage Books", books);
 	private JButton logout = new JButton("Log Out");
-	private JLabel key = new JLabel(ilogout);
+	private JButton loan = new JButton("Loan", iloan);
+	private JButton returned = new JButton("Return", ireturn);
 	
 	//Labels who are displayed on the administrator page
 	private JLabel namePage = new JLabel("Administrator Page");
@@ -27,6 +30,7 @@ public class AdminPage extends JPanel{
 	private JLabel booksLogo = new JLabel(new ImageIcon("library_book.png"));
 	private JLabel logoAppEel = new JLabel(new ImageIcon("copyright.png"));
 	private JLabel name = new JLabel("Kevin Street Library");
+	private JLabel key = new JLabel(ilogout);
 	
 
 	
@@ -61,6 +65,16 @@ public class AdminPage extends JPanel{
 		libraryReports.setHorizontalTextPosition(AbstractButton.CENTER);
 		libraryReports.setBorderPainted(false);
 		libraryReports.setContentAreaFilled(false);
+		
+		loan.setVerticalTextPosition(AbstractButton.BOTTOM);
+		loan.setHorizontalTextPosition(AbstractButton.CENTER);
+		loan.setBorderPainted(false);
+		loan.setContentAreaFilled(false);
+		
+		returned.setVerticalTextPosition(AbstractButton.BOTTOM);
+		returned.setHorizontalTextPosition(AbstractButton.CENTER);
+		returned.setBorderPainted(false);
+		returned.setContentAreaFilled(false);
 		
 		//Color of the background
 		this.setBackground(background);
@@ -122,10 +136,16 @@ public class AdminPage extends JPanel{
 		    gbcMain.gridwidth = 1;
 		    this.add(manageBooks, gbcMain);
 		    
+		    gbcMain.gridx = 1;
+		    this.add(loan, gbcMain);
+		    gbcMain.gridx = 2;
+		    this.add(returned, gbcMain);
+		    
 		
 		    
 		    
 		    //NORTH
+		    gbcMain.gridx = 0;
 		    gbcMain.insets = new Insets(0,-420,320,0);
 		    gbcMain.gridwidth = 1;
 		    this.add(key, gbcMain);
