@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.util.Vector;
 
@@ -48,31 +47,17 @@ public class ManageUser extends JPanel
 	private String[] accessLevelItemBox = { "Librarian", "Admin" };
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private JComboBox accessLevelCombo = new JComboBox(accessLevelItemBox);	
-
-	private String[] header = { "User ID", "Name", "Access Level" };
-	//private Vector <String> header;
 	
-	
-	/*
-	private Object data[][] = new Object[][] { { "dfhdfh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh" }, { "dfhdfh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh" }, { "dfhdfh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh" }, { "dfhdfh", "fdh", "fdh" } };
-			*/
+	private Vector <String> header = new Vector<String>();       
 	private DefaultTableModel tableModel = new DefaultTableModel() ;
-	private JTable table = new JTable();	
+	private JTable table = new JTable(tableModel);	
 	
 	public ManageUser()
-	{
+	{	
+		header.add("User ID");
+		header.add("Name");
+		header.add("Access Level");
 		tableModel.setColumnIdentifiers(header);
-		
-		//String A = "User ID"; 
-		//String B = "User ID"; 
-		//String C = "User ID"; 
-		
-		//header.add(A);
-		//header.add(B);
-		//header.add(C);
 		
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
@@ -324,7 +309,7 @@ public class ManageUser extends JPanel
 		accessLevelCombo.setSelectedItem("User");
 	}
 	
-	public Object getHeader()
+	public Vector<String> getHeader()
 	{
 		return(this.header);
 	}

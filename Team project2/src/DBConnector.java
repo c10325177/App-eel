@@ -13,8 +13,14 @@ public class DBConnector
 	
 	public static void DBConnect() throws SQLException
 	{
+		/*
 		con = DriverManager.getConnection(
 				"jdbc:oracle:thin:@ferdia:1521:ora11gdb", "team_appeel",
+				"bglammmd");
+		*/
+		
+		con = DriverManager.getConnection(
+				"jdbc:oracle:thin:@localhost:1521:xe", "baz",
 				"bglammmd");
 
 		try
@@ -246,43 +252,68 @@ public class DBConnector
 	}
 	
 	
-	public static void SearchUserByID(int USERID)
-	{
-		no_of_rows = 0;
-
+	public static void SearchUserByID(ManageUser manageUser)
+	{		
 		try
 		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			int USERID = Integer.valueOf(manageUser.getSearchJTF().getText());
+			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
 					.executeQuery("SELECT * FROM Users where Userid = "+USERID);
-			while (rs.next())
-			{
-				no_of_rows++;
-			}
-			System.out.println("Searched by userid " + USERID);
-		}
-
-		catch (SQLException e)
-		{
-			System.out.println("SQL exception occured" + e);
-		}
-	}
-		
-	public static void SearchUserByName(String Name)
-	{
-		no_of_rows = 0;
-		try
-		{
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%'");
-			while (rs.next())
-			{
-				String userName = rs.getString("Name");
-				System.out.println(userName);
-			}
-			System.out.println("Searched by Name " + Name);
 			
+			while (rs.next())
+			{
+				Vector <Object> newRow = new Vector<Object>();
+				
+				for (int i = 1; i <= 3; i++) 
+			    {		    	
+					newRow.addElement(rs.getObject(i));
+					System.out.println(rs.getString("Name")+", Column: "+i);
+			    }
+				
+				System.out.println("Row added to Vector");
+				rows.add(newRow);
+			}
+			
+			System.out.println("Searched by USERID " + USERID);
+			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
+			manageUser.getTable().setModel(manageUser.getTableModel());
+		}
+		
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+	}
+		
+	public static void SearchUserByName(ManageUser manageUser)
+	{		      		
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			String Name = manageUser.getSearchJTF().getText().toString();
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%'");
+			
+			while (rs.next())
+			{
+				Vector <Object> newRow = new Vector<Object>();
+				
+				for (int i = 1; i <= 3; i++) 
+			    {		    	
+					newRow.addElement(rs.getObject(i));
+					System.out.println(rs.getString("Name")+", Column: "+i);
+			    }
+				
+				System.out.println("Row added to Vector");
+				rows.add(newRow);
+			}
+			
+			System.out.println("Searched by Name " + Name);
+			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
+			manageUser.getTable().setModel(manageUser.getTableModel());
 		}
 
 		catch (SQLException e)
@@ -292,25 +323,33 @@ public class DBConnector
 	}
 	
 	
-		
-	
-	public static void SearchUserByAccessLevel(String AccessLevel)
-	{
-		no_of_rows = 0;
+	public static void SearchUserByAccessLevel(ManageUser manageUser)
+	{			
 		try
 		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			String AccessLevel = manageUser.getSearchJTF().getText().toString();
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
 					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%'");
 			while (rs.next())
 			{
-				String userName = rs.getString("Name");
-				System.out.println(userName);
+				Vector <Object> newRow = new Vector<Object>();
+				
+				for (int i = 1; i <= 3; i++) 
+			    {		    	
+					newRow.addElement(rs.getObject(i));
+					System.out.println(rs.getString("Name")+", Column: "+i);
+			    }
+				
+				System.out.println("Row added to Vector");
+				rows.add(newRow);
 			}
-			System.out.println("Searched by AccessLevel " + AccessLevel);
 			
+			System.out.println("Searched by Name " + AccessLevel);
+			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
+			manageUser.getTable().setModel(manageUser.getTableModel());
 		}
-
 		catch (SQLException e)
 		{
 			System.out.println("SQL exception occured" + e);

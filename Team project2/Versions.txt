@@ -13,3 +13,10 @@ Swapped code as directed by Matt where the wrong home screen
 was displayed when logged in as librarian when returning from
 manage home page
 Changed JComboBox code back to original
+**************************************************************
+V3.22 Matt, Mike, Barry
+Added in select statements to populate tables
+Added code to make tables populate but couldnt get them to populate
+Matt added sequences for user/customer id auto-generation
+**************************************************************
+V3.3 Swing tables now populating from SQL code
