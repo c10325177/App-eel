@@ -190,7 +190,7 @@ public class AdminPage extends JPanel{
 		return(this.search);
 	}
 	
-	public JTextField setUserID(){
+	public JTextField getID(){
 		return(this.ID);
 	}
 }

@@ -49,7 +49,7 @@ public class MyFrame extends JFrame implements ActionListener {
 		if (e == loginPage.getLogin()){
 			if (loginPage.getUsername().getText().equals("admin") && loginPage.getPassword().getText().equals("admin")){
 			c.show(this.getContentPane(), listPage[1]);
-			adminPage.setUserID().setText(loginPage.getUsername().getText());
+			adminPage.getID().setText(loginPage.getUsername().getText());
 			}
 		}
 		if (e ==  adminPage.getLogout()){
