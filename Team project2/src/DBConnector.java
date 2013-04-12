@@ -39,6 +39,8 @@ public class DBConnector
 
 	public static void InsertCustomer(String Name, String Address, Double Balance)
 	{
+		Name=TitleCaseConverter.toTitleCase(Name);
+		Address=TitleCaseConverter.toTitleCase(Address);
 		no_of_rows = 0;
 		try
 		{
@@ -64,9 +66,10 @@ public class DBConnector
 		}
 	}
 
-	public static void UpdateCustomer(int CustomerID, String Name,
-			String Address, Double Balance)
+	public static void UpdateCustomer(int CustomerID, String Name, String Address, Double Balance)
 	{
+		Address=TitleCaseConverter.toTitleCase(Address);
+		Name=TitleCaseConverter.toTitleCase(Name);
 		no_of_rows = 0;
 		try
 		{
@@ -109,8 +112,13 @@ public class DBConnector
 	public static void UpdateBook(int LibCode, String ISBN, String title,
 			String Author, String Genre, String Location, String Available)
 	{
+		ISBN=TitleCaseConverter.toTitleCase(ISBN);
+		title=TitleCaseConverter.toTitleCase(title);
+		Author=TitleCaseConverter.toTitleCase(Author);
+		Genre=TitleCaseConverter.toTitleCase(Genre);
+		Location=TitleCaseConverter.toTitleCase(Location);
+		Available=TitleCaseConverter.toTitleCase(Available);
 		no_of_rows = 0;
-		LibCode = 25;
 
 		try
 		{
@@ -132,6 +140,12 @@ public class DBConnector
 	public static void InsertBook(String ISBN, String title, String Author,
 			String Genre, String Location, String Available)
 	{
+		ISBN=TitleCaseConverter.toTitleCase(ISBN);
+		title=TitleCaseConverter.toTitleCase(title);
+		Author=TitleCaseConverter.toTitleCase(Author);
+		Genre=TitleCaseConverter.toTitleCase(Genre);
+		Location=TitleCaseConverter.toTitleCase(Location);
+		Available=TitleCaseConverter.toTitleCase(Available);
 		no_of_rows = 0;
 
 		try
@@ -182,18 +196,18 @@ public class DBConnector
 		}
 	}
 
-	public static void InsertUser(String name, String accessLevel,
-			String password)
+	public static void InsertUser(String Name, String accessLevel, String password)
 	{
 		no_of_rows = 0;
-
+		Name=TitleCaseConverter.toTitleCase(Name);
+		
 		try
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
 					.executeQuery("INSERT INTO Users(Userid, Name, Accesslevel, password) " 
 							+ "values (USERID.nextVal,'"
-							+ name
+							+ Name
 							+ "', '"
 							+ accessLevel
 							+ "','" + password + "')");
@@ -233,6 +247,7 @@ public class DBConnector
 	public static void UpdateUser(int userID, String name, String accessLevel,
 			String password)
 	{
+		name=TitleCaseConverter.toTitleCase(name);
 		no_of_rows = 0;
 
 		try
@@ -293,7 +308,7 @@ public class DBConnector
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
-			String Name = manageUser.getSearchJTF().getText().toString();
+			String Name = TitleCaseConverter.toTitleCase(manageUser.getSearchJTF().getText().toString());
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%'");
 			
@@ -328,7 +343,8 @@ public class DBConnector
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
-			String AccessLevel = manageUser.getSearchJTF().getText().toString();
+			String AccessLevel = TitleCaseConverter.toTitleCase(manageUser.getSearchJTF().getText().toString());
+			System.out.println("Access Level Text: "+AccessLevel);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
 					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%'");

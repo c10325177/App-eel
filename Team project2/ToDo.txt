@@ -1,7 +1,9 @@
 *************************************************************
 Items left for completion:
+*************************************************************
 
-Populate tables using selects
+Done - Populate tables using selects
+
 Populating lower boxes by clicking on a table row
 User log-on verification
 Creating help screens
