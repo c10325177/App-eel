@@ -24,14 +24,13 @@ public class ManageBook extends JPanel{
 	private JTextField JTFlocation = new JTextField(10);
 	private JTextField JTFavailable = new JTextField(10);
 	
-	private JButton addRow = new JButton(" Add row to table ");
-	private JButton updateDB = new JButton("Update Database ");
+	private JButton addBook = new JButton("       Add Book       ");
+	private JButton updateBook = new JButton("     Update Book     ");
 	private JButton discardChanges = new JButton("Discard Changes ");
 	private JButton deleteBook = new JButton("     Delete Book      ");
 	
 	private Color background = new Color(152,178,255);
-	private JButton back = new JButton("      Home      ");
-	
+	private JButton back = new JButton("      Home      ");	
 	
 	//barry new layout	
 	private JButton submitSearch = new JButton("      Search      ");
@@ -164,11 +163,11 @@ public class ManageBook extends JPanel{
 	    //JButton
 	    gbcMain.insets = new Insets(0,-300,-510,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(addRow, gbcMain);
+	    this.add(addBook, gbcMain);
 	    
 	    gbcMain.insets = new Insets(0,20,-510,0);
 	    gbcMain.gridwidth = 1;
-	    this.add(updateDB, gbcMain);
+	    this.add(updateBook, gbcMain);
 	    
 	    gbcMain.insets = new Insets(0,-300,-570,0);
 	    gbcMain.gridwidth = 1;
