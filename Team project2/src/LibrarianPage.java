@@ -5,13 +5,11 @@ public class LibrarianPage extends JPanel{
 
 	private ImageIcon custDetails = new ImageIcon("cust_details.png");
 	private ImageIcon ilogout = new ImageIcon("logout.png");
-	private ImageIcon isearch = new ImageIcon("search.png");
 	private ImageIcon books = new ImageIcon("books.png");
 	
 	
 	//the buttons on the librarian page
 	private JButton customerDetails = new JButton("Customer Details",custDetails);
-	private JButton search = new JButton("Search", isearch);
 	private JButton manageBooks = new JButton("Manage Books", books);
 	private JButton logout = new JButton("Log Out");
 	
@@ -43,11 +41,6 @@ public class LibrarianPage extends JPanel{
 		customerDetails.setBorderPainted(false);
 		customerDetails.setContentAreaFilled(false);
 		
-		
-		search.setVerticalTextPosition(AbstractButton.BOTTOM);
-		search.setHorizontalTextPosition(AbstractButton.CENTER);
-		search.setBorderPainted(false);
-		search.setContentAreaFilled(false);
 		
 		manageBooks.setVerticalTextPosition(AbstractButton.BOTTOM);
 		manageBooks.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -100,27 +93,24 @@ public class LibrarianPage extends JPanel{
 		    
 		    //CENTER
 		    gbcMain.anchor = GridBagConstraints.CENTER;
-		    gbcMain.gridx = 0;
+		    gbcMain.gridx = 1;
 		    gbcMain.gridy = 0;
+		    gbcMain.insets = new Insets(0,-700,0,0);
 		    this.add(customerDetails, gbcMain);
 		    
 		    gbcMain.insets = new Insets(0,-500,0,0);
-		    gbcMain.gridx = 1;
-		    gbcMain.gridwidth = GridBagConstraints.REMAINDER;
-		    this.add(search, gbcMain);
-		    
-		    
-		    gbcMain.insets = new Insets(0,-30,-400,0);
-		    gbcMain.gridx = 0;
+		    gbcMain.gridx = 2;
 		    gbcMain.gridwidth = 1;
 		    this.add(manageBooks, gbcMain);
 		    
+
 		    
 
 		
 		    
 		    
 		    //NORTH
+		    gbcMain.gridx = 0;
 		    gbcMain.insets = new Insets(0,-420,320,0);
 		    gbcMain.gridwidth = 1;
 		    this.add(key, gbcMain);
@@ -160,9 +150,7 @@ public class LibrarianPage extends JPanel{
 	public JButton getCustomerDetails(){
 		return (this.customerDetails);
 	}
-	public JButton getSearch(){
-		return(this.search);
-	}
+
 	
 	public JTextField getUserID(){
 		return(this.ID);
