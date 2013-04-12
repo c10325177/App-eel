@@ -14,8 +14,8 @@ public class LoginPage extends JPanel {
 	private JLabel username = new JLabel("Username:");
 	private JLabel password = new JLabel("Password:");
 	private Color background = new Color(152,178,255);
-	private JTextField user = new JTextField("Login...", 10);
-	private JTextField pass = new JTextField("Password...", 10);
+	private JTextField user = new JTextField(10);
+	private JPasswordField pass = new JPasswordField(10);
 
 	private JButton login = new JButton("        Login        ");
 	
@@ -100,7 +100,7 @@ public class LoginPage extends JPanel {
 		return(this.user);
 	}
 	
-	public JTextField getPassword(){
+	public JPasswordField getPassword(){
 		return(this.pass);
 	}
 

@@ -1,7 +1,6 @@
 
 
 import javax.swing.*;
-
 import java.awt.*;
 public class AdminPage extends JPanel{
 	
@@ -24,7 +23,6 @@ public class AdminPage extends JPanel{
 	
 	//Labels who are displayed on the administrator page
 	private JLabel namePage = new JLabel("Administrator Page");
-	private JLabel namePageLib = new JLabel("Librarian Page");
 	private JLabel userID = new JLabel("User ID: ");
 	private JLabel title = new JLabel(new ImageIcon("dit_banner.png"));
 	private JLabel logoDIT = new JLabel(new ImageIcon("properLogo.png"));
@@ -151,21 +149,10 @@ public class AdminPage extends JPanel{
 		    gbcMain.gridwidth = 1;
 		    this.add(name, gbcMain);
 		
-			if(loginPage.getUsername().equals("admin") && loginPage.getPassword().equals("admin"))
-			{  
-			    gbcMain.insets = new Insets(0,0,470,-1100);
-			    gbcMain.gridwidth = 1;
-			    this.add(namePageLib, gbcMain);
-			    System.out.println(loginPage.getPassword());
-			}
-			else
-			{
-			    gbcMain.insets = new Insets(0,0,470,-1100);
-			    gbcMain.gridwidth = 1;
-			    this.add(namePage, gbcMain);
-			    System.out.println(loginPage.getUsername());
-			}
-			
+			gbcMain.insets = new Insets(0,0,470,-1100);
+			gbcMain.gridwidth = 1;
+			this.add(namePage, gbcMain);
+			   
 		    gbcMain.insets = new Insets(0,0,320,-2400);
 		    gbcMain.gridwidth = 1;
 		    this.add(userID, gbcMain);
@@ -190,7 +177,7 @@ public class AdminPage extends JPanel{
 		return(this.search);
 	}
 	
-	public JTextField getID(){
+	public JTextField getUserID(){
 		return(this.ID);
 	}
 }
