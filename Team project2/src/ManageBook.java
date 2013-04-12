@@ -43,7 +43,8 @@ public class ManageBook extends JPanel
 	private JTextField ID = new JTextField(5);
 
 	private String[] itemBox = { "Title", "Lib code", "Author" };
-	private JComboBox<?> combo = new JComboBox<Object>(itemBox);
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private JComboBox combo = new JComboBox(itemBox);
 
 	private String[] header = { "Title", "Lib code", "Author", "Genre",
 			"Location", "Available   " };
@@ -212,7 +213,8 @@ public class ManageBook extends JPanel
 		this.add(ID, gbcMain);
 	}
 
-	public JComboBox<?> getSearchType()
+	@SuppressWarnings("rawtypes")
+	public JComboBox getSearchType()
 	{
 		return (this.combo);
 	}

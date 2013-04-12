@@ -39,10 +39,13 @@ public class ManageUser extends JPanel
 	private JTextField ID = new JTextField(5);
 
 	private String[] itemBox = { "User ID", "Name", "Access Level" };
-	private JComboBox<?> combo = new JComboBox<Object>(itemBox);
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private JComboBox combo = new JComboBox(itemBox);
 
 	private String[] accessLevelItemBox = { "Librarian", "Admin" };
-	private JComboBox<?> accessLevelCombo = new JComboBox<Object>(accessLevelItemBox);
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private JComboBox accessLevelCombo = new JComboBox(accessLevelItemBox);	
 
 	private String[] header = { "User ID", "Name", "Access Level" };
 	private Object data[][] = new Object[][] { { "dfhdfh", "fdh", "fdh" },
@@ -157,8 +160,8 @@ public class ManageUser extends JPanel
 
 		// JTable
 		JScrollPane pane = new JScrollPane(table,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		gbcMain.insets = new Insets(0, -80, 290, 0);
 		gbcMain.ipady = -300;
@@ -188,7 +191,8 @@ public class ManageUser extends JPanel
 
 	}
 
-	public JComboBox<?> getSearchType()
+	@SuppressWarnings("rawtypes")
+	public JComboBox getSearchType()
 	{
 		return (this.combo);
 	}
@@ -230,7 +234,6 @@ public class ManageUser extends JPanel
 
 	public JButton getDelete()
 	{
-		System.out.println("Getting Delet");
 		return (this.deleteUser);
 	}
 
@@ -249,7 +252,8 @@ public class ManageUser extends JPanel
 		return (this.search);
 	}
 
-	public JComboBox<?> getAccessLevel()
+	@SuppressWarnings("rawtypes")
+	public JComboBox getAccessLevel()
 	{
 		return (this.accessLevelCombo);
 	}

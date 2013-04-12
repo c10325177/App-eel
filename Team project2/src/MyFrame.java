@@ -65,15 +65,13 @@ public class MyFrame extends JFrame implements ActionListener
 		manageUser.getSearch().addActionListener(this);
 
 		//Comment out line below to use without DB
-		DBConnector.DBConnect();
+		//DBConnector.DBConnect();
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-
-		// TODO Auto-generated method stub
 		Object e = event.getSource();
 		if (e == loginPage.getLogin())
 		{
@@ -150,21 +148,21 @@ public class MyFrame extends JFrame implements ActionListener
 
 		// if you click on the button home from the Manage User page of the
 		// Admin or from the Manage User page of the Librarian
-		else if (e == manageUser.getHome())
-		{
-			if (loginPage.getUsername().getText().equals("admin"))
-			{
-				c.show(this.getContentPane(), listPage[1]);
-			} else
-			{
-				c.show(this.getContentPane(), listPage[3]);
-			}
-		}
-
 		else if (e == manageCustomer.getHome())
 		{
-			// Display the Manage Account Page
-			c.show(this.getContentPane(), listPage[1]);
+		if (loginPage.getUsername().getText().equals("admin"))
+		{
+		c.show(this.getContentPane(), listPage[1]);
+		} else
+		{
+		c.show(this.getContentPane(), listPage[3]);
+		}
+		}
+
+		else if (e == manageUser.getHome())
+		{
+		// Display the Manage Account Page
+		c.show(this.getContentPane(), listPage[1]);
 		}
 
 		if (e == libraryReports.getHome())

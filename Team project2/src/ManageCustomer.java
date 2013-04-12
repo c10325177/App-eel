@@ -36,9 +36,10 @@ public class ManageCustomer extends JPanel
 
 	// JTexfield where it displayed the user ID
 	private JTextField ID = new JTextField(5);
-
 	private String[] itemBox = { "Customer ID", "Name", "Address", "Balance" };
-	private JComboBox<?> combo = new JComboBox<Object>(itemBox);
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private JComboBox combo = new JComboBox(itemBox);
 
 	private String[] header = { "Customer ID", "Name", "Address", "Balance" };
 	private Object data[][] = new Object[][] {
@@ -186,7 +187,8 @@ public class ManageCustomer extends JPanel
 		return (this.home);
 	}
 
-	public JComboBox<?> getSearchType()
+	@SuppressWarnings("rawtypes")
+	public JComboBox getSearchType()
 	{
 		return (this.combo);
 	}
