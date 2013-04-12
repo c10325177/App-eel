@@ -47,9 +47,7 @@ public class MyFrame extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		Object e = event.getSource();
 		if (e == loginPage.getLogin()){
-			
-			//if (loginPage.getUsername().getText() == "admin" && loginPage.getPassword().getText() == "admin" ){
-			if (loginPage.getUsername().equals("admin") && loginPage.getPassword().equals("admin")){
+			if (loginPage.getUsername().getText().equals("admin") && loginPage.getPassword().getText().equals("admin")){
 			c.show(this.getContentPane(), listPage[1]);
 			}
 		}
@@ -75,6 +73,6 @@ public class MyFrame extends JFrame implements ActionListener {
 	}
 	
 	public void setValue(){
-		 //loginPage.getUsername().setText(loginPage.getUsername());
+		loginPage.getUsername().setText(loginPage.getUsername().getText());
 	}
 }

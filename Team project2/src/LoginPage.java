@@ -96,12 +96,12 @@ public class LoginPage extends JPanel {
 		return(this.login);
 	}
 	
-	public String getUsername(){
-		return(this.user.getText());
+	public JTextField getUsername(){
+		return(this.user);
 	}
 	
-	public String getPassword(){
-		return(this.pass.getText());
+	public JTextField getPassword(){
+		return(this.pass);
 	}
 
 }
