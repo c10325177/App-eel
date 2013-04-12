@@ -1,6 +1,8 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
+import java.util.Vector;
 
 public class ManageUser extends JPanel
 {
@@ -20,7 +22,7 @@ public class ManageUser extends JPanel
 	private JLabel password = new JLabel("PASSWORD");
 	private JLabel confirmPassword = new JLabel("CONFIRM PASSWORD");
 
-	private JTextField JTFuserID = new JTextField(10);
+	private JLabel JLuserID = new JLabel();
 	private JTextField JTFname = new JTextField(10);
 	private JPasswordField JPFpassword = new JPasswordField(10);
 	private JPasswordField JPFconfirmPassword = new JPasswordField(10);
@@ -48,15 +50,30 @@ public class ManageUser extends JPanel
 	private JComboBox accessLevelCombo = new JComboBox(accessLevelItemBox);	
 
 	private String[] header = { "User ID", "Name", "Access Level" };
+	//private Vector <String> header;
+	
+	
+	/*
 	private Object data[][] = new Object[][] { { "dfhdfh", "fdh", "fdh" },
 			{ "dfhdfh", "fdh", "fdh" }, { "dfhdfh", "fdh", "fdh" },
 			{ "dfhdfh", "fdh", "fdh" }, { "dfhdfh", "fdh", "fdh" },
 			{ "dfhdfh", "fdh", "fdh" }, { "dfhdfh", "fdh", "fdh" } };
-	private JTable table = new JTable(data, header);
-
+			*/
+	private DefaultTableModel tableModel = new DefaultTableModel() ;
+	private JTable table = new JTable();	
+	
 	public ManageUser()
 	{
-
+		tableModel.setColumnIdentifiers(header);
+		
+		//String A = "User ID"; 
+		//String B = "User ID"; 
+		//String C = "User ID"; 
+		
+		//header.add(A);
+		//header.add(B);
+		//header.add(C);
+		
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
@@ -123,7 +140,7 @@ public class ManageUser extends JPanel
 		// JtextField
 		gbcMain.insets = new Insets(0, 0, -100, 0);
 		gbcMain.gridwidth = 1;
-		this.add(JTFuserID, gbcMain);
+		this.add(JLuserID, gbcMain);
 
 		gbcMain.insets = new Insets(0, 0, -160, 0);
 		gbcMain.gridwidth = 1;
@@ -207,9 +224,9 @@ public class ManageUser extends JPanel
 		return (this.JTFname);
 	}
 
-	public JTextField getuserID()
+	public JLabel getuserID()
 	{
-		return (this.JTFuserID);
+		return (this.JLuserID);
 	}
 
 	public JPasswordField getPassword()
@@ -258,11 +275,13 @@ public class ManageUser extends JPanel
 		return (this.accessLevelCombo);
 	}
 
+	/*
 	public int getRowCount()
 	{
 		return data.length;
 	}
-
+*/
+	/*
 	public int getColumnCount()
 	{
 		return header.length;
@@ -273,22 +292,40 @@ public class ManageUser extends JPanel
 		return header[columnIndex];
 	}
 
+	
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
 		return data[rowIndex][columnIndex];
 	}
 
+	*/
+	
 	public JTextField getUserID()
 	{
 		return (this.ID);
 	}
 	
+	public DefaultTableModel getTableModel()
+	{
+		return (this.tableModel);
+	}
+	
+	public JTable getTable()
+	{
+		return (this.table);
+	}
+	
 	public void EmptyFields()
 	{
-		JTFuserID.setText("");
+		JLuserID.setText("");
 		JTFname.setText("");
 		JPFpassword.setText("");
 		JPFconfirmPassword.setText("");
 		accessLevelCombo.setSelectedItem("User");
+	}
+	
+	public Object getHeader()
+	{
+		return(this.header);
 	}
 }

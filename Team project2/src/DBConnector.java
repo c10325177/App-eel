@@ -3,13 +3,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 public class DBConnector
 {
 
 	static Connection con;
 	static int no_of_rows = 0;
-
+	
 	public static void DBConnect() throws SQLException
 	{
 		con = DriverManager.getConnection(
@@ -27,18 +28,18 @@ public class DBConnector
 		}
 		System.out.println("Class found ");
 	}
+	
+	
 
-	public static void InsertCustomer(int CustomerID, String Name,
-			String Address, Double Balance)
+	public static void InsertCustomer(String Name, String Address, Double Balance)
 	{
 		no_of_rows = 0;
 		try
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("INSERT INTO Customer(CustomerId, Name, Address, Balance) values ("
-							+ CustomerID
-							+ ", '"
+					.executeQuery("INSERT INTO Customer(CustomerId, Name, Address, Balance) "
+							+ "values (CUSTID.nextVal,'"
 							+ Name
 							+ "', '"
 							+ Address
@@ -175,7 +176,7 @@ public class DBConnector
 		}
 	}
 
-	public static void InsertUser(int userID, String name, String accessLevel,
+	public static void InsertUser(String name, String accessLevel,
 			String password)
 	{
 		no_of_rows = 0;
@@ -184,9 +185,8 @@ public class DBConnector
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("INSERT INTO Users(Userid, Name, Accesslevel, password) values ("
-							+ userID
-							+ ",'"
+					.executeQuery("INSERT INTO Users(Userid, Name, Accesslevel, password) " 
+							+ "values (USERID.nextVal,'"
 							+ name
 							+ "', '"
 							+ accessLevel
@@ -244,5 +244,76 @@ public class DBConnector
 			System.out.println("SQL exception occured" + e);
 		}
 	}
+	
+	
+	public static void SearchUserByID(int USERID)
+	{
+		no_of_rows = 0;
 
+		try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Users where Userid = "+USERID);
+			while (rs.next())
+			{
+				no_of_rows++;
+			}
+			System.out.println("Searched by userid " + USERID);
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+	}
+		
+	public static void SearchUserByName(String Name)
+	{
+		no_of_rows = 0;
+		try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%'");
+			while (rs.next())
+			{
+				String userName = rs.getString("Name");
+				System.out.println(userName);
+			}
+			System.out.println("Searched by Name " + Name);
+			
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+	}
+	
+	
+		
+	
+	public static void SearchUserByAccessLevel(String AccessLevel)
+	{
+		no_of_rows = 0;
+		try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%'");
+			while (rs.next())
+			{
+				String userName = rs.getString("Name");
+				System.out.println(userName);
+			}
+			System.out.println("Searched by AccessLevel " + AccessLevel);
+			
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+	}
 }

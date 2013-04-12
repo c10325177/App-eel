@@ -1,7 +1,10 @@
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
+
 import javax.swing.JFrame;
 
 public class MyFrame extends JFrame implements ActionListener
@@ -65,7 +68,7 @@ public class MyFrame extends JFrame implements ActionListener
 		manageUser.getSearch().addActionListener(this);
 
 		//Comment out line below to use without DB
-		//DBConnector.DBConnect();
+		DBConnector.DBConnect();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -218,15 +221,11 @@ public class MyFrame extends JFrame implements ActionListener
 		{
 
 		}
-		
-		
-		
-		
+			
 		// CUSTOMER DB STUFF
 		else if (e == manageCustomer.getInsert())
 		{
-			DBConnector.InsertCustomer(Integer.valueOf(manageCustomer
-					.getCustomerID().getText()), manageCustomer.getname()
+			DBConnector.InsertCustomer(manageCustomer.getname()
 					.getText(), manageCustomer.getAddress().getText(), Double
 					.parseDouble(manageCustomer.getBalance().getText()
 							.toString()));
@@ -273,9 +272,7 @@ public class MyFrame extends JFrame implements ActionListener
 			if (manageUser.getPassword().getText()
 					.equals(manageUser.getConfirmPassword().getText()))
 			{
-				DBConnector.InsertUser(
-						Integer.valueOf(manageUser.getuserID().getText()),
-						manageUser.getname().getText(), manageUser
+				DBConnector.InsertUser(manageUser.getname().getText(), manageUser
 								.getAccessLevel().getSelectedItem().toString(),
 						manageUser.getPassword().getText());
 
@@ -320,10 +317,71 @@ public class MyFrame extends JFrame implements ActionListener
 		{
 			manageUser.EmptyFields();
 		}
+		
+		
 
 		else if (e == manageUser.getSearch())
 		{
+			System.out.println("Searching");
+						
+			String temp= manageUser.getSearchType().getSelectedItem().toString();
+			
+			if(temp.equals("User ID"))
+			{
+				DBConnector.SearchUserByID(Integer.valueOf(manageUser.getSearchJTF().getText()));				
+			}
+			
+			if(temp.equals("Name"))
+			{			
+				DBConnector.SearchUserByName(manageUser.getSearchJTF().getText().toString());				
+			}			
+			
+			if(temp.equals("Access Level"))
+			{
 
+				//Vector <String> header = new Vector();
+				//Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+		        //header.add("U");
+		        //header.add("b");
+		        //header.add("x");
+				
+				DBConnector.SearchUserByAccessLevel( manageUser.getSearchJTF().getText().toString());
+				
+				
+				/*
+				
+				Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+				
+				 System.out.println("Try"+rs.getString("Name"));
+				
+				
+				while (rs.next()) 
+				{	                
+				    System.out.println("While");
+					
+					Vector <Object> newRow = new Vector<Object>();
+					
+					for (int i = 1; i <= 3; i++) 
+				    {		    	
+						System.out.println("For");
+						newRow.addElement(rs.getObject(i));
+				    }
+				    System.out.println("Vector populated");
+				    rows.add(newRow);
+				}
+				manageUser.getTableModel().setDataVector(rows, header); 
+			} 
+
+			catch (SQLException e1) 
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}  
+
+			manageUser.getTable().setModel(manageUser.getTableModel());
+				
+			*/	
+			}
 		}
 	}
 }
