@@ -2,7 +2,9 @@
 import javax.swing.*;
 
 import java.awt.*;
-public class ManageBook extends JPanel{
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+public class ManageBook extends JPanel implements ActionListener{
 	private ImageIcon homeIcon = new ImageIcon("home.png");
 	
 	private JLabel title = new JLabel(new ImageIcon("dit_banner.png"));
@@ -32,7 +34,7 @@ public class ManageBook extends JPanel{
 	private JButton deleteBook = new JButton("       Delete Book        ");
 	private JButton search = new JButton("Search ");
 	private JButton home = new JButton("      Home     ", homeIcon);
-	
+		
 	private Color background = new Color(152,178,255);
 
 	//JTexfield where it displayed the user ID
@@ -53,6 +55,7 @@ public class ManageBook extends JPanel{
             {"dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh"},
     };
 	private JTable table = new JTable(data, header);
+	
 	public ManageBook(){
 		
 		this.setBackground(background);
@@ -71,7 +74,7 @@ public class ManageBook extends JPanel{
 		home.setHorizontalTextPosition(AbstractButton.CENTER);
 		home.setBorderPainted(false);
 		home.setContentAreaFilled(false);		
-		
+			
 		//BACKGROUND
 	    gbcMain.insets = new Insets(0,0,100,20);
 	    gbcMain.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -86,8 +89,7 @@ public class ManageBook extends JPanel{
 	    gbcMain.ipady = 0;
 	    gbcMain.anchor = GridBagConstraints.FIRST_LINE_END;
 	    this.add(booksLogo, gbcMain);
-	    
-	    
+	    	    
 	    gbcMain.insets = new Insets(0,-300,0,-270);
 	    gbcMain.gridx = 1;
 	    gbcMain.gridy = 0;
@@ -96,7 +98,7 @@ public class ManageBook extends JPanel{
 	    
 	    //JLabel
 	    gbcMain.anchor = GridBagConstraints.CENTER;
-	    gbcMain.insets = new Insets(0,-1370,240,0);
+	    gbcMain.insets = new Insets(0,-800,240,0);
 	    gbcMain.gridwidth = 1;
 	    this.add(home, gbcMain);
 	    
@@ -191,25 +193,73 @@ public class ManageBook extends JPanel{
 	    gbcMain.insets = new Insets(0,20,60,-160);
 	    this.add(search, gbcMain);
 	    
-	    
 	    //User ID stuff
-	    gbcMain.insets = new Insets(0,910,300,0);
+	    gbcMain.insets = new Insets(0,0,300,-680);
 	    gbcMain.gridwidth = 1;
 	    this.add(userID, gbcMain);
 	    
-	    gbcMain.insets = new Insets(0,1060,300,0);
+	    gbcMain.insets = new Insets(0,0,300,-790);
 	    gbcMain.gridwidth = 1;
-	    this.add(ID, gbcMain);
-	    
-	  	    
+	    this.add(ID, gbcMain);	  	    
 	}
 	
-	public JButton getHome(){
-		return(this.home);
-	}
-
+		public JComboBox getSearchType(){
+			return(this.combo);			
+		}
 	
-	 public int getRowCount() {
+		public JTextField getBookTitle(){
+			return(this.JTFbookTitle);
+		}
+		
+		public JTextField getAuthor(){
+			return(this.JTFauthor);
+		}
+		
+		public JTextField getGenre(){
+			return(this.JTFgenre);
+		}
+		
+		public JTextField getlocation(){
+			return(this.JTFlocation);
+		}
+		
+		public JTextField getAvailable(){
+			return(this.JTFavailable);
+		}
+		
+		public JTextField getLibCode(){
+			return(this.JTFlibCode);
+		}
+		
+		public JTextField getSearchJTF(){
+			return(this.JTFsearch);
+		}
+	
+		public JButton getHome(){
+			return(this.home);
+		}
+		
+		public JButton getInsert(){
+			return(this.addRow);
+		}
+		
+		public JButton getDelete(){
+			return(this.deleteBook);
+		}
+		
+		public JButton getDiscard(){
+			return(this.discardChanges);
+		}
+		
+		public JButton getUpdate(){
+			return(this.updateDB);
+		}
+		
+		public JButton getSearch(){
+			return(this.search);
+		}
+	
+		public int getRowCount() {
 	        return data.length;
 	    }
 	 
@@ -227,5 +277,14 @@ public class ManageBook extends JPanel{
 	    
 		public JTextField getUserID(){
 			return(this.ID);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent ev) {
+			// TODO Auto-generated method stub
+			
+			JButton temp = (JButton) ev.getSource();
+			String action = temp.getActionCommand();
+			
 		}
 }

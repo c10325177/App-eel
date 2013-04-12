@@ -192,10 +192,57 @@ public class ManageUser extends JPanel{
 	  	    
 	}
 	
+	public JComboBox getSearchType(){
+		return(this.combo);			
+	}
+	
 	public JButton getHome(){
 		return(this.home);
 	}
+	
+	public JTextField getname(){
+		return(this.JTFname);
+	}
+	
+	public JTextField getuserID(){
+		return(this.JTFuserID);
+	}
+	
+	public  JPasswordField getPassword(){
+		return(this.JPFpassword);
+	}
+	
+	public JPasswordField getConfirmPassword(){
+		return(this.JPFconfirmPassword);
+	}
+	
+	public JTextField getSearchJTF(){
+		return(this.JTFsearch);
+	}
+	
+	public JButton getInsert(){
+		return(this.addUser);
+	}
+	
+	public JButton getDelete(){
+		return(this.deleteUser);
+	}
+	
+	public JButton getDiscard(){
+		return(this.discardChanges);
+	}
+	
+	public JButton getUpdate(){
+		return(this.updateUser);
+	}
+	
+	public JButton getSearch(){
+		return(this.search);
+	}
 
+	public JComboBox getAccessLevel(){
+		return (this.accessLevelCombo);		
+	}
 	
 	 public int getRowCount() {
 	        return data.length;

@@ -3,6 +3,8 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.JFrame;
 
 
@@ -17,14 +19,14 @@ public class MyFrame extends JFrame implements ActionListener {
 	private ManageUser manageUser = new ManageUser();
 	private ManageCustomer manageCustomer = new ManageCustomer();
 	private LibraryReports libraryReports = new LibraryReports();
-
+	private DBcon dbconnect = new DBcon();
 	
 	//Layout of the main Panel
 	private CardLayout c = new CardLayout();
 	private String[] listPage = {"LoginPage" , "AdministratorPage", "Manage Books", "Librarian Page", "Manage User", "Manage Customer", "Library Reports"};
 
 	
-	public MyFrame(){
+	public MyFrame() throws SQLException{
 
 	    this.setLayout(c);
 	     
@@ -50,8 +52,26 @@ public class MyFrame extends JFrame implements ActionListener {
         manageCustomer.getHome().addActionListener(this);
         libraryReports.getHome().addActionListener(this);
         
-       
-
+        manageBook.getInsert().addActionListener(this);
+        manageBook.getDelete().addActionListener(this);
+        manageBook.getUpdate().addActionListener(this);
+        manageBook.getDiscard().addActionListener(this);
+        manageBook.getSearch().addActionListener(this);
+        
+        
+        manageCustomer.getInsert().addActionListener(this);
+        manageCustomer.getDelete().addActionListener(this);
+        manageCustomer.getUpdate().addActionListener(this);
+        manageCustomer.getDiscard().addActionListener(this);
+        manageCustomer.getSearch().addActionListener(this);
+        
+        manageUser.getInsert().addActionListener(this);
+        manageUser.getDelete().addActionListener(this);
+        manageUser.getUpdate().addActionListener(this);
+        manageUser.getDiscard().addActionListener(this);
+        manageUser.getSearch().addActionListener(this);
+        
+        dbconnect.dbconnect();
 	}
 
 
@@ -136,6 +156,88 @@ public class MyFrame extends JFrame implements ActionListener {
 			//Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[1]);
 		}
+		
+		if(e == manageBook.getSearch()){
+			
+		}
+		
+		if(e == manageBook.getUpdate()){
+			
+		}
+		
+		if(e == manageBook.getInsert()){
+			
+			
+		}
+		
+		if(e == manageBook.getDelete()){
+		
+		}
+		
+		if(e == manageBook.getDiscard()){
+			manageBook.getAuthor().setText("");
+			manageBook.getAvailable().setText("");
+			manageBook.getlocation().setText("");
+			manageBook.getBookTitle().setText("");
+			manageBook.getLibCode().setText("");
+			manageBook.getGenre().setText("");
+		}
+			
+		if(e == manageCustomer.getDiscard()){
+			manageCustomer.getname().setText("");
+			manageCustomer.getAddress().setText("");
+			manageCustomer.getBalance().setText("");
+			manageCustomer.getCustomerID().setText("");
+		}		
+		
+		if(e == manageCustomer.getSearch()){
+			
+		}
+		
+		if(e == manageCustomer.getUpdate()){
+			
+		}
+		
+		if(e == manageCustomer.getInsert()){
+		
+	        dbconnect.InsertCustomer(Integer.valueOf(manageCustomer.getCustomerID().getText()),
+	        		manageCustomer.getname().getText(),
+	        		manageCustomer.getAddress().getText(),        		        				
+	        		Double.parseDouble(manageCustomer.getBalance().getText().toString()));	
+	        
+			manageCustomer.getname().setText("");
+			manageCustomer.getAddress().setText("");
+			manageCustomer.getBalance().setText("");
+			manageCustomer.getCustomerID().setText("");				
+		}
+		
+		if(e == manageCustomer.getDelete()){
+		
+		}
+		
+		if(e == manageUser.getDiscard()){
+			manageUser.getuserID().setText("");
+			manageUser.getname().setText("");
+			manageUser.getPassword().setText("");
+			manageUser.getConfirmPassword().setText("");
+			manageUser.getAccessLevel().setSelectedItem("User");
+		}
+		
+		if(e == manageUser.getSearch()){
+			
+		}
+		
+		if(e == manageUser.getUpdate()){
+			
+		}
+		
+		if(e == manageUser.getInsert()){
+			
+			
+		}
+		
+		if(e == manageUser.getDelete()){
+		
+		}
 	}
-
 }

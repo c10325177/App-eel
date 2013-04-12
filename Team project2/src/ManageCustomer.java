@@ -179,9 +179,53 @@ public class ManageCustomer extends JPanel{
 	  	    
 	}
 	
-	public JButton getHome(){
+		public JButton getHome(){
 		return(this.home);
-	}
+		}
+		
+		public JComboBox getSearchType(){
+			return(this.combo);			
+		}
+			
+		public JTextField getname(){
+			return(this.JTFname);
+		}
+		
+		public JTextField getAddress(){
+			return(this.JTFaddress);
+		}
+		
+		public JTextField getBalance(){
+			return(this.JTFbalance);
+		}
+		
+		public JTextField getCustomerID(){
+			return(this.JTFcustomerID);
+		}
+		
+		public JTextField getSearchJTF(){
+			return(this.JTFsearch);
+		}
+		
+		public JButton getInsert(){
+			return(this.addCustomer);
+		}
+		
+		public JButton getDelete(){
+			return(this.deleteCustomer);
+		}
+		
+		public JButton getDiscard(){
+			return(this.discardChanges);
+		}
+		
+		public JButton getUpdate(){
+			return(this.updateCustomer);
+		}
+		
+		public JButton getSearch(){
+			return(this.search);
+		}
 
 	
 	 public int getRowCount() {
