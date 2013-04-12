@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class LoginPage extends JPanel {
@@ -88,10 +90,18 @@ public class LoginPage extends JPanel {
 	    gbcMain.gridwidth = 1;
 	    gbcMain.gridheight = 1;
 	    this.add(login, gbcMain);
-	    
-	 
+	
 	}
 	public JButton getLogin(){
 		return(this.login);
 	}
+	
+	public JTextField getUsername(){
+		return(this.user);
+	}
+	
+	public JTextField getPassword(){
+		return(this.pass);
+	}
+
 }
