@@ -49,6 +49,7 @@ public class MyFrame extends JFrame implements ActionListener {
 		if (e == loginPage.getLogin()){
 			if (loginPage.getUsername().getText().equals("admin") && loginPage.getPassword().getText().equals("admin")){
 			c.show(this.getContentPane(), listPage[1]);
+			adminPage.setUserID().setText(loginPage.getUsername().getText());
 			}
 		}
 		if (e ==  adminPage.getLogout()){
@@ -70,9 +71,5 @@ public class MyFrame extends JFrame implements ActionListener {
 			c.show(this.getContentPane(), listPage[3]);
 		}
 		
-	}
-	
-	public void setValue(){
-		loginPage.getUsername().setText(loginPage.getUsername().getText());
 	}
 }

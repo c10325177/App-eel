@@ -1,6 +1,7 @@
 
 
 import javax.swing.*;
+
 import java.awt.*;
 public class AdminPage extends JPanel{
 	
@@ -187,5 +188,9 @@ public class AdminPage extends JPanel{
 	}
 	public JButton getSearch(){
 		return(this.search);
+	}
+	
+	public JTextField setUserID(){
+		return(this.ID);
 	}
 }
