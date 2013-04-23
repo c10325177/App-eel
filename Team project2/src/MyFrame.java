@@ -3,8 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class MyFrame extends JFrame implements ActionListener
+public class MyFrame extends JFrame implements ActionListener, ListSelectionListener
 {
 	private static final long serialVersionUID = 1L;
 	private AdminPage adminPage = new AdminPage();
@@ -63,6 +65,7 @@ public class MyFrame extends JFrame implements ActionListener
 		manageUser.getUpdate().addActionListener(this);
 		manageUser.getDiscard().addActionListener(this);
 		manageUser.getSearch().addActionListener(this);
+		manageUser.getTable().getSelectionModel().addListSelectionListener(this);
 
 		//Comment out line below to use without DB
 		DBConnector.DBConnect();
@@ -337,5 +340,32 @@ public class MyFrame extends JFrame implements ActionListener
 				DBConnector.SearchUserByAccessLevel(manageUser);
 			}
 		}
+			
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent event)
+	{		
+		Object e = event.getSource();
+		
+		if(e == manageUser.getTable().getSelectionModel())
+		{
+			int row = manageUser.getTable().getSelectionModel().getLeadSelectionIndex();
+			manageUser.EmptyFields();
+			manageUser.getuserID().setText(manageUser.getTableModel().getValueAt(row, 0).toString());
+			manageUser.getname().setText(manageUser.getTableModel().getValueAt(row, 1).toString());
+			
+			String accessLevel= manageUser.getTableModel().getValueAt(row, 2).toString();	
+			
+			if(accessLevel.equals("Librarian"))
+			{
+				manageUser.getAccessLevel().setSelectedItem("Librarian");
+			}
+			
+			else
+			{
+				manageUser.getAccessLevel().setSelectedItem("Admin");
+			}
+		}		
 	}
 }

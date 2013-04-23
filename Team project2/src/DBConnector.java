@@ -294,7 +294,7 @@ public class DBConnector
 			
 			System.out.println("Searched by USERID " + USERID);
 			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
-			manageUser.getTable().setModel(manageUser.getTableModel());
+			manageUser.getTable().setModel(manageUser.getTableModel());		
 		}
 		
 		catch (SQLException e)

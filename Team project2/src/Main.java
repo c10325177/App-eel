@@ -11,6 +11,7 @@ public class Main
 		MyFrame frame = new MyFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1024, 768));
+		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
 	}

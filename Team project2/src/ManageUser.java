@@ -58,6 +58,7 @@ public class ManageUser extends JPanel
 		header.add("Name");
 		header.add("Access Level");
 		tableModel.setColumnIdentifiers(header);
+		//table.setEnabled(false);
 		
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
@@ -277,13 +278,14 @@ public class ManageUser extends JPanel
 		return header[columnIndex];
 	}
 
+
 	
 	public Object getValueAt(int rowIndex, int columnIndex)
 	{
 		return data[rowIndex][columnIndex];
 	}
-
 	*/
+	
 	
 	public JTextField getUserID()
 	{
@@ -306,7 +308,7 @@ public class ManageUser extends JPanel
 		JTFname.setText("");
 		JPFpassword.setText("");
 		JPFconfirmPassword.setText("");
-		accessLevelCombo.setSelectedItem("User");
+		accessLevelCombo.setSelectedItem("Librarian");
 	}
 	
 	public Vector<String> getHeader()
