@@ -1,5 +1,8 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
+import java.util.Vector;
 
 public class ManageBook extends JPanel
 {
@@ -19,15 +22,15 @@ public class ManageBook extends JPanel
 	private JLabel genre = new JLabel("GENRE");
 	private JLabel location = new JLabel("LOCATION");
 	private JLabel available = new JLabel("AVAILABLE");
-	private JLabel libCode = new JLabel("LIB CODE");
-	private JLabel currentLibCode = new JLabel("25");
-
-	private JTextField JTFbookTitle = new JTextField(10);
-	private JTextField JTFISBN = new JTextField(10);
-	private JTextField JTFauthor = new JTextField(10);
-	private JTextField JTFgenre = new JTextField(10);
-	private JTextField JTFlocation = new JTextField(10);
-	private JTextField JTFavailable = new JTextField(10);
+	private JLabel libCode = new JLabel("LIB CODE");	
+	
+	private JTextField JTFcurrentLibCode = new JTextField(20);
+	private JTextField JTFbookTitle = new JTextField(20);
+	private JTextField JTFISBN = new JTextField(20);
+	private JTextField JTFauthor = new JTextField(20);
+	private JTextField JTFgenre = new JTextField(20);
+	private JTextField JTFlocation = new JTextField(20);
+	private JTextField JTFavailable = new JTextField(20);
 	private JTextField JTFsearch = new JTextField(10);
 
 	private JButton addRow = new JButton("         Add Book       ");
@@ -42,29 +45,30 @@ public class ManageBook extends JPanel
 	// JTexfield where it displayed the user ID
 	private JTextField ID = new JTextField(5);
 
-	private String[] itemBox = { "Title", "Lib code", "Author" };
+	private String[] itemBox = { "Lib Code", "ISBN", "Title", "Author" };
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private JComboBox combo = new JComboBox(itemBox);
 
-	private String[] header = { "Title", "Lib code", "Author", "Genre",
-			"Location", "Available   " };
-	private Object data[][] = new Object[][] {
-			{ "dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh", "fdh", "fdh" }, };
-	private JTable table = new JTable(data, header);
+	private Vector <String> header = new Vector<String>();       
+	private DefaultTableModel tableModel = new DefaultTableModel() ;
+	private JTable table = new JTable(tableModel);	
 
 	public ManageBook()
-	{
+	{	
+		header.add("Lib code");
+		header.add("ISBN");
+		header.add("Title");	
+		header.add("Author");
+		header.add("Genre");
+		header.add("Location");
+		header.add("Available");
+		tableModel.setColumnIdentifiers(header);
 
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.home.setForeground(Color.red);
+		JTFcurrentLibCode.setEditable(false);
 		this.bookTitle.setFont(new Font("Serif", Font.BOLD, 12));
 		ISBN.setFont(new Font("Serif", Font.BOLD, 12));
 		author.setFont(new Font("Serif", Font.BOLD, 12));
@@ -106,38 +110,38 @@ public class ManageBook extends JPanel
 		this.add(home, gbcMain);
 
 		gbcMain.anchor = GridBagConstraints.CENTER;
-		gbcMain.insets = new Insets(0, -300, -20, 0);
+		gbcMain.insets = new Insets(0, -340, -20, 0);
 		gbcMain.gridwidth = 1;
 		this.add(libCode, gbcMain);
 
-		gbcMain.insets = new Insets(0, -300, -80, 0);
+		gbcMain.insets = new Insets(0, -365, -80, 0);
 		gbcMain.gridwidth = 1;
 		this.add(ISBN, gbcMain);
 
-		gbcMain.insets = new Insets(0, -315, -140, 0);
+		gbcMain.insets = new Insets(0, -325, -140, 0);
 		gbcMain.gridwidth = 1;
 		this.add(bookTitle, gbcMain);
 
-		gbcMain.insets = new Insets(0, -320, -200, 0);
+		gbcMain.insets = new Insets(0, -350, -200, 0);
 		gbcMain.gridwidth = 1;
 		this.add(author, gbcMain);
 
-		gbcMain.insets = new Insets(0, -330, -260, 0);
+		gbcMain.insets = new Insets(0, -360, -260, 0);
 		gbcMain.gridwidth = 1;
 		this.add(genre, gbcMain);
 
-		gbcMain.insets = new Insets(0, -305, -320, 0);
+		gbcMain.insets = new Insets(0, -335, -320, 0);
 		gbcMain.gridwidth = 1;
 		this.add(location, gbcMain);
 
-		gbcMain.insets = new Insets(0, -305, -380, 0);
+		gbcMain.insets = new Insets(0, -335, -380, 0);
 		gbcMain.gridwidth = 1;
 		this.add(available, gbcMain);
 
 		// JtextField
 		gbcMain.insets = new Insets(0, 0, -20, 0);
 		gbcMain.gridwidth = 1;
-		this.add(currentLibCode, gbcMain);
+		this.add(JTFcurrentLibCode, gbcMain);
 
 		gbcMain.insets = new Insets(0, 0, -80, 0);
 		gbcMain.gridwidth = 1;
@@ -184,7 +188,7 @@ public class ManageBook extends JPanel
 		JScrollPane pane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		gbcMain.insets = new Insets(0, 20, 250, 0);
 		gbcMain.ipady = -300;
@@ -239,9 +243,9 @@ public class ManageBook extends JPanel
 		return (this.JTFlocation);
 	}
 
-	public JLabel getLibCode()
+	public JTextField getLibCode()
 	{
-		return (this.currentLibCode);
+		return (this.JTFcurrentLibCode);
 	}
 
 	public JTextField getAvailable()
@@ -289,29 +293,30 @@ public class ManageBook extends JPanel
 		return (this.search);
 	}
 
-	public int getRowCount()
+	public JTable getTable()
 	{
-		return data.length;
+		return (this.table);
 	}
-
-	public int getColumnCount()
-	{
-		return header.length;
-	}
-
-	public String getColumnName(int columnIndex)
-	{
-		return header[columnIndex];
-	}
-
-	public Object getValueAt(int rowIndex, int columnIndex)
-	{
-		return data[rowIndex][columnIndex];
-	}
+	
 
 	public JTextField getUserID()
 	{
 		return (this.ID);
+	}
+	
+	public Vector<String> getHeader()
+	{
+		return(this.header);
+	}
+	
+	public DefaultTableModel getTableModel()
+	{
+		return (this.tableModel);
+	}
+	
+	public void EmptyTable()
+	{
+		tableModel.setRowCount(0);
 	}
 	
 	public void EmptyFields()
@@ -322,6 +327,6 @@ public class ManageBook extends JPanel
 		JTFbookTitle.setText("");
 		JTFgenre.setText("");
 		JTFISBN.setText("");
-		currentLibCode.setText("");
+		JTFcurrentLibCode.setText("");
 	}
 }

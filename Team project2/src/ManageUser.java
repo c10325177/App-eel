@@ -261,31 +261,6 @@ public class ManageUser extends JPanel
 	{
 		return (this.accessLevelCombo);
 	}
-
-	/*
-	public int getRowCount()
-	{
-		return data.length;
-	}
-*/
-	/*
-	public int getColumnCount()
-	{
-		return header.length;
-	}
-
-	public String getColumnName(int columnIndex)
-	{
-		return header[columnIndex];
-	}
-
-
-	
-	public Object getValueAt(int rowIndex, int columnIndex)
-	{
-		return data[rowIndex][columnIndex];
-	}
-	*/
 	
 	public JTextField getUserID()
 	{

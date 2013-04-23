@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -21,14 +20,12 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	private CustomerPage customerPage = new CustomerPage();
 	private BookPage bookPage = new BookPage();
 	private LibrarianActivity librarianActivity = new LibrarianActivity();
-	private LoanPage loanPage = new LoanPage();
-	private ReturnPage returnPage = new ReturnPage();
 
 	// Layout of the main Panel
 	private CardLayout c = new CardLayout();
 	private String[] listPage = { "LoginPage", "AdministratorPage",
 			"Manage Books", "Librarian Page", "Manage User", "Manage Customer",
-			"Library Reports", "Customer Page", "Book Page", "Librarian Activity Page", "Loan Page", "Return Page"};
+			"Library Reports", "Customer Page", "Book Page", "Librarian Activity Page"};
 
 	public MyFrame() throws SQLException
 	{
@@ -43,8 +40,6 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		this.add(customerPage, listPage[7]);
 		this.add(bookPage, listPage[8]);
 		this.add(librarianActivity, listPage[9]);
-		this.add(loanPage, listPage[10]);
-		this.add(returnPage, listPage[11]);
 		
 		loginPage.getLogin().addActionListener(this);
 		
@@ -53,8 +48,6 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		adminPage.getCustomerDetails().addActionListener(this);
 		adminPage.getManageAccounts().addActionListener(this);
 		adminPage.getLibraryReport().addActionListener(this);
-		adminPage.getLoan().addActionListener(this);
-		adminPage.getReturned().addActionListener(this);
 		
 		libPage.getLogout().addActionListener(this);
 		libPage.getManageBook().addActionListener(this);
@@ -68,20 +61,20 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		customerPage.getBack().addActionListener(this);
 		bookPage.getBack().addActionListener(this);
 		librarianActivity.getBack().addActionListener(this);
-		loanPage.getHome().addActionListener(this);
-		returnPage.getHome().addActionListener(this);
 
 		manageBook.getInsert().addActionListener(this);
 		manageBook.getDelete().addActionListener(this);
 		manageBook.getUpdate().addActionListener(this);
 		manageBook.getDiscard().addActionListener(this);
 		manageBook.getSearch().addActionListener(this);
+		manageBook.getTable().getSelectionModel().addListSelectionListener(this);
 
 		manageCustomer.getInsert().addActionListener(this);
 		manageCustomer.getDelete().addActionListener(this);
 		manageCustomer.getUpdate().addActionListener(this);
 		manageCustomer.getDiscard().addActionListener(this);
 		manageCustomer.getSearch().addActionListener(this);
+		manageCustomer.getTable().getSelectionModel().addListSelectionListener(this);
 
 		manageUser.getInsert().addActionListener(this);
 		manageUser.getDelete().addActionListener(this);
@@ -93,10 +86,9 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		libraryReports.getBook().addActionListener(this);
 		libraryReports.getCustomer().addActionListener(this);
 		libraryReports.getLibrarian().addActionListener(this);
-		
 
 		//Comment out line below to use without DB
-		//DBConnector.DBConnect();
+		DBConnector.DBConnect();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -188,26 +180,10 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			librarianActivity.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
-		// if you click on the button Loan from the Admin Page
-		else if (e == adminPage.getLoan())
-		{
-			// Display the Loan Page
-			c.show(this.getContentPane(), listPage[10]);
-			loanPage.getUserID().setText(loginPage.getUsername().getText());
-		}
-		
-		// if you click on the button Returned from the Admin Page
-		else if (e == adminPage.getReturned())
-		{
-			// Display the Return Page
-			c.show(this.getContentPane(), listPage[11]);
-			returnPage.getUserID().setText(loginPage.getUsername().getText());
-		}
-		
 
 		// if you click on the button home from the Manage Book page of the
 		// Admin or from the Manage Book page of the Librarian
-		else if (e == manageBook.getHome() || e == loanPage.getHome() || e == returnPage.getHome())
+		else if (e == manageBook.getHome())
 		{
 			if (loginPage.getUsername().getText().equals("admin"))
 			{
@@ -222,55 +198,46 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		// Admin or from the Manage User page of the Librarian
 		else if (e == manageCustomer.getHome())
 		{
-		if (loginPage.getUsername().getText().equals("admin"))
-		{
-		c.show(this.getContentPane(), listPage[1]);
-		} else
-		{
-		c.show(this.getContentPane(), listPage[3]);
-		}
+			if (loginPage.getUsername().getText().equals("admin"))
+			{
+				c.show(this.getContentPane(), listPage[1]);
+			} else
+			{
+				c.show(this.getContentPane(), listPage[3]);
+			}
 		}
 
 		else if (e == manageUser.getHome())
-		{
-		// Display the Manage Account Page
-		c.show(this.getContentPane(), listPage[1]);
-		}
-
-		if (e == libraryReports.getHome())
 		{
 			// Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[1]);
 		}
 
-		
-		
-		
-		
+		else if (e == libraryReports.getHome())
+		{
+			// Display the Manage Account Page
+			c.show(this.getContentPane(), listPage[1]);
+		}
+
 		// BOOK DB STUFF
 		else if (e == manageBook.getInsert())
-		{
-
-			DBConnector.InsertBook(manageBook.getISBN().getText(), 
-					manageBook.getAuthor().getText(),
-					manageBook.getBookTitle().getText(),
-					manageBook.getGenre().getText(),
-					manageBook.getlocation().getText(),
-					manageBook.getAvailable().getText());
+		{	
+			System.out.println("ISBN: "+manageBook.getISBN().getText());
 			
-			manageBook.EmptyFields();
+			if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
+			{		
+				DBConnector.InsertBook(manageBook);		
+				resetManageBook(manageBook);
+			}					
 		}
 
 		else if (e == manageBook.getUpdate())
 		{
-			DBConnector.UpdateBook(Integer.valueOf(manageBook.getLibCode()
-					.getText()), manageBook.getISBN().getText(), manageBook
-					.getAuthor().getText(),
-					manageBook.getBookTitle().getText(), manageBook.getGenre()
-							.getText(), manageBook.getlocation().getText(),
-					manageBook.getAvailable().getText());
-
-			manageBook.EmptyFields();
+			if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
+			{
+				DBConnector.UpdateBook(manageBook);
+				resetManageBook(manageBook);
+			}
 		}
 
 		
@@ -278,7 +245,8 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		{
 			DBConnector.DeleteBook(Integer.valueOf(manageBook.getLibCode()
 					.getText()));
-			manageBook.EmptyFields();
+			
+			resetManageBook(manageBook);
 		}
 
 		else if (e == manageBook.getDiscard())
@@ -286,39 +254,71 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			manageBook.EmptyFields();
 		}
 		
-		if (e == manageBook.getSearch())
-		{
-
+		else if (e == manageBook.getSearch())
+		{		
+			String searchType= manageBook.getSearchType().getSelectedItem().toString();
+			
+			System.out.println("Book search action: " + searchType);
+			
+			if(searchType.equals("Lib Code"))
+			{			
+				if (TestForNumericValue(manageBook.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchBookByLibCode(manageBook);
+				}
+			}
+			
+			if(searchType.equals("Title"))
+			{			
+				DBConnector.SearchBookByTitle(manageBook);
+			}			
+			
+			if(searchType.equals("Author"))
+			{			
+				
+				DBConnector.SearchBookByAuthor(manageBook);
+			}
+			
+			if(searchType.equals("ISBN"))
+			{			
+				if (TestForNumericValue(manageBook.getSearchJTF().getText(),""));
+				{
+					DBConnector.SearchBookByISBN(manageBook);
+				}
+			}		
 		}
 			
 		// CUSTOMER DB STUFF
 		else if (e == manageCustomer.getInsert())
 		{
-			DBConnector.InsertCustomer(manageCustomer.getname()
-					.getText(), manageCustomer.getAddress().getText(), Double
-					.parseDouble(manageCustomer.getBalance().getText()
-							.toString()));
-
-			manageCustomer.EmptyFields();
+			if(TestForNumericValue(manageCustomer.getBalance().getText(),"NUMERICINSERTCHECK"))
+			{	
+				DBConnector.InsertCustomer(manageCustomer);		
+				resetManageCustomer(manageCustomer);
+			}
 		}
 		
 		else if (e == manageCustomer.getUpdate())
 		{					
-			DBConnector.UpdateCustomer(Integer.valueOf(manageCustomer
+			if(TestForNumericValue(manageCustomer.getBalance().getText(),"NUMERICINSERTCHECK"))
+			{		
+				DBConnector.UpdateCustomer(Integer.valueOf(manageCustomer
 					.getCustomerID().getText()), manageCustomer.getname()
 					.getText(), manageCustomer.getAddress().getText(), Double
 					.parseDouble(manageCustomer.getBalance().getText()
-							.toString()));
-
-			manageCustomer.EmptyFields();
+							.toString()));	
+				
+				resetManageCustomer(manageCustomer);
+			}		
 		}
 
 		else if (e == manageCustomer.getDelete())
 		{
 			DBConnector.DeleteCustomer(Integer.valueOf(manageCustomer
-					.getCustomerID().getText()));
+					.getCustomerID().getText()),manageCustomer
+					.getname().getText());
 			
-			manageCustomer.EmptyFields();
+			resetManageCustomer(manageCustomer);
 		}
 		
 		else if (e == manageCustomer.getDiscard())
@@ -327,8 +327,27 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		}
 		
 		else if (e == manageCustomer.getSearch())
-		{
-
+		{		
+			String searchType= manageCustomer.getSearchType().getSelectedItem().toString();
+		
+			
+			if(searchType.equals("Customer ID"))
+			{			
+				if (TestForNumericValue(manageCustomer.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchCustomerByID(manageCustomer);
+				}
+			}
+			
+			if(searchType.equals("Name"))
+			{			
+				DBConnector.SearchCustomerByName(manageCustomer);
+			}			
+			
+			if(searchType.equals("Address"))
+			{			
+				DBConnector.SearchCustomerByAddress(manageCustomer);
+			}
 		}			
 		
 		// USER DB STUFF
@@ -342,7 +361,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getSelectedItem().toString(), manageUser
 							.getPassword().getText());
 					
-					ResetTable(manageUser);	
+					resetManageUser(manageUser);	
 				}
 		}
 
@@ -356,44 +375,55 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getAccessLevel().getSelectedItem().toString(),
 							manageUser.getPassword().getText());
 			
-				ResetTable(manageUser);		
+				resetManageUser(manageUser);		
 			}
 		}
 		
 		else if (e == manageUser.getDelete())
 		{
 			DBConnector.DeleteUser(manageUser);		
-			ResetTable(manageUser);						
+			resetManageUser(manageUser);							
 		}
 		
 		else if (e == manageUser.getDiscard())
 		{
-			ResetTable(manageUser);
+			manageUser.EmptyFields();	
 		}		
 		
 		else if (e == manageUser.getSearch())
-		{						
-			String temp= manageUser.getSearchType().getSelectedItem().toString();
+		{					
+			String searchType= manageUser.getSearchType().getSelectedItem().toString();
 			
-			if(temp.equals("User ID"))
+			System.out.println("Customer search action: " + searchType);
+			
+			if(searchType.equals("User ID"))
 			{			
-				if (TestForIntegerValue(manageUser.getSearchJTF().getText()))
+				if (TestForNumericValue(manageUser.getSearchJTF().getText(),""))
 				{			
 					DBConnector.SearchUserByID(manageUser);
 				}
 			}
 			
-			if(temp.equals("Name"))
+			if(searchType.equals("Name"))
 			{			
 				DBConnector.SearchUserByName(manageUser);
 			}			
 			
-			if(temp.equals("Access Level"))
+			if(searchType.equals("Access Level"))
 			{			
 				DBConnector.SearchUserByAccessLevel(manageUser);
 			}
 		}
 			
+	}
+
+	
+	private void resetManageCustomer(ManageCustomer manageCustomer2)
+	{
+		manageCustomer.EmptyFields();			
+		manageCustomer.getTable().getSelectionModel().removeListSelectionListener(this);		
+		manageCustomer.EmptyTable();
+		manageCustomer.getTable().getSelectionModel().addListSelectionListener(this);		
 	}
 
 	@Override
@@ -420,20 +450,53 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				manageUser.getAccessLevel().setSelectedItem("Admin");
 			}
 		}		
+		
+		
+		if(e == manageCustomer.getTable().getSelectionModel())
+		{
+			int row = manageCustomer.getTable().getSelectionModel().getLeadSelectionIndex();
+			manageCustomer.EmptyFields();
+			manageCustomer.getCustomerID().setText(manageCustomer.getTableModel().getValueAt(row, 0).toString());
+			manageCustomer.getname().setText(manageCustomer.getTableModel().getValueAt(row, 1).toString());
+			manageCustomer.getAddress().setText(manageCustomer.getTableModel().getValueAt(row, 2).toString());
+			manageCustomer.getBalance().setText(manageCustomer.getTableModel().getValueAt(row, 3).toString());	
+		}	
+		
+		if(e == manageBook.getTable().getSelectionModel())
+		{
+			int row = manageBook.getTable().getSelectionModel().getLeadSelectionIndex();
+			manageBook.EmptyFields();
+			manageBook.getLibCode().setText(manageBook.getTableModel().getValueAt(row, 0).toString());
+			manageBook.getISBN().setText(manageBook.getTableModel().getValueAt(row, 1).toString());
+			manageBook.getBookTitle().setText(manageBook.getTableModel().getValueAt(row, 2).toString());
+			manageBook.getAuthor().setText(manageBook.getTableModel().getValueAt(row, 3).toString());	
+			manageBook.getGenre().setText(manageBook.getTableModel().getValueAt(row, 4).toString());
+			manageBook.getlocation().setText(manageBook.getTableModel().getValueAt(row, 5).toString());
+			manageBook.getAvailable().setText(manageBook.getTableModel().getValueAt(row, 6).toString());
+		}		
 	}
 	
-	public static boolean TestForIntegerValue(String ID)
+	public static boolean TestForNumericValue(String numeric, String type)
 	{
 		boolean integerValue=true;
 		
 		try 
 		{
-			Integer.valueOf(ID);					
+			Double.parseDouble(numeric);					
 		}
 		
 		catch(NumberFormatException e1)
 		{
-			SwingPopup("You must input a number to search by an id");
+			if(type.equals("NUMERICINSERTCHECK"))
+			{	
+				SwingPopup("You cannot insert non numeric values into numeric columns");
+			}
+			
+			else
+			{
+				SwingPopup("You must input a number to search by a field with numeric values");			
+			}
+			
 			integerValue=false;
 		}
 		
@@ -445,11 +508,19 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		JOptionPane.showMessageDialog(new JFrame(),Message);
 	}
 	
-	public void ResetTable(JPanel currentPanel)
+	public void resetManageUser(ManageUser manageUser)
 	{
-		((ManageUser) currentPanel).EmptyFields();			
-		((ManageUser) currentPanel).getTable().getSelectionModel().removeListSelectionListener(this);		
-		((ManageUser) currentPanel).EmptyTable();
-		((ManageUser) currentPanel).getTable().getSelectionModel().addListSelectionListener(this);	
+		manageUser.EmptyFields();			
+		manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
+		manageUser.EmptyTable();
+		manageUser.getTable().getSelectionModel().addListSelectionListener(this);	
+	}
+	
+	public void resetManageBook(ManageBook manageBook)
+	{
+		manageBook.EmptyFields();			
+		manageBook.getTable().getSelectionModel().removeListSelectionListener(this);		
+		manageBook.EmptyTable();
+		manageBook.getTable().getSelectionModel().addListSelectionListener(this);	
 	}
 }

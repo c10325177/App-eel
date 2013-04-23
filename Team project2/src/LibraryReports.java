@@ -12,9 +12,6 @@ public class LibraryReports extends JPanel
 	private JLabel logoDIT = new JLabel(new ImageIcon("Images/properLogo.png"));
 	private JLabel booksLogo = new JLabel(new ImageIcon("Images/library_book.png"));
 	private JLabel logoAppEel = new JLabel(new ImageIcon("Images/copyright.png"));
-	private ImageIcon iBook = new ImageIcon("Images/book.jpg");
-	private ImageIcon iCustomer = new ImageIcon("Images/customer.jpg");
-	private ImageIcon iLibrarian = new ImageIcon("Images/librarian.jpg");
 	private JLabel userID = new JLabel("User ID: ");
 	private JLabel name = new JLabel("Kevin Street Library");
 
@@ -25,9 +22,9 @@ public class LibraryReports extends JPanel
 
 	private JButton print = new JButton("  Print  ");
 	private JButton home = new JButton("      Home     ", homeIcon);
-	private JButton book = new JButton ("Book", iBook);
-	private JButton customer = new JButton ("Customer", iCustomer);
-	private JButton librarian = new JButton ("Librarian Activity", iLibrarian);
+	private JButton book = new JButton ("Book");
+	private JButton customer = new JButton ("Customer");
+	private JButton librarian = new JButton ("Librarian Activity");
 	
 
 	private Color background = new Color(152, 178, 255);
@@ -51,22 +48,6 @@ public class LibraryReports extends JPanel
 		home.setHorizontalTextPosition(AbstractButton.CENTER);
 		home.setBorderPainted(false);
 		home.setContentAreaFilled(false);
-		
-		book.setVerticalTextPosition(AbstractButton.BOTTOM);
-		book.setHorizontalTextPosition(AbstractButton.CENTER);
-		book.setBorderPainted(false);
-		book.setContentAreaFilled(false);
-
-		customer.setVerticalTextPosition(AbstractButton.BOTTOM);
-		customer.setHorizontalTextPosition(AbstractButton.CENTER);
-		customer.setBorderPainted(false);
-		customer.setContentAreaFilled(false);
-		
-		librarian.setVerticalTextPosition(AbstractButton.BOTTOM);
-		librarian.setHorizontalTextPosition(AbstractButton.CENTER);
-		librarian.setBorderPainted(false);
-		librarian.setContentAreaFilled(false);
-		
 
 		// BACKGROUND
 		gbcMain.insets = new Insets(0, 0, 100, 20);

@@ -34,32 +34,54 @@ public class DBConnector
 		}
 		System.out.println("Oracle Server Connected");
 	}
-	
-	
 
-	public static void InsertCustomer(String Name, String Address, Double Balance)
+	public static void InsertCustomer(ManageCustomer manageCustomer)
 	{
-		Name=TitleCaseConverter.toTitleCase(Name);
-		Address=TitleCaseConverter.toTitleCase(Address);
+		Statement stmt;
+		ResultSet rs;
+		int id=0;
+		
+		String Name = TitleCaseConverter.toTitleCase(manageCustomer.getname().getText());
+		String Address = TitleCaseConverter.toTitleCase(manageCustomer.getAddress().getText());
+		Double Balance = Double.parseDouble(manageCustomer.getBalance().getText());
+		
+		System.out.println(Name + Address + ""+Balance);
+			
 		no_of_rows = 0;
 		try
 		{
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("INSERT INTO Customer(CustomerId, Name, Address, Balance) "
-							+ "values (CUSTID.nextVal,'"
-							+ Name
-							+ "', '"
+			stmt = con.createStatement();
+			rs = stmt
+					.executeQuery("INSERT INTO CUSTOMER "+ "values (CUSTID.nextVal,'" + Name + "', '"
 							+ Address
-							+ "' , " + Balance + ")");
-			while (rs.next())
-			{
-				no_of_rows++;
-			}
-			System.out.println("There are " + no_of_rows
-					+ " record in the table");
+							+ "'," + Balance + ")");
+			
 		}
 
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+		
+		try
+		{
+			stmt = con.createStatement();
+			rs = stmt.executeQuery("SELECT CUSTOMERID FROM CUSTOMER WHERE Name = '"+Name+"'");
+			
+			while (rs.next()) 
+			{
+				id=rs.getInt(1);
+			    System.out.println("id=" + id);
+			}
+			
+			rs.close();
+			
+			MyFrame.SwingPopup("New Customer: \""
+					+ Name
+					+ "\" has been added to database and allocated CustomerID: "
+					+ id);
+		} 
+		
 		catch (SQLException e)
 		{
 			System.out.println("SQL exception occured" + e);
@@ -81,6 +103,12 @@ public class DBConnector
 							+ Balance + " WHERE CustomerId = '" + CustomerID
 							+ "'");
 			System.out.println("Rows Updated" + updatedrow);
+			
+			if(updatedrow > 0)
+			{
+					System.out.println("Rows Updated: " + updatedrow);
+					MyFrame.SwingPopup("Details for Customer: \""+Name+ "\" succesfully updated");
+			}
 		}
 
 		catch (SQLException e)
@@ -90,7 +118,7 @@ public class DBConnector
 		}
 	}
 
-	public static void DeleteCustomer(int CustomerID)
+	public static void DeleteCustomer(int CustomerID, String Name)
 	{
 		no_of_rows = 0;
 		try
@@ -100,6 +128,12 @@ public class DBConnector
 					.executeUpdate("DELETE FROM Customer WHERE CustomerId = '"
 							+ CustomerID + "'");
 			System.out.println("Rows Deleted: " + deletedRows);
+			
+			if(deletedRows > 0)
+			{
+				System.out.println("Rows Deleted: " + deletedRows);
+				MyFrame.SwingPopup("Customer: \""+Name+ "\" with CustomerID: " +CustomerID +" succesfully deleted");
+			}
 		}
 
 		catch (SQLException e)
@@ -109,15 +143,15 @@ public class DBConnector
 		}
 	}
 
-	public static void UpdateBook(int LibCode, String ISBN, String title,
-			String Author, String Genre, String Location, String Available)
-	{
-		ISBN=TitleCaseConverter.toTitleCase(ISBN);
-		title=TitleCaseConverter.toTitleCase(title);
-		Author=TitleCaseConverter.toTitleCase(Author);
-		Genre=TitleCaseConverter.toTitleCase(Genre);
-		Location=TitleCaseConverter.toTitleCase(Location);
-		Available=TitleCaseConverter.toTitleCase(Available);
+	public static void UpdateBook(ManageBook manageBook)
+	{	
+		int LibCode = Integer.valueOf(manageBook.getLibCode().getText());
+		long ISBN=Long.parseLong(manageBook.getISBN().getText());
+		String title = TitleCaseConverter.toTitleCase(manageBook.getBookTitle().getText());
+		String Author = TitleCaseConverter.toTitleCase(manageBook.getAuthor().getText());
+		String Genre = TitleCaseConverter.toTitleCase(manageBook.getGenre().getText());
+		String Location = TitleCaseConverter.toTitleCase(manageBook.getlocation().getText());
+		String Available = TitleCaseConverter.toTitleCase(manageBook.getAvailable().getText());
 		no_of_rows = 0;
 
 		try
@@ -129,6 +163,12 @@ public class DBConnector
 					+ "', Available='" + Available + "' WHERE LibCode ="
 					+ LibCode + "");
 			System.out.println("Rows Updated: " + updateRow);
+			
+			if(updateRow > 0)
+			{
+					System.out.println("Rows Updated: " + updateRow);
+					MyFrame.SwingPopup("Book: \""+title+ "\" with Libcode: " +LibCode +" succesfully updated");
+			}
 		}
 
 		catch (SQLException e)
@@ -137,43 +177,60 @@ public class DBConnector
 		}
 	}
 
-	public static void InsertBook(String ISBN, String title, String Author,
-			String Genre, String Location, String Available)
-	{
-		ISBN=TitleCaseConverter.toTitleCase(ISBN);
-		title=TitleCaseConverter.toTitleCase(title);
-		Author=TitleCaseConverter.toTitleCase(Author);
-		Genre=TitleCaseConverter.toTitleCase(Genre);
-		Location=TitleCaseConverter.toTitleCase(Location);
-		Available=TitleCaseConverter.toTitleCase(Available);
+	public static void InsertBook(ManageBook manageBook)
+	{	
+		String ISBN=TitleCaseConverter.toTitleCase(manageBook.getISBN().getText());
+		String title = TitleCaseConverter.toTitleCase(manageBook.getBookTitle().getText());
+		String Author = TitleCaseConverter.toTitleCase(manageBook.getAuthor().getText());
+		String Genre = TitleCaseConverter.toTitleCase(manageBook.getGenre().getText());
+		String Location = TitleCaseConverter.toTitleCase(manageBook.getlocation().getText());
+		String Available = TitleCaseConverter.toTitleCase(manageBook.getAvailable().getText());
 		no_of_rows = 0;
 
+		ResultSet rs;
+		Statement stmt;
+		
 		try
 		{
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("INSERT INTO Book(Libcode, ISBN, Title, Author, Genre, Location, Available) "
-							+ "values (LIBCODE.nextVal,'"
-							+ ISBN
-							+ "','"
+			stmt = con.createStatement();
+			rs = stmt
+					.executeQuery("INSERT INTO Book " 
+							+ "values (LIBCODE.nextVal,"+ ISBN
+							+ ", '"
 							+ title
-							+ "','"
-							+ Author
-							+ "','"
-							+ Genre
-							+ "','"
-							+ Location + "','" + Available + "')");
-			while (rs.next())
-			{
-				no_of_rows++;
-			}
-			System.out.println("There are " + no_of_rows
-					+ " record in the table");
+							+ "','" + Author + "','" + Genre + "','" + Location + "','" + Available + "')");
 		}
-
+		
 		catch (SQLException e)
 		{
 			System.out.println("SQL exception occured" + e);
+		}
+		
+		int newLibCode = 0;	
+		
+		try
+		{
+			stmt = con.createStatement();
+			rs = stmt.executeQuery("SELECT LibCode FROM Book WHERE ISBN = "+ISBN+"");
+			
+			while (rs.next()) 
+			{
+				newLibCode=rs.getInt(1);
+			    System.out.println("id=" + newLibCode);
+			}
+			
+			rs.close();
+			
+			MyFrame.SwingPopup("New Book \""
+					+ title
+					+ "\" has been added to database and allocated LibCode: "
+					+ newLibCode);
+		} 
+		
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -186,7 +243,12 @@ public class DBConnector
 			int deletedRows = stmt
 					.executeUpdate("DELETE FROM Book WHERE LibCode = '"
 							+ LibCode + "'");
-			System.out.println("Rows Deleted: " + deletedRows);
+			
+			if(deletedRows > 0)
+			{
+				System.out.println("Rows Updated: " + deletedRows);
+				MyFrame.SwingPopup("Libcode: " +LibCode +" succesfully deleted");
+			}
 		}
 
 		catch (SQLException e)
@@ -198,11 +260,12 @@ public class DBConnector
 
 	public static void InsertUser(String Name, String accessLevel, String password)
 	{
+		Name=TitleCaseConverter.toTitleCase(Name);
+	
 		System.out.println("Access Level Value:"
 				+ accessLevel);
 		
 		no_of_rows = 0;
-		Name=TitleCaseConverter.toTitleCase(Name);
 		ResultSet rs;
 		Statement stmt;
 		
@@ -216,12 +279,7 @@ public class DBConnector
 							+ "', '"
 							+ accessLevel
 							+ "','" + password + "')");
-			while (rs.next())
-			{
-				no_of_rows++;
-			}
-			System.out.println("There are " + no_of_rows
-					+ " record in the table");
+			
 		}
 		
 		catch (SQLException e)
@@ -244,9 +302,9 @@ public class DBConnector
 			
 			rs.close();
 			
-			MyFrame.SwingPopup("New user: "
+			MyFrame.SwingPopup("New user: \""
 					+ Name
-					+ " has been added to database and allocated user id: "
+					+ "\" has been added to database and allocated user id: "
 					+ id);
 		} 
 		
@@ -303,8 +361,12 @@ public class DBConnector
 					+ userID + ", Name='" + name + "', Accesslevel='"
 					+ accessLevel + "', password='" + password
 					+ "' WHERE UserID = '" + userID + "'");
-			System.out.println("Rows Updated: " + updateRow);
-			MyFrame.SwingPopup("User: " +name +" succesfully updated");
+			
+			if(updateRow > 0)
+			{
+				System.out.println("Rows Updated: " + updateRow);
+				MyFrame.SwingPopup("User: " +name +" succesfully updated");
+			}
 		}
 
 		catch (SQLException e)
@@ -351,7 +413,6 @@ public class DBConnector
 			
 				System.out.println("Searched by USERID " + USERID);
 				manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
-				manageUser.getTable().setModel(manageUser.getTableModel());	
 			}	
 		}
 		
@@ -399,7 +460,6 @@ public class DBConnector
 			
 			System.out.println("Searched by Name " + Name);
 			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
-			manageUser.getTable().setModel(manageUser.getTableModel());
 		}
 
 		catch (SQLException e)
@@ -446,14 +506,349 @@ public class DBConnector
 			}
 			
 			System.out.println("Searched by Name " + AccessLevel);
-			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
-			manageUser.getTable().setModel(manageUser.getTableModel());
-			
+			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 		
 		}
 		
 		catch (SQLException e)
 		{
 			System.out.println("SQL exception occured" + e);
 		}
+	}
+
+
+
+	public static void SearchCustomerByName(ManageCustomer manageCustomer)
+	{
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			String Name = TitleCaseConverter.toTitleCase(manageCustomer.getSearchJTF().getText().toString());
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE Name LIKE '%"+Name+"%' ORDER BY Customerid");
+			
+			if(!rs.next())
+			{
+				System.out.println("No rows found");
+				MyFrame.SwingPopup("No users matching: \""+Name+ "\" found in the database\n" +
+						"you can use an empty search to display all customers" );
+			}
+					
+			else
+			{
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 4; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Name")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while(rs.next());
+				
+			}
+			
+			System.out.println("Searched by Name " + Name);
+			manageCustomer.getTableModel().setDataVector(rows, manageCustomer.getHeader()); 
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+		
+	}
+
+	public static void SearchCustomerByID(ManageCustomer manageCustomer)
+	{
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			int CUSTOMERID = Integer.valueOf(manageCustomer.getSearchJTF().getText());
+			
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Customer where Customerid = "+CUSTOMERID);
+			
+			if (!rs.next() ) 
+			{
+			    System.out.println("no data found");
+			    MyFrame.SwingPopup("Customer ID: "+ CUSTOMERID + " not found in database" );
+			}
+			
+			else
+			{		
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 4; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Name")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while (rs.next());
+			
+				System.out.println("Searched by CUSTOMER ID " + CUSTOMERID);
+				manageCustomer.getTableModel().setDataVector(rows, manageCustomer.getHeader()); 
+			}	
+		}
+		
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+		
+	}
+
+	public static void SearchCustomerByAddress(ManageCustomer manageCustomer)
+	{
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			String address = TitleCaseConverter.toTitleCase(manageCustomer.getSearchJTF().getText().toString());
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE Address LIKE '%"+address+"%' ORDER BY Customerid");
+			
+			if(!rs.next())
+			{
+				System.out.println("No rows found");
+				MyFrame.SwingPopup("No users matching: \""+address+ "\" found in the database\n" +
+						"you can use an empty search to display all customers" );
+			}
+					
+			else
+			{
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 4; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Name")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while(rs.next());
+				
+			}
+			
+			System.out.println("Searched by address " + address);
+			manageCustomer.getTableModel().setDataVector(rows, manageCustomer.getHeader()); 
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+		
+	}
+
+
+
+	public static void SearchBookByTitle(ManageBook manageBook)
+	{
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			String title = TitleCaseConverter.toTitleCase(manageBook.getSearchJTF().getText().toString());
+			Statement stmt = con.createStatement();
+			System.out.println("searching by title: "+title);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Title LIKE '%"+title+"%' ORDER BY Title");
+			System.out.println("problem after SQL search by title?");
+			
+			if(!rs.next())
+			{
+				System.out.println("No rows found");
+				MyFrame.SwingPopup("No books called: \""+title+ "\" found in the database\n" +
+						"you can use an empty search to display all books" );
+			}
+					
+			else
+			{
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 7; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Title")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while(rs.next());
+				
+			}
+			
+			System.out.println("Searched by author " + title);
+			manageBook.getTableModel().setDataVector(rows, manageBook.getHeader()); 
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}	
+	}
+		
+
+	public static void SearchBookByLibCode(ManageBook manageBook)
+	{
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			int libCode = Integer.valueOf(manageBook.getSearchJTF().getText());
+			
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM Book where Libcode = "+libCode);
+			
+			if (!rs.next() ) 
+			{
+			    System.out.println("no data found");
+			    MyFrame.SwingPopup("Libcode: "+ libCode + " not found in database" );
+			}
+			
+			else
+			{		
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 7; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Libcode")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while (rs.next());
+			
+				System.out.println("Searched by CUSTOMER ID " + libCode);
+				manageBook.getTableModel().setDataVector(rows, manageBook.getHeader()); 
+			}	
+		}
+		
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}
+		
+	}
+
+
+
+	public static void SearchBookByAuthor(ManageBook manageBook)
+	{
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			String author = TitleCaseConverter.toTitleCase(manageBook.getSearchJTF().getText().toString());
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Author LIKE '%"+author+"%' ORDER BY Author");
+			
+			if(!rs.next())
+			{
+				System.out.println("No rows found");
+				MyFrame.SwingPopup("No books by author: \""+author+ "\" found in the database\n" +
+						"you can use an empty search to display all books" );
+			}
+					
+			else
+			{
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 7; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Author")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while(rs.next());
+				
+			}
+			
+			System.out.println("Searched by author " + author);
+			manageBook.getTableModel().setDataVector(rows, manageBook.getHeader()); 
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}	
+	}
+
+
+
+	public static void SearchBookByISBN(ManageBook manageBook)
+	{	
+		try
+		{
+			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
+			Long ISBN = Long.parseLong(manageBook.getSearchJTF().getText());
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Book where ISBN = "+ISBN);
+			
+			if(!rs.next())
+			{
+				System.out.println("No rows found");
+				MyFrame.SwingPopup("No books with ISBN: \""+ISBN+ "\" found in the database\n" +
+						"you can use an empty search to display all books" );
+			}
+					
+			else
+			{
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 3; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("ISBN")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while(rs.next());
+				
+			}
+			
+			System.out.println("Searched by ISBN " + ISBN);
+			manageBook.getTableModel().setDataVector(rows, manageBook.getHeader()); 
+		}
+
+		catch (SQLException e)
+		{
+			System.out.println("SQL exception occured" + e);
+		}		
 	}
 }

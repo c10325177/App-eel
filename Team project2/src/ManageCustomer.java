@@ -1,6 +1,8 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
+import java.util.Vector;
 
 public class ManageCustomer extends JPanel
 {
@@ -19,10 +21,10 @@ public class ManageCustomer extends JPanel
 	private JLabel address = new JLabel("ADDRESS");
 	private JLabel balance = new JLabel("BALANCE");
 
-	private JLabel JLcustomerID = new JLabel();
-	private JTextField JTFname = new JTextField(10);
-	private JTextField JTFaddress = new JTextField(10);
-	private JTextField JTFbalance = new JTextField(10);
+	private JTextField customerIDJTF = new JTextField(20);
+	private JTextField nameJTF = new JTextField(20);
+	private JTextField addressJTF = new JTextField(20);
+	private JTextField balanceJTF = new JTextField(20);
 	private JTextField JTFsearch = new JTextField(10);
 
 	private JButton addCustomer = new JButton(" Add Customer     ");
@@ -36,30 +38,25 @@ public class ManageCustomer extends JPanel
 
 	// JTexfield where it displayed the user ID
 	private JTextField ID = new JTextField(5);
-	private String[] itemBox = { "Customer ID", "Name", "Address", "Balance" };
+	private String[] itemBox = { "Customer ID", "Name", "Address" };
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private JComboBox combo = new JComboBox(itemBox);
-
-	private String[] header = { "Customer ID", "Name", "Address", "Balance" };
-	
-	
-	
-	
-	private Object data[][] = new Object[][] {
-			{ "dfhdfh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh" },
-			{ "dfhdfh", "fdh", "fdh", "fdh" } };
+	private JComboBox combo = new JComboBox(itemBox);	
+	private Vector <String> header = new Vector<String>();       
+	private DefaultTableModel tableModel = new DefaultTableModel() ;
+	private JTable table = new JTable(tableModel);	
 			
-	private JTable table = new JTable(data, header);
 
 	public ManageCustomer()
-	{		
+	{	
+		header.add("Customer ID");
+		header.add("Name");
+		header.add("Address");
+		header.add("Balance");
+		tableModel.setColumnIdentifiers(header);
+		
 		this.setBackground(background);
+		customerIDJTF.setEditable(false);
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.home.setForeground(Color.red);
@@ -102,38 +99,38 @@ public class ManageCustomer extends JPanel
 		gbcMain.gridwidth = 1;
 		this.add(home, gbcMain);
 
-		gbcMain.insets = new Insets(0, -300, -160, 0);
+		gbcMain.insets = new Insets(0, -320, -160, 0);
 		gbcMain.gridwidth = 1;
 		this.add(customerID, gbcMain);
 
-		gbcMain.insets = new Insets(0, -350, -220, 0);
+		gbcMain.insets = new Insets(0, -370, -220, 0);
 		gbcMain.gridwidth = 1;
 		this.add(name, gbcMain);
 
-		gbcMain.insets = new Insets(0, -330, -280, 0);
+		gbcMain.insets = new Insets(0, -350, -280, 0);
 		gbcMain.gridwidth = 1;
 		this.add(address, gbcMain);
 
-		gbcMain.insets = new Insets(0, -330, -340, 0);
+		gbcMain.insets = new Insets(0, -350, -340, 0);
 		gbcMain.gridwidth = 1;
 		this.add(balance, gbcMain);
 
 		// JtextField
-		gbcMain.insets = new Insets(0, 0, -150, 0);
+		gbcMain.insets = new Insets(0, 0, -160, 0);
 		gbcMain.gridwidth = 1;
-		this.add(JLcustomerID, gbcMain);
+		this.add(customerIDJTF, gbcMain);
 
 		gbcMain.insets = new Insets(0, 0, -220, 0);
 		gbcMain.gridwidth = 1;
-		this.add(JTFname, gbcMain);
+		this.add(nameJTF, gbcMain);
 
 		gbcMain.insets = new Insets(0, 0, -280, 0);
 		gbcMain.gridwidth = 1;
-		this.add(JTFaddress, gbcMain);
+		this.add(addressJTF, gbcMain);
 
 		gbcMain.insets = new Insets(0, 0, -340, 0);
 		gbcMain.gridwidth = 1;
-		this.add(JTFbalance, gbcMain);
+		this.add(balanceJTF, gbcMain);
 
 		// JButton
 		gbcMain.insets = new Insets(0, -300, -440, 0);
@@ -199,22 +196,22 @@ public class ManageCustomer extends JPanel
 
 	public JTextField getname()
 	{
-		return (this.JTFname);
+		return (this.nameJTF);
 	}
 
 	public JTextField getAddress()
 	{
-		return (this.JTFaddress);
+		return (this.addressJTF);
 	}
 
 	public JTextField getBalance()
 	{
-		return (this.JTFbalance);
+		return (this.balanceJTF);
 	}
 
-	public JLabel getCustomerID()
+	public JTextField getCustomerID()
 	{
-		return (this.JLcustomerID);
+		return (this.customerIDJTF);
 	}
 
 	public JTextField getSearchJTF()
@@ -241,25 +238,15 @@ public class ManageCustomer extends JPanel
 	{
 		return (this.search);
 	}
-
-	public int getRowCount()
+	
+	public Vector<String> getHeader()
 	{
-		return data.length;
+		return(this.header);
 	}
-
-	public int getColumnCount()
+	
+	public DefaultTableModel getTableModel()
 	{
-		return header.length;
-	}
-
-	public String getColumnName(int columnIndex)
-	{
-		return header[columnIndex];
-	}
-
-	public Object getValueAt(int rowIndex, int columnIndex)
-	{
-		return data[rowIndex][columnIndex];
+		return (this.tableModel);
 	}
 
 	public JTextField getUserID()
@@ -274,9 +261,19 @@ public class ManageCustomer extends JPanel
 	
 	public void EmptyFields()
 	{
-		JTFname.setText("");
-		JTFaddress.setText("");
-		JTFbalance.setText("");
-		JLcustomerID.setText("");
+		nameJTF.setText("");
+		addressJTF.setText("");
+		balanceJTF.setText("");
+		customerIDJTF.setText("");
+	}
+	
+	public void EmptyTable()
+	{
+		tableModel.setRowCount(0);
+	}
+	
+	public JTable getTable()
+	{
+		return (this.table);
 	}
 }
