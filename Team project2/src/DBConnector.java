@@ -18,16 +18,16 @@ public class DBConnector
 	{
 		try
 		{	
-			/*
+			
 			con = DriverManager.getConnection(
 					"jdbc:oracle:thin:@ferdia:1521:ora11gdb", "team_appeel",
 					"bglammmd");
-			*/
-			
+		}
+		/*	
 			con = DriverManager.getConnection(
 					"jdbc:oracle:thin:@localhost:1521:xe", "baz",
 					"bglammmd");		
-		}
+		}*/
 
 		catch (SQLException e)
 		{

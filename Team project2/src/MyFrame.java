@@ -248,7 +248,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				c.show(this.getContentPane(), listPage[3]);
 			}
 			
-			resetManageBook(manageBook);
+			resetManageBook();
 		}
 		
 		else if (e == loanPage.getHome())
@@ -296,14 +296,14 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				c.show(this.getContentPane(), listPage[3]);
 			}
 			
-			resetManageCustomer(manageCustomer);
+			resetManageCustomer();
 		}
 
 		else if (e == manageUser.getHome())
 		{
 			// Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[1]);	
-			resetManageUser(manageUser);
+			resetManageUser();
 		}
 
 		else if (e == libraryReports.getHome())
@@ -323,7 +323,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
 				{		
 					DBConnector.InsertBook(manageBook);		
-					resetManageBook(manageBook);
+					resetManageBook();
 				}	
 			}
 			else
@@ -341,7 +341,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
 				{
 					DBConnector.UpdateBook(manageBook);
-					resetManageBook(manageBook);
+					resetManageBook();
 				}
 			}
 			
@@ -357,7 +357,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			DBConnector.DeleteBook(Integer.valueOf(manageBook.getLibCode()
 					.getText()));
 			
-			resetManageBook(manageBook);
+			resetManageBook();
 		}
 
 		else if (e == manageBook.getDiscard())
@@ -405,7 +405,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			if(TestForNumericValue(manageCustomer.getBalance().getText(),"NUMERICINSERTCHECK"))
 			{	
 				DBConnector.InsertCustomer(manageCustomer);		
-				resetManageCustomer(manageCustomer);
+				resetManageCustomer();
 			}
 		}
 		
@@ -419,7 +419,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 					.parseDouble(manageCustomer.getBalance().getText()
 							.toString()));	
 				
-				resetManageCustomer(manageCustomer);
+				resetManageCustomer();
 			}		
 		}
 
@@ -429,7 +429,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 					.getCustomerID().getText()),manageCustomer
 					.getname().getText());
 			
-			resetManageCustomer(manageCustomer);
+			resetManageCustomer();
 		}
 		
 		else if (e == manageCustomer.getDiscard())
@@ -472,7 +472,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getSelectedItem().toString(), manageUser
 							.getPassword().getText());
 					
-					resetManageUser(manageUser);	
+					resetManageUser();	
 				}
 		}
 
@@ -486,14 +486,14 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getAccessLevel().getSelectedItem().toString(),
 							manageUser.getPassword().getText());
 			
-				resetManageUser(manageUser);		
+				resetManageUser();		
 			}
 		}
 		
 		else if (e == manageUser.getDelete())
 		{
 			DBConnector.DeleteUser(manageUser);		
-			resetManageUser(manageUser);							
+			resetManageUser();							
 		}
 		
 		else if (e == manageUser.getDiscard())
@@ -706,47 +706,74 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		Object e = event.getSource();
 		
 		if(e == manageUser.getTable().getSelectionModel())
-		{
-			int row = manageUser.getTable().getSelectionModel().getLeadSelectionIndex();
-			manageUser.emptyFields();
-			manageUser.getuserID().setText(manageUser.getTableModel().getValueAt(row, 0).toString());
-			manageUser.getname().setText(manageUser.getTableModel().getValueAt(row, 1).toString());
+		{	
 			
-			String accessLevel= manageUser.getTableModel().getValueAt(row, 2).toString();	
-			
-			if(accessLevel.equals("Librarian"))
+			try
 			{
-				manageUser.getAccessLevel().setSelectedItem("Librarian");
+				int row = manageUser.getTable().getSelectionModel().getLeadSelectionIndex();
+				
+				manageUser.emptyFields();
+				manageUser.getuserID().setText(manageUser.getTableModel().getValueAt(row, 0).toString());
+				manageUser.getname().setText(manageUser.getTableModel().getValueAt(row, 1).toString());
+				
+				String accessLevel= manageUser.getTableModel().getValueAt(row, 2).toString();	
+				
+				if(accessLevel.equals("Librarian"))
+				{
+					manageUser.getAccessLevel().setSelectedItem("Librarian");
+				}
+				
+				else
+				{
+					manageUser.getAccessLevel().setSelectedItem("Admin");
+				}
 			}
 			
-			else
+			catch(Exception exc)
 			{
-				manageUser.getAccessLevel().setSelectedItem("Admin");
-			}
+				System.out.println("Table not ready");
+				
+			}	
 		}		
 		
 		
 		if(e == manageCustomer.getTable().getSelectionModel())
 		{
-			int row = manageCustomer.getTable().getSelectionModel().getLeadSelectionIndex();
-			manageCustomer.emptyFields();
-			manageCustomer.getCustomerID().setText(manageCustomer.getTableModel().getValueAt(row, 0).toString());
-			manageCustomer.getname().setText(manageCustomer.getTableModel().getValueAt(row, 1).toString());
-			manageCustomer.getAddress().setText(manageCustomer.getTableModel().getValueAt(row, 2).toString());
-			manageCustomer.getBalance().setText(manageCustomer.getTableModel().getValueAt(row, 3).toString());	
+			try
+			{
+				int row = manageCustomer.getTable().getSelectionModel().getLeadSelectionIndex();
+				manageCustomer.emptyFields();
+				manageCustomer.getCustomerID().setText(manageCustomer.getTableModel().getValueAt(row, 0).toString());
+				manageCustomer.getname().setText(manageCustomer.getTableModel().getValueAt(row, 1).toString());
+				manageCustomer.getAddress().setText(manageCustomer.getTableModel().getValueAt(row, 2).toString());
+				manageCustomer.getBalance().setText(manageCustomer.getTableModel().getValueAt(row, 3).toString());	
+			}
+			
+			catch(Exception exc)
+			{
+				System.out.println("Table not ready2");
+				
+			}	
 		}	
 		
 		if(e == manageBook.getTable().getSelectionModel())
 		{
-			int row = manageBook.getTable().getSelectionModel().getLeadSelectionIndex();
-			manageBook.emptyFields();
-			manageBook.getLibCode().setText(manageBook.getTableModel().getValueAt(row, 0).toString());
-			manageBook.getISBN().setText(manageBook.getTableModel().getValueAt(row, 1).toString());
-			manageBook.getBookTitle().setText(manageBook.getTableModel().getValueAt(row, 2).toString());
-			manageBook.getAuthor().setText(manageBook.getTableModel().getValueAt(row, 3).toString());	
-			manageBook.getGenre().setText(manageBook.getTableModel().getValueAt(row, 4).toString());
-			manageBook.getlocation().setText(manageBook.getTableModel().getValueAt(row, 5).toString());
-			manageBook.getAvailable().setText(manageBook.getTableModel().getValueAt(row, 6).toString());
+			try{
+				int row = manageBook.getTable().getSelectionModel().getLeadSelectionIndex();
+				//manageBook.emptyFields();
+				manageBook.getLibCode().setText(manageBook.getTableModel().getValueAt(row, 0).toString());
+				manageBook.getISBN().setText(manageBook.getTableModel().getValueAt(row, 1).toString());
+				manageBook.getBookTitle().setText(manageBook.getTableModel().getValueAt(row, 2).toString());
+				manageBook.getAuthor().setText(manageBook.getTableModel().getValueAt(row, 3).toString());	
+				manageBook.getGenre().setText(manageBook.getTableModel().getValueAt(row, 4).toString());
+				manageBook.getlocation().setText(manageBook.getTableModel().getValueAt(row, 5).toString());
+				manageBook.getAvailable().setText(manageBook.getTableModel().getValueAt(row, 6).toString());
+			}
+			catch(Exception exc)
+			{
+				System.out.println("Table not ready3");
+				
+			}	
 		}	
 	}	
 	
@@ -780,28 +807,28 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		returnPage.emptyTable();	
 	}
 	
-	private void resetManageCustomer(ManageCustomer manageCustomer2)
+	private void resetManageCustomer()
 	{
 		manageCustomer.emptyFields();			
-		manageCustomer.getTable().getSelectionModel().removeListSelectionListener(this);		
+		//manageCustomer.getTable().getSelectionModel().removeListSelectionListener(this);		
 		manageCustomer.emptyTable();
-		manageCustomer.getTable().getSelectionModel().addListSelectionListener(this);		
+		//manageCustomer.getTable().getSelectionModel().addListSelectionListener(this);		
 	}
 	
-	public void resetManageUser(ManageUser manageUser)
+	public void resetManageUser()
 	{
 		manageUser.emptyFields();			
-		manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
+		//manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
 		manageUser.emptyTable();
-		manageUser.getTable().getSelectionModel().addListSelectionListener(this);	
+		//manageUser.getTable().getSelectionModel().addListSelectionListener(this);	
 	}
 	
-	public void resetManageBook(ManageBook manageBook)
+	public void resetManageBook()
 	{
-		manageBook.emptyFields();			
-		manageBook.getTable().getSelectionModel().removeListSelectionListener(this);		
-		manageBook.emptyTable();
-		manageBook.getTable().getSelectionModel().addListSelectionListener(this);	
+		//manageBook.emptyFields();			
+		//manageBook.getTable().getSelectionModel().removeListSelectionListener(this);		
+		//manageBook.emptyTable();
+		//manageBook.getTable().getSelectionModel().addListSelectionListener(this);	
 	}
 	
 	public static boolean TestForNumericValue(String numeric, String type)
