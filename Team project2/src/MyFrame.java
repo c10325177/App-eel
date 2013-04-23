@@ -833,6 +833,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	
 	public static void SwingPopup(String Message)
 	{
+		Sound.readAudioFile("Sound/Error.wav");
 		JOptionPane.showMessageDialog(new JFrame(),Message);
 	}
 }
