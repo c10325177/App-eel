@@ -10,30 +10,32 @@ public class DBConnector
 {
 
 	static Connection con;
-	static int no_of_rows = 0;
+	static int no_of_rows = 0;		
+	static String T= "T";
+	static String F= "F";
 	
 	public static void DBConnect() throws SQLException
 	{
-		/*
-		con = DriverManager.getConnection(
-				"jdbc:oracle:thin:@ferdia:1521:ora11gdb", "team_appeel",
-				"bglammmd");
-		*/
-		
-		con = DriverManager.getConnection(
-				"jdbc:oracle:thin:@localhost:1521:xe", "baz",
-				"bglammmd");
 		try
-		{
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+		{	
+			/*
+			con = DriverManager.getConnection(
+					"jdbc:oracle:thin:@ferdia:1521:ora11gdb", "team_appeel",
+					"bglammmd");
+			*/
+			
+			con = DriverManager.getConnection(
+					"jdbc:oracle:thin:@localhost:1521:xe", "baz",
+					"bglammmd");		
 		}
 
-		catch (ClassNotFoundException e)
+		catch (SQLException e)
 		{
-			MyFrame.SwingPopup("Contact system administrator: No Database connection");
+			MyFrame.SwingPopup("Contact system administrator: No Database connection\n" +e);
 			
 			System.out.println("Oracle Server not found " + e);
-		}	
+			System.exit(0);
+		}		
 	}
 
 	public static void InsertCustomer(ManageCustomer manageCustomer)
@@ -47,6 +49,8 @@ public class DBConnector
 		Double Balance = Double.parseDouble(manageCustomer.getBalance().getText());
 		
 		System.out.println(Name + Address + ""+Balance);
+		
+
 			
 		no_of_rows = 0;
 		try
@@ -55,7 +59,7 @@ public class DBConnector
 			rs = stmt
 					.executeQuery("INSERT INTO CUSTOMER "+ "values (CUSTID.nextVal,'" + Name + "', '"
 							+ Address
-							+ "'," + Balance + ")");
+							+ "'," + Balance + ",'"+T+"'");
 			
 		}
 
@@ -124,12 +128,12 @@ public class DBConnector
 	public static void DeleteCustomer(int CustomerID, String Name)
 	{
 		no_of_rows = 0;
+		
 		try
 		{
 			Statement stmt = con.createStatement();
 			int deletedRows = stmt
-					.executeUpdate("DELETE FROM Customer WHERE CustomerId = '"
-							+ CustomerID + "'");
+					.executeUpdate("UPDATE Customer SET Active = '"+F+"' WHERE CustomerId = '" + CustomerID+ "'");
 			System.out.println("Rows Deleted: " + deletedRows);
 			
 			if(deletedRows > 0)
@@ -203,7 +207,7 @@ public class DBConnector
 							+ "values (LIBCODE.nextVal,"+ ISBN
 							+ ", '"
 							+ title
-							+ "','" + Author + "','" + Genre + "','" + Location + "','" + Available + "')");
+							+ "','" + Author + "','" + Genre + "','" + Location + "','" + Available + ",'"+T+"'");
 		}
 		
 		catch (SQLException e)
@@ -246,9 +250,9 @@ public class DBConnector
 		try
 		{
 			Statement stmt = con.createStatement();
-			int deletedRows = stmt
-					.executeUpdate("DELETE FROM Book WHERE LibCode = '"
-							+ LibCode + "'");
+			int deletedRows = stmt.executeUpdate("UPDATE Book SET active = '"
+					+ F + "' WHERE LibCode ="
+					+ LibCode + "");
 			
 			if(deletedRows > 0)
 			{
@@ -284,7 +288,7 @@ public class DBConnector
 							+ Name
 							+ "', '"
 							+ accessLevel
-							+ "','" + password + "')");
+							+ "','" + password + ",'"+T+"'");
 			
 		}
 		
@@ -329,9 +333,11 @@ public class DBConnector
 			int USERID = Integer.valueOf(manageUser.getuserID().getText());
 			
 			Statement stmt = con.createStatement();
-			int rowsDeleted = stmt
-					.executeUpdate("DELETE FROM Users WHERE UserId = '"
-							+ USERID + "'");
+
+			
+			int rowsDeleted = stmt.executeUpdate("UPDATE Users SET active='"
+					+ F + "'WHERE UserID = '" + USERID + "'");
+			
 			System.out.println("Rows Deleted: " + rowsDeleted);
 			
 			System.out.println("UID Deleted: "
@@ -395,7 +401,7 @@ public class DBConnector
 			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Users where Userid = "+USERID);
+					.executeQuery("SELECT * FROM Users where Userid = "+USERID+" AND ACTIVE = '"+T+"'");
 			
 			if (!rs.next() ) 
 			{
@@ -440,7 +446,7 @@ public class DBConnector
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
 			String Name = TitleCaseConverter.toTitleCase(manageUser.getSearchJTF().getText().toString());
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%' ORDER BY UserID");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%' AND ACTIVE = '"+T+"' ORDER BY UserID");
 			
 			if(!rs.next())
 			{
@@ -490,7 +496,7 @@ public class DBConnector
 			System.out.println("Access Level Text: "+AccessLevel);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%' ORDER BY UserID");
+					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%' AND ACTIVE = '"+T+"'");
 					
 			if (!rs.next())
 			{
@@ -537,7 +543,7 @@ public class DBConnector
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
 			String Name = TitleCaseConverter.toTitleCase(manageCustomer.getSearchJTF().getText().toString());
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE Name LIKE '%"+Name+"%' ORDER BY Customerid");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE Name LIKE '%"+Name+"%' AND ACTIVE = '"+T+"'");
 			
 			if(!rs.next())
 			{
@@ -586,7 +592,7 @@ public class DBConnector
 			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Customer where Customerid = "+CUSTOMERID);
+					.executeQuery("SELECT * FROM Customer where Customerid = "+CUSTOMERID+"AND ACTIVE = '"+T+"'");
 			
 			if (!rs.next() ) 
 			{
@@ -631,7 +637,7 @@ public class DBConnector
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
 			String address = TitleCaseConverter.toTitleCase(manageCustomer.getSearchJTF().getText().toString());
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE Address LIKE '%"+address+"%' ORDER BY Customerid");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE Address LIKE '%"+address+"%'AND ACTIVE = '"+T+"'");;
 			
 			if(!rs.next())
 			{
@@ -682,7 +688,7 @@ public class DBConnector
 			String title = TitleCaseConverter.toTitleCase(manageBook.getSearchJTF().getText().toString());
 			Statement stmt = con.createStatement();
 			System.out.println("searching by title: "+title);
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Title LIKE '%"+title+"%' ORDER BY Title");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Title LIKE '%"+title+"%' AND ACTIVE = '"+T+"'");
 			System.out.println("problem after SQL search by title?");
 			
 			if(!rs.next())
@@ -733,7 +739,7 @@ public class DBConnector
 			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Book where Libcode = "+libCode);
+					.executeQuery("SELECT * FROM Book where Libcode = "+libCode+" AND ACTIVE = '"+T+"'");
 			
 			if (!rs.next() ) 
 			{
@@ -780,7 +786,7 @@ public class DBConnector
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
 			String author = TitleCaseConverter.toTitleCase(manageBook.getSearchJTF().getText().toString());
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Author LIKE '%"+author+"%' ORDER BY Author");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Author LIKE '%"+author+"%' AND ACTIVE = '"+T+"'");
 			
 			if(!rs.next())
 			{
@@ -835,7 +841,7 @@ public class DBConnector
 			}
 			
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Available = '"+available+"' ORDER BY LibCode");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Book WHERE Available = '"+available+"' AND ACTIVE = '"+T+"' ORDER BY LibCode");
 			
 			if(!rs.next())
 			{
@@ -882,7 +888,7 @@ public class DBConnector
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();		
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select Libcode, ISBN,TITLE,AUTHOR,GENRE,LOCATION,AVAILABLE from loan join Book using(libcode) where sysdate > duedate AND datereturned is null");
+			ResultSet rs = stmt.executeQuery("select Libcode, ISBN,TITLE,AUTHOR,GENRE,LOCATION,AVAILABLE from loan join Book using(libcode) where sysdate > duedate AND ACTIVE = '"+T+"' AND datereturned is null");
 			
 			if(!rs.next())
 			{
@@ -947,7 +953,7 @@ public class DBConnector
 				{
 					Vector <Object> newRow = new Vector<Object>();
 				
-					for (int i = 1; i <= 3; i++) 
+					for (int i = 1; i <= 7; i++) 
 					{		    	
 						newRow.addElement(rs.getObject(i));
 						System.out.println(rs.getString("ISBN")+", Column: "+i);

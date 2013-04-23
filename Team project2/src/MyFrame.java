@@ -648,10 +648,11 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				// if you click on the button Back from the Book Page
 				else if  (e == bookPage.getBack())
 				{
-					resetBookPage();
+					
 					// Display the Library Report Page
 					c.show(this.getContentPane(), listPage[6]);
 					libraryReports.getUserID().setText(currentUserID);
+					resetBookPage();
 				}
 					
 				
