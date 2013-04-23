@@ -10,13 +10,13 @@ public class LoginPage extends JPanel
 	private JLabel booksLogo = new JLabel(new ImageIcon("Images/library_book.png"));
 	private JLabel logoAppEel = new JLabel(new ImageIcon("Images/copyright.png"));
 	private JLabel name = new JLabel("Kevin Street Library");
-	private JLabel username = new JLabel("Username:");
+	private JLabel username = new JLabel("UserID:");
 	private JLabel password = new JLabel("Password:");
 	private Color background = new Color(152, 178, 255);
 	//private JTextField user = new JTextField(10);
 	//private JPasswordField pass = new JPasswordField(10);
-	private JTextField user = new JTextField("admin");
-	private JPasswordField pass = new JPasswordField("admin");
+	private JTextField user = new JTextField(10);
+	private JPasswordField pass = new JPasswordField(10);
 
 	private JButton login = new JButton("        Login        ");
 
@@ -58,7 +58,7 @@ public class LoginPage extends JPanel
 		gbcMain.gridwidth = 2;
 		this.add(name, gbcMain);
 
-		gbcMain.insets = new Insets(-100, -110, -100, 0);
+		gbcMain.insets = new Insets(-100, -130, -100, 0);
 		gbcMain.gridx = 1;
 		gbcMain.gridheight = 1;
 		gbcMain.gridwidth = 1;

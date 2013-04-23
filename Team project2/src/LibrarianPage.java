@@ -166,4 +166,14 @@ public class LibrarianPage extends JPanel
 	{
 		return (this.ID);
 	}
+	
+	public JButton getLoan()
+	{
+		return (this.loan);
+	}
+	
+	public JButton getReturned()
+	{
+		return (this.returned);
+	}
 }

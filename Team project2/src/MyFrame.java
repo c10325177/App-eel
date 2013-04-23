@@ -22,6 +22,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	private LibrarianActivity librarianActivity = new LibrarianActivity();
 	private LoanPage loanPage = new LoanPage();
 	private ReturnPage returnPage = new ReturnPage();
+	String currentUserAccessLevel;
 
 	// Layout of the main Panel
 	private CardLayout c = new CardLayout();
@@ -59,6 +60,10 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		libPage.getManageBook().addActionListener(this);
 		libPage.getCustomerDetails().addActionListener(this);
 		
+		//added
+		libPage.getLoan().addActionListener(this);
+		libPage.getReturned().addActionListener(this);
+		
 		manageBook.getHome().addActionListener(this);
 		// listener on the button who manage the different Account(Librarian,admin)
 		manageUser.getHome().addActionListener(this);
@@ -76,6 +81,15 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		manageBook.getDiscard().addActionListener(this);
 		manageBook.getSearch().addActionListener(this);
 		manageBook.getTable().getSelectionModel().addListSelectionListener(this);
+		manageBook.getDisplayAvailableBooks().addActionListener(this);
+		manageBook.getDisplayUnavailableBooks().addActionListener(this);
+		manageBook.getDisplayOverDueBooks().addActionListener(this);
+		
+		
+		loanPage.getSubmitLoan().addActionListener(this);
+		loanPage.getDisplayOverDueBooks().addActionListener(this);
+		returnPage.getSubmitReturn().addActionListener(this);
+		returnPage.getDisplayOverDueBooks().addActionListener(this);
 
 		manageCustomer.getInsert().addActionListener(this);
 		manageCustomer.getDelete().addActionListener(this);
@@ -94,9 +108,13 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		libraryReports.getBook().addActionListener(this);
 		libraryReports.getCustomer().addActionListener(this);
 		libraryReports.getLibrarian().addActionListener(this);
+		
+		librarianActivity.getSearch().addActionListener(this);
+		customerPage.getSearch().addActionListener(this);
+		bookPage.getSearch().addActionListener(this);
 
 		//Comment out line below to use without DB
-		//DBConnector.DBConnect();
+		DBConnector.DBConnect();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -106,14 +124,19 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		Object e = event.getSource();
 		if (e == loginPage.getLogin())
 		{
-
-			if (loginPage.getUsername().getText().equals("admin")
-					&& loginPage.getPassword().getText().equals("admin"))
+			//Comment out line below to use without database and uncomment the line below it
+			currentUserAccessLevel = DBConnector.checkLogin(loginPage.getUsername().getText(),loginPage.getPassword().getText());		
+			//currentUserAccessLevel="admin";
+			
+			System.out.println("Login Access Level:" +currentUserAccessLevel);
+			
+			if (currentUserAccessLevel.equals("Admin"))
 			{
 				c.show(this.getContentPane(), listPage[1]);
-				adminPage.getUserID()
-						.setText(loginPage.getUsername().getText());
-			} else
+				adminPage.getUserID().setText(loginPage.getUsername().getText());
+			}
+				
+			else if(currentUserAccessLevel.equals("Librarian"))
 			{
 				c.show(this.getContentPane(), listPage[3]);
 				libPage.getUserID().setText(loginPage.getUsername().getText());
@@ -190,7 +213,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		
 		
 		// if you click on the button Loan from the Admin Page
-		else if (e == adminPage.getLoan())
+		else if (e == adminPage.getLoan()|| e== libPage.getLoan())
 		{
 			// Display the Loan Page
 			c.show(this.getContentPane(), listPage[10]);
@@ -198,7 +221,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		}
 				
 		// if you click on the button Returned from the Admin Page
-		else if (e == adminPage.getReturned())
+		else if (e == adminPage.getReturned() || e==libPage.getReturned())
 		{
 			// Display the Return Page
 			c.show(this.getContentPane(), listPage[11]);
@@ -210,10 +233,12 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		// Admin or from the Manage Book page of the Librarian
 		else if (e == manageBook.getHome() || e == loanPage.getHome() || e == returnPage.getHome())
 		{
-			if (loginPage.getUsername().getText().equals("admin"))
+			if (currentUserAccessLevel.equals("Admin"))
 			{
 				c.show(this.getContentPane(), listPage[1]);
-			} else
+			} 
+			
+			else
 			{
 				c.show(this.getContentPane(), listPage[3]);
 			}
@@ -223,10 +248,12 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		// Admin or from the Manage User page of the Librarian
 		else if (e == manageCustomer.getHome())
 		{
-			if (loginPage.getUsername().getText().equals("admin"))
+			if (currentUserAccessLevel.equals("Admin"))
 			{
 				c.show(this.getContentPane(), listPage[1]);
-			} else
+			} 
+			
+			else
 			{
 				c.show(this.getContentPane(), listPage[3]);
 			}
@@ -439,7 +466,179 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				DBConnector.SearchUserByAccessLevel(manageUser);
 			}
 		}
+		
+		else if(e==manageBook.getDisplayOverDueBooks())
+		{
+			DBConnector.SearchBookByOverDue(manageBook);	
+		}	
+		
+		else if(e==manageBook.getDisplayAvailableBooks())
+		{
+			DBConnector.SearchBookByAvailable(manageBook,true);	
+		}		
+		
+		else if(e==manageBook.getDisplayUnavailableBooks())
+		{
+			DBConnector.SearchBookByAvailable(manageBook,false);
+		}		
+		
+		else if(e == loanPage.getDisplayOverDueBooks())
+		{
+			DBConnector.DisplayOverDueBookInfo(loanPage);
+		}
+		
+		else if(e == loanPage.getSubmitLoan())
+		{
+			DBConnector.loanBook(loanPage);
+			loanPage.getJTFlibCode().setText("");
+			loanPage.getJTFcustomerID().setText("");
+		}
+		
+		else if(e == returnPage.getDisplayOverDueBooks())
+		{
+			DBConnector.DisplayOverDueBookInfoReturnPage(returnPage);
+		}
+		
+		else if(e == returnPage.getSubmitReturn())
+		{
+			DBConnector.returnBook(returnPage);
+			returnPage.getJTFlibCode().setText("");
+		}
+		
+		
+		//search by Name or ID user from the Activity librarian page
+		else if (e == librarianActivity.getSearch())
+		{		
+			String searchType= librarianActivity.getSearchType().getSelectedItem().toString();
+		
 			
+			if(searchType.equals("User ID"))
+			{			
+				if (TestForNumericValue(librarianActivity.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchlibrarianActivityByUserID(librarianActivity);
+				}
+			}
+			
+			if(searchType.equals("User Name"))
+			{			
+				DBConnector.SearchlibrarianActivityByUserName(librarianActivity);
+			}			
+			
+		}	
+		
+		
+		//search by Name or ID customer from the Customer page
+		else if (e == customerPage.getSearch())
+		{		
+			String searchType= customerPage.getSearchType().getSelectedItem().toString();
+		
+			
+			if(searchType.equals("Customer ID"))
+			{			
+				if (TestForNumericValue(customerPage.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchCustomerByCustomerID(customerPage);
+				}
+			}
+			
+			if(searchType.equals("Name"))
+			{			
+				DBConnector.SearchCustomerByCustomerName(customerPage);
+			}			
+			
+		}		
+		
+		//search by Title or ID book from the Book page
+		else if (e == bookPage.getSearch())
+		{		
+			String searchType= bookPage.getSearchType().getSelectedItem().toString();
+		
+			
+			if(searchType.equals("Book ID"))
+			{			
+				if (TestForNumericValue(bookPage.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchBookByBookID(bookPage);
+				}
+			}
+			
+			if(searchType.equals("Title"))
+			{			
+				DBConnector.SearchBookByTitle(bookPage);
+			}		
+		}
+		
+		// if you click on the button Manage Account from the Admin Page
+				else if (e == adminPage.getManageAccounts())
+				{
+					// Display the Manage Account Page
+					c.show(this.getContentPane(), listPage[4]);
+					manageUser.getUserID().setText(loginPage.getUsername().getText());
+				}
+
+				// if you click on the button Library Reports from the Admin Page
+				else if (e == adminPage.getLibraryReport())
+				{
+					// Display the Manage Account Page
+					c.show(this.getContentPane(), listPage[6]);
+					libraryReports.getUserID().setText(loginPage.getUsername().getText());
+				}
+				
+				// if you click on the button Back from the Librarian Activity Page
+				else if (e == librarianActivity.getBack())
+				{
+					
+					resetLibrarianActivity();
+					// Display the Library Report Page
+					c.show(this.getContentPane(), listPage[6]);
+					libraryReports.getUserID().setText(loginPage.getUsername().getText());
+				}
+				
+				// if you click on the button Back from the Customer Page
+				else if (e == customerPage.getBack())
+				{
+					resetCustomerPage();
+					// Display the Library Report Page
+					c.show(this.getContentPane(), listPage[6]);
+					libraryReports.getUserID().setText(loginPage.getUsername().getText());
+				}
+				
+				// if you click on the button Back from the Book Page
+				else if  (e == bookPage.getBack())
+				{
+					resetBookPage();
+					// Display the Library Report Page
+					c.show(this.getContentPane(), listPage[6]);
+					libraryReports.getUserID().setText(loginPage.getUsername().getText());
+				}
+				
+			
+				
+				// if you click on the button Customer from the Library Reports Page
+				else if (e == libraryReports.getCustomer())
+				{
+					// Display the Customer Page
+					c.show(this.getContentPane(), listPage[7]);
+					customerPage.getUserID().setText(loginPage.getUsername().getText());
+				}
+				
+				// if you click on the button Book from the Library Reports Page
+				else if (e == libraryReports.getBook())
+				{
+					// Display the Book Page
+					c.show(this.getContentPane(), listPage[8]);
+					bookPage.getUserID().setText(loginPage.getUsername().getText());
+				}
+				
+				// if you click on the button Librarian Activity from the Library Reports Page
+				else if (e == libraryReports.getLibrarian())
+				{
+					// Display the Librarian Activity Page
+					c.show(this.getContentPane(), listPage[9]);
+					librarianActivity.getUserID().setText(loginPage.getUsername().getText());
+				}
+
 	}
 
 	
@@ -450,6 +649,32 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		manageCustomer.EmptyTable();
 		manageCustomer.getTable().getSelectionModel().addListSelectionListener(this);		
 	}
+	
+	
+	private void resetLibrarianActivity()
+	{
+		librarianActivity.EmptyFields();			
+		librarianActivity.getTable().getSelectionModel().removeListSelectionListener(this);		
+		librarianActivity.EmptyTable();
+		librarianActivity.getTable().getSelectionModel().addListSelectionListener(this);		
+	}
+	
+	private void resetCustomerPage()
+	{
+		customerPage.EmptyFields();			
+		customerPage.getTable().getSelectionModel().removeListSelectionListener(this);		
+		customerPage.EmptyTable();
+		customerPage.getTable().getSelectionModel().addListSelectionListener(this);		
+	}
+	
+	private void resetBookPage()
+	{
+		bookPage.EmptyFields();			
+		bookPage.getTable().getSelectionModel().removeListSelectionListener(this);		
+		bookPage.EmptyTable();
+		bookPage.getTable().getSelectionModel().addListSelectionListener(this);		
+	}
+
 
 	@Override
 	public void valueChanged(ListSelectionEvent event)
@@ -498,7 +723,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			manageBook.getGenre().setText(manageBook.getTableModel().getValueAt(row, 4).toString());
 			manageBook.getlocation().setText(manageBook.getTableModel().getValueAt(row, 5).toString());
 			manageBook.getAvailable().setText(manageBook.getTableModel().getValueAt(row, 6).toString());
-		}		
+		}	
 	}
 	
 	public static boolean TestForNumericValue(String numeric, String type)
