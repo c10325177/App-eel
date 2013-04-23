@@ -18,12 +18,15 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	private ManageUser manageUser = new ManageUser();
 	private ManageCustomer manageCustomer = new ManageCustomer();
 	private LibraryReports libraryReports = new LibraryReports();
+	private CustomerPage customerPage = new CustomerPage();
+	private BookPage bookPage = new BookPage();
+	private LibrarianActivity librarianActivity = new LibrarianActivity();
 
 	// Layout of the main Panel
 	private CardLayout c = new CardLayout();
 	private String[] listPage = { "LoginPage", "AdministratorPage",
 			"Manage Books", "Librarian Page", "Manage User", "Manage Customer",
-			"Library Reports" };
+			"Library Reports", "Customer Page", "Book Page", "Librarian Activity Page"};
 
 	public MyFrame() throws SQLException
 	{
@@ -35,20 +38,30 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		this.add(manageUser, listPage[4]);
 		this.add(manageCustomer, listPage[5]);
 		this.add(libraryReports, listPage[6]);
+		this.add(customerPage, listPage[7]);
+		this.add(bookPage, listPage[8]);
+		this.add(librarianActivity, listPage[9]);
+		
 		loginPage.getLogin().addActionListener(this);
+		
 		adminPage.getLogout().addActionListener(this);
 		adminPage.getManageBook().addActionListener(this);
 		adminPage.getCustomerDetails().addActionListener(this);
 		adminPage.getManageAccounts().addActionListener(this);
 		adminPage.getLibraryReport().addActionListener(this);
+		
 		libPage.getLogout().addActionListener(this);
 		libPage.getManageBook().addActionListener(this);
 		libPage.getCustomerDetails().addActionListener(this);
+		
 		manageBook.getHome().addActionListener(this);
 		// listener on the button who manage the different Account(Librarian,admin)
 		manageUser.getHome().addActionListener(this);
 		manageCustomer.getHome().addActionListener(this);
 		libraryReports.getHome().addActionListener(this);
+		customerPage.getBack().addActionListener(this);
+		bookPage.getBack().addActionListener(this);
+		librarianActivity.getBack().addActionListener(this);
 
 		manageBook.getInsert().addActionListener(this);
 		manageBook.getDelete().addActionListener(this);
@@ -68,9 +81,13 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		manageUser.getDiscard().addActionListener(this);
 		manageUser.getSearch().addActionListener(this);
 		manageUser.getTable().getSelectionModel().addListSelectionListener(this);
+		
+		libraryReports.getBook().addActionListener(this);
+		libraryReports.getCustomer().addActionListener(this);
+		libraryReports.getLibrarian().addActionListener(this);
 
 		//Comment out line below to use without DB
-		DBConnector.DBConnect();
+		//DBConnector.DBConnect();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -130,13 +147,38 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		}
 
 		// if you click on the button Library Reports from the Admin Page
-		else if (e == adminPage.getLibraryReport())
+		else if (e == adminPage.getLibraryReport() || e == customerPage.getBack() || e == bookPage.getBack() || e == librarianActivity.getBack())
 		{
 			// Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[6]);
 			libraryReports.getUserID().setText(
 					loginPage.getUsername().getText());
 		}
+		
+		// if you click on the button Customer from the Library Reports Page
+		else if (e == libraryReports.getCustomer())
+		{
+			// Display the Customer Page
+			c.show(this.getContentPane(), listPage[7]);
+			customerPage.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
+		// if you click on the button Book from the Library Reports Page
+		else if (e == libraryReports.getBook())
+		{
+			// Display the Book Page
+			c.show(this.getContentPane(), listPage[8]);
+			bookPage.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
+		// if you click on the button Librarian Activity from the Library Reports Page
+		else if (e == libraryReports.getLibrarian())
+		{
+			// Display the Librarian Activity Page
+			c.show(this.getContentPane(), listPage[9]);
+			librarianActivity.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
 
 		// if you click on the button home from the Manage Book page of the
 		// Admin or from the Manage Book page of the Librarian
