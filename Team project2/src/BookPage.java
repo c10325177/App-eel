@@ -1,6 +1,8 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
+import java.util.Vector;
 
 public class BookPage extends JPanel
 {
@@ -33,14 +35,23 @@ public class BookPage extends JPanel
 	// JTexfield where it displayed the user ID
 	private JTextField ID = new JTextField(5);
 
-	private String[] header = { "Customer ID", "Stuff ID", "Date loaned", "Return Date", "Lending(Y/N)"};
-	private Object data[][] = new Object[][] {
-			{ "", "", "", "", ""},};
-	private JTable table = new JTable(data, header);
+	private Vector <String> header = new Vector<String>();       
+	private DefaultTableModel tableModel = new DefaultTableModel() ;
+	private JTable table = new JTable(tableModel);
 
 	public BookPage()
 	{
 
+		header.add("Book ID");
+		header.add("Title");
+		header.add("Customer ID");
+		header.add("Stuff ID");
+		header.add("Loaned Date");
+		header.add("Return Date");
+		header.add("Lending(Y/N)");
+		tableModel.setColumnIdentifiers(header);
+		
+		
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
@@ -116,6 +127,7 @@ public class BookPage extends JPanel
 
 		gbcMain.insets = new Insets(0, 40, 0, 0);
 		gbcMain.ipady = -140;
+		gbcMain.ipadx = 63;
 		this.add(pane, gbcMain);
 
 	}
@@ -125,28 +137,56 @@ public class BookPage extends JPanel
 		return (this.back);
 	}
 
-	public int getRowCount()
-	{
-		return data.length;
-	}
 
-	public int getColumnCount()
-	{
-		return header.length;
-	}
-
-	public String getColumnName(int columnIndex)
-	{
-		return header[columnIndex];
-	}
-
-	public Object getValueAt(int rowIndex, int columnIndex)
-	{
-		return data[rowIndex][columnIndex];
-	}
+	
 
 	public JTextField getUserID()
 	{
 		return (this.ID);
+	}
+	
+	public JTextField getJTFbookName() {
+		return JTFbookName;
+	}
+	
+	public Vector<String> getHeader()
+	{
+		return(this.header);
+	}
+	
+	public DefaultTableModel getTableModel()
+	{
+		return (this.tableModel);
+	}
+	
+	public JButton getSearch()
+	{
+		return (this.search);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public JComboBox getSearchType()
+	{
+		return (this.combo);
+	}
+	
+	public JTextField getSearchJTF()
+	{
+		return (this.JTFbookName);
+	}
+	
+	public void EmptyFields()
+	{
+		this.JTFbookName.setText("");
+	}
+	
+	public void EmptyTable()
+	{
+		tableModel.setRowCount(0);
+	}
+	
+	public JTable getTable()
+	{
+		return (this.table);
 	}
 }

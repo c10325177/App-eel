@@ -20,12 +20,14 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	private CustomerPage customerPage = new CustomerPage();
 	private BookPage bookPage = new BookPage();
 	private LibrarianActivity librarianActivity = new LibrarianActivity();
+	private LoanPage loanPage = new LoanPage();
+	private ReturnPage returnPage = new ReturnPage();
 
 	// Layout of the main Panel
 	private CardLayout c = new CardLayout();
 	private String[] listPage = { "LoginPage", "AdministratorPage",
 			"Manage Books", "Librarian Page", "Manage User", "Manage Customer",
-			"Library Reports", "Customer Page", "Book Page", "Librarian Activity Page"};
+			"Library Reports", "Customer Page", "Book Page", "Librarian Activity Page", "Loan Page", "Return Page"};
 
 	public MyFrame() throws SQLException
 	{
@@ -40,6 +42,8 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		this.add(customerPage, listPage[7]);
 		this.add(bookPage, listPage[8]);
 		this.add(librarianActivity, listPage[9]);
+		this.add(loanPage, listPage[10]);
+		this.add(returnPage, listPage[11]);
 		
 		loginPage.getLogin().addActionListener(this);
 		
@@ -48,6 +52,8 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		adminPage.getCustomerDetails().addActionListener(this);
 		adminPage.getManageAccounts().addActionListener(this);
 		adminPage.getLibraryReport().addActionListener(this);
+		adminPage.getLoan().addActionListener(this);
+		adminPage.getReturned().addActionListener(this);
 		
 		libPage.getLogout().addActionListener(this);
 		libPage.getManageBook().addActionListener(this);
@@ -61,6 +67,8 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		customerPage.getBack().addActionListener(this);
 		bookPage.getBack().addActionListener(this);
 		librarianActivity.getBack().addActionListener(this);
+		loanPage.getHome().addActionListener(this);
+		returnPage.getHome().addActionListener(this);
 
 		manageBook.getInsert().addActionListener(this);
 		manageBook.getDelete().addActionListener(this);
@@ -68,6 +76,12 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		manageBook.getDiscard().addActionListener(this);
 		manageBook.getSearch().addActionListener(this);
 		manageBook.getTable().getSelectionModel().addListSelectionListener(this);
+		manageBook.getDisplayAvailableBooks().addActionListener(this);
+		manageBook.getDisplayUnavailableBooks().addActionListener(this);
+		manageBook.getDisplayOverDueBooks().addActionListener(this);
+
+		loanPage.getSubmitLoan().addActionListener(this);
+		loanPage.getDisplayOverDueBooks().addActionListener(this);
 
 		manageCustomer.getInsert().addActionListener(this);
 		manageCustomer.getDelete().addActionListener(this);
@@ -86,9 +100,13 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		libraryReports.getBook().addActionListener(this);
 		libraryReports.getCustomer().addActionListener(this);
 		libraryReports.getLibrarian().addActionListener(this);
+		
+		librarianActivity.getSearch().addActionListener(this);
+		customerPage.getSearch().addActionListener(this);
+		bookPage.getSearch().addActionListener(this);
 
 		//Comment out line below to use without DB
-		DBConnector.DBConnect();
+		//DBConnector.DBConnect();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -148,13 +166,42 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		}
 
 		// if you click on the button Library Reports from the Admin Page
-		else if (e == adminPage.getLibraryReport() || e == customerPage.getBack() || e == bookPage.getBack() || e == librarianActivity.getBack())
+		else if (e == adminPage.getLibraryReport())
 		{
 			// Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[6]);
-			libraryReports.getUserID().setText(
-					loginPage.getUsername().getText());
+			libraryReports.getUserID().setText(loginPage.getUsername().getText());
 		}
+		
+		// if you click on the button Back from the Librarian Activity Page
+		else if (e == librarianActivity.getBack())
+		{
+			
+			resetLibrarianActivity();
+			// Display the Library Report Page
+			c.show(this.getContentPane(), listPage[6]);
+			libraryReports.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
+		// if you click on the button Back from the Customer Page
+		else if (e == customerPage.getBack())
+		{
+			resetCustomerPage();
+			// Display the Library Report Page
+			c.show(this.getContentPane(), listPage[6]);
+			libraryReports.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
+		// if you click on the button Back from the Book Page
+		else if  (e == bookPage.getBack())
+		{
+			resetBookPage();
+			// Display the Library Report Page
+			c.show(this.getContentPane(), listPage[6]);
+			libraryReports.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
+	
 		
 		// if you click on the button Customer from the Library Reports Page
 		else if (e == libraryReports.getCustomer())
@@ -180,10 +227,27 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			librarianActivity.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
+		
+		// if you click on the button Loan from the Admin Page
+		else if (e == adminPage.getLoan())
+		{
+			// Display the Loan Page
+			c.show(this.getContentPane(), listPage[10]);
+			loanPage.getUserID().setText(loginPage.getUsername().getText());
+		}
+				
+		// if you click on the button Returned from the Admin Page
+		else if (e == adminPage.getReturned())
+		{
+			// Display the Return Page
+			c.show(this.getContentPane(), listPage[11]);
+			returnPage.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
 
 		// if you click on the button home from the Manage Book page of the
 		// Admin or from the Manage Book page of the Librarian
-		else if (e == manageBook.getHome())
+		else if (e == manageBook.getHome() || e == loanPage.getHome() || e == returnPage.getHome())
 		{
 			if (loginPage.getUsername().getText().equals("admin"))
 			{
@@ -227,7 +291,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
 			{		
 				DBConnector.InsertBook(manageBook);		
-				resetManageBook(manageBook);
+				resetManageBook();
 			}					
 		}
 
@@ -236,7 +300,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
 			{
 				DBConnector.UpdateBook(manageBook);
-				resetManageBook(manageBook);
+				resetManageBook();
 			}
 		}
 
@@ -246,7 +310,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			DBConnector.DeleteBook(Integer.valueOf(manageBook.getLibCode()
 					.getText()));
 			
-			resetManageBook(manageBook);
+			resetManageBook();
 		}
 
 		else if (e == manageBook.getDiscard())
@@ -294,7 +358,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			if(TestForNumericValue(manageCustomer.getBalance().getText(),"NUMERICINSERTCHECK"))
 			{	
 				DBConnector.InsertCustomer(manageCustomer);		
-				resetManageCustomer(manageCustomer);
+				resetManageCustomer();
 			}
 		}
 		
@@ -308,7 +372,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 					.parseDouble(manageCustomer.getBalance().getText()
 							.toString()));	
 				
-				resetManageCustomer(manageCustomer);
+				resetManageCustomer();
 			}		
 		}
 
@@ -318,7 +382,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 					.getCustomerID().getText()),manageCustomer
 					.getname().getText());
 			
-			resetManageCustomer(manageCustomer);
+			resetManageCustomer();
 		}
 		
 		else if (e == manageCustomer.getDiscard())
@@ -348,7 +412,72 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			{			
 				DBConnector.SearchCustomerByAddress(manageCustomer);
 			}
-		}			
+		}	
+		
+		//search by Name or ID user from the Activity librarian page
+		else if (e == librarianActivity.getSearch())
+		{		
+			String searchType= librarianActivity.getSearchType().getSelectedItem().toString();
+		
+			
+			if(searchType.equals("User ID"))
+			{			
+				if (TestForNumericValue(librarianActivity.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchlibrarianActivityByUserID(librarianActivity);
+				}
+			}
+			
+			if(searchType.equals("User Name"))
+			{			
+				DBConnector.SearchlibrarianActivityByUserName(librarianActivity);
+			}			
+			
+		}	
+		
+		
+		//search by Name or ID customer from the Customer page
+		else if (e == customerPage.getSearch())
+		{		
+			String searchType= customerPage.getSearchType().getSelectedItem().toString();
+		
+			
+			if(searchType.equals("Customer ID"))
+			{			
+				if (TestForNumericValue(customerPage.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchCustomerByCustomerID(customerPage);
+				}
+			}
+			
+			if(searchType.equals("Name"))
+			{			
+				DBConnector.SearchCustomerByCustomerName(customerPage);
+			}			
+			
+		}
+		
+		
+		//search by Title or ID book from the Book page
+		else if (e == bookPage.getSearch())
+		{		
+			String searchType= bookPage.getSearchType().getSelectedItem().toString();
+		
+			
+			if(searchType.equals("Book ID"))
+			{			
+				if (TestForNumericValue(bookPage.getSearchJTF().getText(),""))
+				{			
+					DBConnector.SearchBookByBookID(bookPage);
+				}
+			}
+			
+			if(searchType.equals("Title"))
+			{			
+				DBConnector.SearchBookByTitle(bookPage);
+			}			
+			
+		}
 		
 		// USER DB STUFF
 		else if (e == manageUser.getInsert())
@@ -361,7 +490,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getSelectedItem().toString(), manageUser
 							.getPassword().getText());
 					
-					resetManageUser(manageUser);	
+					resetManageUser();	
 				}
 		}
 
@@ -375,14 +504,14 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getAccessLevel().getSelectedItem().toString(),
 							manageUser.getPassword().getText());
 			
-				resetManageUser(manageUser);		
+				resetManageUser();		
 			}
 		}
 		
 		else if (e == manageUser.getDelete())
 		{
 			DBConnector.DeleteUser(manageUser);		
-			resetManageUser(manageUser);							
+			resetManageUser();							
 		}
 		
 		else if (e == manageUser.getDiscard())
@@ -418,12 +547,37 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	}
 
 	
-	private void resetManageCustomer(ManageCustomer manageCustomer2)
+	private void resetManageCustomer()
 	{
 		manageCustomer.EmptyFields();			
 		manageCustomer.getTable().getSelectionModel().removeListSelectionListener(this);		
 		manageCustomer.EmptyTable();
 		manageCustomer.getTable().getSelectionModel().addListSelectionListener(this);		
+	}
+	
+	
+	private void resetLibrarianActivity()
+	{
+		librarianActivity.EmptyFields();			
+		librarianActivity.getTable().getSelectionModel().removeListSelectionListener(this);		
+		librarianActivity.EmptyTable();
+		librarianActivity.getTable().getSelectionModel().addListSelectionListener(this);		
+	}
+	
+	private void resetCustomerPage()
+	{
+		customerPage.EmptyFields();			
+		customerPage.getTable().getSelectionModel().removeListSelectionListener(this);		
+		customerPage.EmptyTable();
+		customerPage.getTable().getSelectionModel().addListSelectionListener(this);		
+	}
+	
+	private void resetBookPage()
+	{
+		bookPage.EmptyFields();			
+		bookPage.getTable().getSelectionModel().removeListSelectionListener(this);		
+		bookPage.EmptyTable();
+		bookPage.getTable().getSelectionModel().addListSelectionListener(this);		
 	}
 
 	@Override
@@ -508,7 +662,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		JOptionPane.showMessageDialog(new JFrame(),Message);
 	}
 	
-	public void resetManageUser(ManageUser manageUser)
+	public void resetManageUser()
 	{
 		manageUser.EmptyFields();			
 		manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
@@ -516,7 +670,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		manageUser.getTable().getSelectionModel().addListSelectionListener(this);	
 	}
 	
-	public void resetManageBook(ManageBook manageBook)
+	public void resetManageBook()
 	{
 		manageBook.EmptyFields();			
 		manageBook.getTable().getSelectionModel().removeListSelectionListener(this);		

@@ -39,6 +39,11 @@ public class ManageBook extends JPanel
 	private JButton deleteBook = new JButton("       Delete Book        ");
 	private JButton search = new JButton("Search ");
 	private JButton home = new JButton("      Home     ", homeIcon);
+	
+	//Individual Searches
+	JButton displayAvailableBooks = new JButton("Available Books");
+	JButton displayOverDueBooks = new JButton("Overdue Books");
+	JButton displayUnavailableBooks = new JButton("Unvailable Books");
 
 	private Color background = new Color(152, 178, 255);
 
@@ -102,68 +107,68 @@ public class ManageBook extends JPanel
 		gbcMain.gridy = 0;
 		gbcMain.anchor = GridBagConstraints.SOUTH;
 		this.add(logoAppEel, gbcMain);
-
-		// JLabel
+		
 		gbcMain.anchor = GridBagConstraints.CENTER;
 		gbcMain.insets = new Insets(0, -800, 240, 0);
 		gbcMain.gridwidth = 1;
 		this.add(home, gbcMain);
 
+		// JLabel
 		gbcMain.anchor = GridBagConstraints.CENTER;
-		gbcMain.insets = new Insets(0, -340, -20, 0);
+		gbcMain.insets = new Insets(0, -340, -50, 0);
 		gbcMain.gridwidth = 1;
 		this.add(libCode, gbcMain);
 
-		gbcMain.insets = new Insets(0, -365, -80, 0);
+		gbcMain.insets = new Insets(0, -365, -110, 0);
 		gbcMain.gridwidth = 1;
 		this.add(ISBN, gbcMain);
 
-		gbcMain.insets = new Insets(0, -325, -140, 0);
+		gbcMain.insets = new Insets(0, -325, -170, 0);
 		gbcMain.gridwidth = 1;
 		this.add(bookTitle, gbcMain);
 
-		gbcMain.insets = new Insets(0, -350, -200, 0);
+		gbcMain.insets = new Insets(0, -350, -230, 0);
 		gbcMain.gridwidth = 1;
 		this.add(author, gbcMain);
 
-		gbcMain.insets = new Insets(0, -360, -260, 0);
+		gbcMain.insets = new Insets(0, -360, -290, 0);
 		gbcMain.gridwidth = 1;
 		this.add(genre, gbcMain);
 
-		gbcMain.insets = new Insets(0, -335, -320, 0);
+		gbcMain.insets = new Insets(0, -335, -350, 0);
 		gbcMain.gridwidth = 1;
 		this.add(location, gbcMain);
 
-		gbcMain.insets = new Insets(0, -335, -380, 0);
+		gbcMain.insets = new Insets(0, -335, -410, 0);
 		gbcMain.gridwidth = 1;
 		this.add(available, gbcMain);
 
 		// JtextField
-		gbcMain.insets = new Insets(0, 0, -20, 0);
+		gbcMain.insets = new Insets(0, 0, -50, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFcurrentLibCode, gbcMain);
 
-		gbcMain.insets = new Insets(0, 0, -80, 0);
+		gbcMain.insets = new Insets(0, 0, -110, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFISBN, gbcMain);
 
-		gbcMain.insets = new Insets(0, 0, -140, 0);
+		gbcMain.insets = new Insets(0, 0, -170, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFbookTitle, gbcMain);
 
-		gbcMain.insets = new Insets(0, 0, -200, 0);
+		gbcMain.insets = new Insets(0, 0, -230, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFauthor, gbcMain);
 
-		gbcMain.insets = new Insets(0, 0, -260, 0);
+		gbcMain.insets = new Insets(0, 0, -290, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFgenre, gbcMain);
 
-		gbcMain.insets = new Insets(0, 0, -320, 0);
+		gbcMain.insets = new Insets(0, 0, -350, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFlocation, gbcMain);
 
-		gbcMain.insets = new Insets(0, 0, -380, 0);
+		gbcMain.insets = new Insets(0, 0, -410, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFavailable, gbcMain);
 
@@ -183,7 +188,21 @@ public class ManageBook extends JPanel
 		gbcMain.insets = new Insets(0, 20, -550, 0);
 		gbcMain.gridwidth = 1;
 		this.add(deleteBook, gbcMain);
+		
+		
+		//Individual search buttons
+		
+		gbcMain.insets = new Insets(0, 20, 20, 330);
+		gbcMain.ipady = 0;
+		this.add(displayAvailableBooks, gbcMain);
 
+		gbcMain.insets = new Insets(0, 20, 20, 50);
+		this.add(displayUnavailableBooks, gbcMain);
+
+		gbcMain.insets = new Insets(0, 20, 20, -220);
+		this.add(displayOverDueBooks, gbcMain);
+		
+		
 		// JTable
 		JScrollPane pane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -195,16 +214,16 @@ public class ManageBook extends JPanel
 		this.add(pane, gbcMain);
 
 		// JcomboBox
-		gbcMain.insets = new Insets(0, 20, 60, 300);
+		gbcMain.insets = new Insets(0, 20, 90, 300);
 		gbcMain.ipady = 0;
 		this.add(combo, gbcMain);
 
 		// Jtextfield search
-		gbcMain.insets = new Insets(0, 20, 60, 70);
+		gbcMain.insets = new Insets(0, 20, 90, 70);
 		this.add(JTFsearch, gbcMain);
 
 		// JButton search
-		gbcMain.insets = new Insets(0, 20, 60, -160);
+		gbcMain.insets = new Insets(0, 20, 90, -160);
 		this.add(search, gbcMain);
 
 		// User ID stuff
@@ -328,5 +347,20 @@ public class ManageBook extends JPanel
 		JTFgenre.setText("");
 		JTFISBN.setText("");
 		JTFcurrentLibCode.setText("");
+	}
+	
+	public JButton getDisplayAvailableBooks()
+	{
+		return displayAvailableBooks;
+	}
+
+	public JButton getDisplayUnavailableBooks()
+	{
+		return displayUnavailableBooks;
+	}
+
+	public JButton getDisplayOverDueBooks()
+	{
+		return displayOverDueBooks;
 	}
 }
