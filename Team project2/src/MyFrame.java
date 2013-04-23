@@ -21,12 +21,14 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	private CustomerPage customerPage = new CustomerPage();
 	private BookPage bookPage = new BookPage();
 	private LibrarianActivity librarianActivity = new LibrarianActivity();
+	private LoanPage loanPage = new LoanPage();
+	private ReturnPage returnPage = new ReturnPage();
 
 	// Layout of the main Panel
 	private CardLayout c = new CardLayout();
 	private String[] listPage = { "LoginPage", "AdministratorPage",
 			"Manage Books", "Librarian Page", "Manage User", "Manage Customer",
-			"Library Reports", "Customer Page", "Book Page", "Librarian Activity Page"};
+			"Library Reports", "Customer Page", "Book Page", "Librarian Activity Page", "Loan Page", "Return Page"};
 
 	public MyFrame() throws SQLException
 	{
@@ -41,6 +43,8 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		this.add(customerPage, listPage[7]);
 		this.add(bookPage, listPage[8]);
 		this.add(librarianActivity, listPage[9]);
+		this.add(loanPage, listPage[10]);
+		this.add(returnPage, listPage[11]);
 		
 		loginPage.getLogin().addActionListener(this);
 		
@@ -49,6 +53,8 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		adminPage.getCustomerDetails().addActionListener(this);
 		adminPage.getManageAccounts().addActionListener(this);
 		adminPage.getLibraryReport().addActionListener(this);
+		adminPage.getLoan().addActionListener(this);
+		adminPage.getReturned().addActionListener(this);
 		
 		libPage.getLogout().addActionListener(this);
 		libPage.getManageBook().addActionListener(this);
@@ -62,6 +68,8 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		customerPage.getBack().addActionListener(this);
 		bookPage.getBack().addActionListener(this);
 		librarianActivity.getBack().addActionListener(this);
+		loanPage.getHome().addActionListener(this);
+		returnPage.getHome().addActionListener(this);
 
 		manageBook.getInsert().addActionListener(this);
 		manageBook.getDelete().addActionListener(this);
@@ -85,6 +93,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		libraryReports.getBook().addActionListener(this);
 		libraryReports.getCustomer().addActionListener(this);
 		libraryReports.getLibrarian().addActionListener(this);
+		
 
 		//Comment out line below to use without DB
 		//DBConnector.DBConnect();
@@ -179,10 +188,26 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			librarianActivity.getUserID().setText(loginPage.getUsername().getText());
 		}
 		
+		// if you click on the button Loan from the Admin Page
+		else if (e == adminPage.getLoan())
+		{
+			// Display the Loan Page
+			c.show(this.getContentPane(), listPage[10]);
+			loanPage.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
+		// if you click on the button Returned from the Admin Page
+		else if (e == adminPage.getReturned())
+		{
+			// Display the Return Page
+			c.show(this.getContentPane(), listPage[11]);
+			returnPage.getUserID().setText(loginPage.getUsername().getText());
+		}
+		
 
 		// if you click on the button home from the Manage Book page of the
 		// Admin or from the Manage Book page of the Librarian
-		else if (e == manageBook.getHome())
+		else if (e == manageBook.getHome() || e == loanPage.getHome() || e == returnPage.getHome())
 		{
 			if (loginPage.getUsername().getText().equals("admin"))
 			{
