@@ -18,11 +18,6 @@ public class LibraryReports extends JPanel
 	private JLabel userID = new JLabel("User ID: ");
 	private JLabel name = new JLabel("Kevin Street Library");
 
-
-
-
-
-
 	private JButton print = new JButton("  Print  ");
 	private JButton home = new JButton("      Home     ", homeIcon);
 	private JButton book = new JButton ("Book", iBook);
