@@ -45,11 +45,13 @@ public class BookPage extends JPanel
 		header.add("Book ID");
 		header.add("Title");
 		header.add("Customer ID");
-		header.add("Stuff ID");
+		header.add("User ID");
 		header.add("Loaned Date");
 		header.add("Return Date");
-		header.add("Lending(Y/N)");
+		header.add("Available");
 		tableModel.setColumnIdentifiers(header);
+		
+		table.setEnabled(false);
 		
 		
 		this.setBackground(background);
@@ -59,8 +61,6 @@ public class BookPage extends JPanel
 		this.print.setForeground(Color.green);
 
 		name.setFont(new Font("Serif", Font.BOLD, 28));
-
-
 
 		// BACKGROUND
 		gbcMain.insets = new Insets(0, 0, 100, 20);
@@ -109,8 +109,6 @@ public class BookPage extends JPanel
 		gbcMain.gridwidth = 1;
 		this.add(search, gbcMain);
 
-
-
 		// User ID stuff
 		gbcMain.insets = new Insets(0, 0, 300, -680);
 		gbcMain.gridwidth = 1;
@@ -120,7 +118,7 @@ public class BookPage extends JPanel
 		gbcMain.gridwidth = 1;
 		this.add(ID, gbcMain);
 
-		// JTable
+		//JTable
 		JScrollPane pane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -137,8 +135,6 @@ public class BookPage extends JPanel
 		return (this.back);
 	}
 
-
-	
 
 	public JTextField getUserID()
 	{
@@ -175,12 +171,12 @@ public class BookPage extends JPanel
 		return (this.JTFbookName);
 	}
 	
-	public void EmptyFields()
+	public void emptyFields()
 	{
-		this.JTFbookName.setText("");
+		JTFbookName.setText("");
 	}
 	
-	public void EmptyTable()
+	public void emptyTable()
 	{
 		tableModel.setRowCount(0);
 	}
