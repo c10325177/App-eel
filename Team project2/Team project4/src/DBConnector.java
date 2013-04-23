@@ -1079,6 +1079,24 @@ public class DBConnector
 					dt.setDate(dt.getDate()+5);
 					System.out.print(dt.toLocaleString().substring(0,11));
 					MyFrame.SwingPopup("Loan submitted, book due for return on " +dt.toLocaleString().substring(0,11) );
+					
+					
+					String Available="No";
+					stmt = con.createStatement();
+					
+					int updateBookAvailable = stmt.executeUpdate("UPDATE Book SET Available='"+Available+"' WHERE LibCode ="
+							+ LibCode + "");
+					
+					if(updateBookAvailable > 0)
+					{
+							System.out.println("Libcode: " +LibCode+ " set to unavailable");
+					}
+					
+					else
+					{				
+						MyFrame.SwingPopup("LibCode: " +LibCode+" was not found in the database");
+						System.out.println("Book not found, cant set it to unavailable");
+					}
 				}
 				
 				catch (SQLException e)
@@ -1361,7 +1379,7 @@ public class DBConnector
 			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("select  Book.libcode, book.title, Customer.customerid, Users.userid, loan.loandate, loan.datereturned, book.Available from customer, users, loan, book where book.libcode = loan.libcode and customer.customerid = loan.customerid and users.userid = loan.userid and book.libcode =" + BOOKID);
+					.executeQuery("select Book.libcode, book.title, Customer.customerid, Users.userid, loan.loandate, loan.datereturned, book.Available from customer, users, loan, book where book.libcode = loan.libcode and customer.customerid = loan.customerid and users.userid = loan.userid and book.libcode =" + BOOKID);
 			
 			if (!rs.next() ) 
 			{
@@ -1377,7 +1395,27 @@ public class DBConnector
 				
 					for (int i = 1; i <= 7; i++) 
 					{		    	
-						newRow.addElement(rs.getObject(i));
+						if(i == 5||i==6)
+						{
+							String temp= rs.getString(i);
+							
+							if(temp==null)
+							{
+								temp="";
+							}
+							
+							else
+							{						
+								temp = temp.substring(0,10);
+							}
+							
+							newRow.addElement(temp);
+						}
+						
+						else
+						{
+							newRow.addElement(rs.getObject(i));
+						}
 					}
 				
 					System.out.println("Row added to Vector");
@@ -1406,8 +1444,10 @@ public class DBConnector
 			String title = TitleCaseConverter.toTitleCase(bookPage.getJTFbookName().getText());
 			
 			Statement stmt = con.createStatement();
+			
 			ResultSet rs = stmt
 					.executeQuery("select  Book.libcode, book.title, Customer.customerid, Users.userid, loandate, datereturned, Available from customer, users, loan, book where book.libcode = loan.libcode and customer.customerid = loan.customerid and users.userid = loan.userid and book.title LIKE '%"+title+"%'");
+
 			
 			if (!rs.next() ) 
 			{
@@ -1423,12 +1463,25 @@ public class DBConnector
 				
 					for (int i = 1; i <= 7; i++) 
 					{
-						if(i == 5){
-						String temp= rs.getString(i);
-						temp = temp.substring(10);
-						//newRow.addElement(temp);
+						if(i == 5||i==6)
+						{
+							String temp= rs.getString(i);
+							
+							if(temp==null)
+							{
+								temp="";
+							}
+							
+							else
+							{							
+								temp = temp.substring(0,10);					
+							}
+							
+							newRow.addElement(temp);
 						}
-						else{
+						
+						else
+						{
 							newRow.addElement(rs.getObject(i));
 						}
 						
@@ -1476,8 +1529,27 @@ public class DBConnector
 				
 					for (int i = 1; i <= 5; i++) 
 					{		    	
-						newRow.addElement(rs.getObject(i));
-						System.out.println(rs.getString("Name")+", Column: "+i);
+						if(i > 2)
+						{
+							String temp= rs.getString(i);
+							
+							if(temp==null)
+							{
+								temp="";
+							}
+							
+							else
+							{							
+								temp = temp.substring(0,10);
+							}
+							
+							newRow.addElement(temp);
+						}
+						
+						else
+						{
+							newRow.addElement(rs.getObject(i));
+						}
 					}
 				
 					System.out.println("Row added to Vector");
@@ -1523,8 +1595,27 @@ public class DBConnector
 				
 					for (int i = 1; i <= 7; i++) 
 					{		    	
-						newRow.addElement(rs.getObject(i));
-						System.out.println(rs.getString("Name")+", Column: "+i);
+						if(i ==3 )
+						{
+							String temp= rs.getString(i);
+							
+							if(temp==null)
+							{
+								temp="";
+							}
+							
+							else
+							{
+								temp = temp.substring(0,10);
+							}
+							
+							newRow.addElement(temp);
+						}
+						
+						else
+						{
+							newRow.addElement(rs.getObject(i));
+						}
 					}
 				
 					System.out.println("Row added to Vector");
@@ -1570,8 +1661,27 @@ public class DBConnector
 				
 					for (int i = 1; i <= 7; i++) 
 					{		    	
-						newRow.addElement(rs.getObject(i));
-						System.out.println(rs.getString("Name")+", Column: "+i);
+						if(i ==3 )
+						{
+							String temp= rs.getString(i);
+							
+							if(temp==null)
+							{
+								temp="";
+							}
+							
+							else
+							{
+								temp = temp.substring(0,10);
+							}
+							
+							newRow.addElement(temp);
+						}
+						
+						else
+						{
+							newRow.addElement(rs.getObject(i));
+						}
 					}
 				
 					System.out.println("Row added to Vector");
@@ -1617,8 +1727,27 @@ public class DBConnector
 				
 					for (int i = 1; i <= 5; i++) 
 					{		    	
-						newRow.addElement(rs.getObject(i));
-						System.out.println(rs.getString("Name")+", Column: "+i);
+						if(i > 2 )
+						{
+							String temp= rs.getString(i);
+							System.out.println("temp: "+temp);
+							
+							if(temp==null)
+							{
+								temp="";
+							}
+							
+							else
+							{						
+								temp = temp.substring(0,10);
+							}
+							newRow.addElement(temp);
+						}
+						
+						else
+						{
+							newRow.addElement(rs.getObject(i));
+						}
 					}
 				
 					System.out.println("Row added to Vector");
