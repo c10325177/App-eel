@@ -76,12 +76,6 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		manageBook.getDiscard().addActionListener(this);
 		manageBook.getSearch().addActionListener(this);
 		manageBook.getTable().getSelectionModel().addListSelectionListener(this);
-		manageBook.getDisplayAvailableBooks().addActionListener(this);
-		manageBook.getDisplayUnavailableBooks().addActionListener(this);
-		manageBook.getDisplayOverDueBooks().addActionListener(this);
-
-		loanPage.getSubmitLoan().addActionListener(this);
-		loanPage.getDisplayOverDueBooks().addActionListener(this);
 
 		manageCustomer.getInsert().addActionListener(this);
 		manageCustomer.getDelete().addActionListener(this);
@@ -100,10 +94,6 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		libraryReports.getBook().addActionListener(this);
 		libraryReports.getCustomer().addActionListener(this);
 		libraryReports.getLibrarian().addActionListener(this);
-		
-		librarianActivity.getSearch().addActionListener(this);
-		customerPage.getSearch().addActionListener(this);
-		bookPage.getSearch().addActionListener(this);
 
 		//Comment out line below to use without DB
 		//DBConnector.DBConnect();
@@ -166,42 +156,13 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		}
 
 		// if you click on the button Library Reports from the Admin Page
-		else if (e == adminPage.getLibraryReport())
+		else if (e == adminPage.getLibraryReport() || e == customerPage.getBack() || e == bookPage.getBack() || e == librarianActivity.getBack())
 		{
 			// Display the Manage Account Page
 			c.show(this.getContentPane(), listPage[6]);
-			libraryReports.getUserID().setText(loginPage.getUsername().getText());
+			libraryReports.getUserID().setText(
+					loginPage.getUsername().getText());
 		}
-		
-		// if you click on the button Back from the Librarian Activity Page
-		else if (e == librarianActivity.getBack())
-		{
-			
-			resetLibrarianActivity();
-			// Display the Library Report Page
-			c.show(this.getContentPane(), listPage[6]);
-			libraryReports.getUserID().setText(loginPage.getUsername().getText());
-		}
-		
-		// if you click on the button Back from the Customer Page
-		else if (e == customerPage.getBack())
-		{
-			resetCustomerPage();
-			// Display the Library Report Page
-			c.show(this.getContentPane(), listPage[6]);
-			libraryReports.getUserID().setText(loginPage.getUsername().getText());
-		}
-		
-		// if you click on the button Back from the Book Page
-		else if  (e == bookPage.getBack())
-		{
-			resetBookPage();
-			// Display the Library Report Page
-			c.show(this.getContentPane(), listPage[6]);
-			libraryReports.getUserID().setText(loginPage.getUsername().getText());
-		}
-		
-	
 		
 		// if you click on the button Customer from the Library Reports Page
 		else if (e == libraryReports.getCustomer())
@@ -291,7 +252,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
 			{		
 				DBConnector.InsertBook(manageBook);		
-				resetManageBook();
+				resetManageBook(manageBook);
 			}					
 		}
 
@@ -300,7 +261,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			if(TestForNumericValue(manageBook.getISBN().getText(),"NUMERICINSERTCHECK"))
 			{
 				DBConnector.UpdateBook(manageBook);
-				resetManageBook();
+				resetManageBook(manageBook);
 			}
 		}
 
@@ -310,7 +271,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			DBConnector.DeleteBook(Integer.valueOf(manageBook.getLibCode()
 					.getText()));
 			
-			resetManageBook();
+			resetManageBook(manageBook);
 		}
 
 		else if (e == manageBook.getDiscard())
@@ -358,7 +319,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			if(TestForNumericValue(manageCustomer.getBalance().getText(),"NUMERICINSERTCHECK"))
 			{	
 				DBConnector.InsertCustomer(manageCustomer);		
-				resetManageCustomer();
+				resetManageCustomer(manageCustomer);
 			}
 		}
 		
@@ -372,7 +333,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 					.parseDouble(manageCustomer.getBalance().getText()
 							.toString()));	
 				
-				resetManageCustomer();
+				resetManageCustomer(manageCustomer);
 			}		
 		}
 
@@ -382,7 +343,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 					.getCustomerID().getText()),manageCustomer
 					.getname().getText());
 			
-			resetManageCustomer();
+			resetManageCustomer(manageCustomer);
 		}
 		
 		else if (e == manageCustomer.getDiscard())
@@ -412,72 +373,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			{			
 				DBConnector.SearchCustomerByAddress(manageCustomer);
 			}
-		}	
-		
-		//search by Name or ID user from the Activity librarian page
-		else if (e == librarianActivity.getSearch())
-		{		
-			String searchType= librarianActivity.getSearchType().getSelectedItem().toString();
-		
-			
-			if(searchType.equals("User ID"))
-			{			
-				if (TestForNumericValue(librarianActivity.getSearchJTF().getText(),""))
-				{			
-					DBConnector.SearchlibrarianActivityByUserID(librarianActivity);
-				}
-			}
-			
-			if(searchType.equals("User Name"))
-			{			
-				DBConnector.SearchlibrarianActivityByUserName(librarianActivity);
-			}			
-			
-		}	
-		
-		
-		//search by Name or ID customer from the Customer page
-		else if (e == customerPage.getSearch())
-		{		
-			String searchType= customerPage.getSearchType().getSelectedItem().toString();
-		
-			
-			if(searchType.equals("Customer ID"))
-			{			
-				if (TestForNumericValue(customerPage.getSearchJTF().getText(),""))
-				{			
-					DBConnector.SearchCustomerByCustomerID(customerPage);
-				}
-			}
-			
-			if(searchType.equals("Name"))
-			{			
-				DBConnector.SearchCustomerByCustomerName(customerPage);
-			}			
-			
-		}
-		
-		
-		//search by Title or ID book from the Book page
-		else if (e == bookPage.getSearch())
-		{		
-			String searchType= bookPage.getSearchType().getSelectedItem().toString();
-		
-			
-			if(searchType.equals("Book ID"))
-			{			
-				if (TestForNumericValue(bookPage.getSearchJTF().getText(),""))
-				{			
-					DBConnector.SearchBookByBookID(bookPage);
-				}
-			}
-			
-			if(searchType.equals("Title"))
-			{			
-				DBConnector.SearchBookByTitle(bookPage);
-			}			
-			
-		}
+		}			
 		
 		// USER DB STUFF
 		else if (e == manageUser.getInsert())
@@ -490,7 +386,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getSelectedItem().toString(), manageUser
 							.getPassword().getText());
 					
-					resetManageUser();	
+					resetManageUser(manageUser);	
 				}
 		}
 
@@ -504,14 +400,14 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 							.getAccessLevel().getSelectedItem().toString(),
 							manageUser.getPassword().getText());
 			
-				resetManageUser();		
+				resetManageUser(manageUser);		
 			}
 		}
 		
 		else if (e == manageUser.getDelete())
 		{
 			DBConnector.DeleteUser(manageUser);		
-			resetManageUser();							
+			resetManageUser(manageUser);							
 		}
 		
 		else if (e == manageUser.getDiscard())
@@ -547,37 +443,12 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 	}
 
 	
-	private void resetManageCustomer()
+	private void resetManageCustomer(ManageCustomer manageCustomer2)
 	{
 		manageCustomer.EmptyFields();			
 		manageCustomer.getTable().getSelectionModel().removeListSelectionListener(this);		
 		manageCustomer.EmptyTable();
 		manageCustomer.getTable().getSelectionModel().addListSelectionListener(this);		
-	}
-	
-	
-	private void resetLibrarianActivity()
-	{
-		librarianActivity.EmptyFields();			
-		librarianActivity.getTable().getSelectionModel().removeListSelectionListener(this);		
-		librarianActivity.EmptyTable();
-		librarianActivity.getTable().getSelectionModel().addListSelectionListener(this);		
-	}
-	
-	private void resetCustomerPage()
-	{
-		customerPage.EmptyFields();			
-		customerPage.getTable().getSelectionModel().removeListSelectionListener(this);		
-		customerPage.EmptyTable();
-		customerPage.getTable().getSelectionModel().addListSelectionListener(this);		
-	}
-	
-	private void resetBookPage()
-	{
-		bookPage.EmptyFields();			
-		bookPage.getTable().getSelectionModel().removeListSelectionListener(this);		
-		bookPage.EmptyTable();
-		bookPage.getTable().getSelectionModel().addListSelectionListener(this);		
 	}
 
 	@Override
@@ -662,7 +533,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		JOptionPane.showMessageDialog(new JFrame(),Message);
 	}
 	
-	public void resetManageUser()
+	public void resetManageUser(ManageUser manageUser)
 	{
 		manageUser.EmptyFields();			
 		manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
@@ -670,7 +541,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		manageUser.getTable().getSelectionModel().addListSelectionListener(this);	
 	}
 	
-	public void resetManageBook()
+	public void resetManageBook(ManageBook manageBook)
 	{
 		manageBook.EmptyFields();			
 		manageBook.getTable().getSelectionModel().removeListSelectionListener(this);		

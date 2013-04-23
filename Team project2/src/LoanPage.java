@@ -1,8 +1,6 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
-import java.util.Vector;
 
 public class LoanPage extends JPanel
 {
@@ -18,51 +16,16 @@ public class LoanPage extends JPanel
 	private JLabel name = new JLabel("Kevin Street Library");
 	private JButton home = new JButton("      Home     ", homeIcon);
 
-	private JLabel customerID = new JLabel("CustomerID");
-	private JLabel libCode = new JLabel("LibCode");
 	
-	private JTextField JTFcustomerID = new JTextField(20);
-	private JTextField JTFlibCode = new JTextField(20);
-	
-	public JTextField getJTFcustomerID()
-	{
-		return JTFcustomerID;
-	}
-
-	public JTextField getJTFlibCode()
-	{
-		return JTFlibCode;
-	}
-
-	JButton submitLoan = new JButton("Submit Loan");	
-	JButton displayOverDueBooks = new JButton("Display Overdue Books");
-
-	private JLabel loan = new JLabel("Loan a Book: ");
 
 	private Color background = new Color(152, 178, 255);
 
 	// JTexfield where it displayed the user ID
 	private JTextField ID = new JTextField(5);
-	
-	private Vector <String> header = new Vector<String>();       
-	private DefaultTableModel tableModel = new DefaultTableModel() ;
-	private JTable table = new JTable(tableModel);	
 
 
 	public LoanPage()
 	{
-		header.add("Loan ID");
-		header.add("Lib code");
-		header.add("Book Title");
-		header.add("Customer Name");	
-		header.add("Days over Due");
-		header.add("Genre");
-		tableModel.setColumnIdentifiers(header);
-		
-		JScrollPane pane = new JScrollPane(table,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
 
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
@@ -99,63 +62,24 @@ public class LoanPage extends JPanel
 
 		// JLabel
 		gbcMain.anchor = GridBagConstraints.CENTER;
-		gbcMain.insets = new Insets(0, -800, 190, 0);
+		gbcMain.insets = new Insets(0, -800, 240, 0);
 		gbcMain.gridwidth = 1;
 		this.add(home, gbcMain);
 		
-		gbcMain.insets = new Insets(0, 0, 290, -0);
+		gbcMain.insets = new Insets(0, 0, 340, -0);
 		gbcMain.gridwidth = 1;
 		this.add(name, gbcMain);
-	
 
 		// User ID stuff
-		gbcMain.insets = new Insets(0, 0, 250, -680);
+		gbcMain.insets = new Insets(0, 0, 300, -680);
 		gbcMain.gridwidth = 1;
 		this.add(userID, gbcMain);
 
-		gbcMain.insets = new Insets(0, 0, 250, -790);
+		gbcMain.insets = new Insets(0, 0, 300, -790);
 		gbcMain.gridwidth = 1;
 		this.add(ID, gbcMain);
-		
-		
-		//JBUTTONS
-	
-		
-		gbcMain.anchor = GridBagConstraints.CENTER;
-		gbcMain.insets = new Insets(0, -355, -350, 0);;
-		gbcMain.gridwidth = 1;
-		this.add(libCode, gbcMain);
-		
-		gbcMain.insets = new Insets(0, -335, -410, 0);
-		gbcMain.gridwidth = 1;
-		this.add(customerID, gbcMain);
-		
-		//JTFS
-		gbcMain.insets = new Insets(0, 0, -350, 0);
-		gbcMain.gridwidth = 1;
-		this.add(JTFlibCode, gbcMain);
-		
-		gbcMain.insets = new Insets(0, 0, -410, 0);
-		gbcMain.gridwidth = 1;
-		this.add(JTFcustomerID, gbcMain);
-		
-		//submit loan
-		gbcMain.insets = new Insets(0, 0, -380, -400);
-		gbcMain.gridwidth = 1;
-		this.add(submitLoan, gbcMain);
-		
-		//gbcMain.ipady = 0;
-		gbcMain.insets = new Insets(0, 0, -50, 0);
-		gbcMain.gridwidth = 1;
-		this.add(displayOverDueBooks, gbcMain);
 
-		//add table	
-		gbcMain.insets = new Insets(0, 20, 120, 0);
-		gbcMain.ipady = -300;
-		this.add(pane, gbcMain);
-		
-		//add jbutton
-		//gbcMain.insets = new Insets(0, 20, 20, 50);
+
 
 	}
 
@@ -168,26 +92,6 @@ public class LoanPage extends JPanel
 	public JTextField getUserID()
 	{
 		return (this.ID);
-	}
-	
-	public JButton getSubmitLoan()
-	{
-		return submitLoan;
-	}
-
-	public DefaultTableModel getTableModel()
-	{
-		return (this.tableModel);
-	}
-
-	public Vector<String> getHeader()
-	{
-		return(this.header);
-	}
-	
-	public JButton getDisplayOverDueBooks()
-	{
-		return displayOverDueBooks;
 	}
 
 }

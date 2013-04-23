@@ -1,8 +1,6 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 import java.awt.*;
-import java.util.Vector;
 
 public class LibrarianActivity extends JPanel
 {
@@ -20,8 +18,6 @@ public class LibrarianActivity extends JPanel
 
 	private JTextField JTFbookName = new JTextField(10);
 
-
-
 	private JButton search = new JButton("Search");
 	private JButton print = new JButton("  Print  ");
 	private JButton back = new JButton("      Back     ");
@@ -29,7 +25,7 @@ public class LibrarianActivity extends JPanel
 
 	private Color background = new Color(152, 178, 255);
 	
-	private String[] itemBox = { "User ID", "User Name"};
+	private String[] itemBox = { "Staff ID", "Name"};
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private JComboBox combo = new JComboBox(itemBox);
@@ -37,24 +33,14 @@ public class LibrarianActivity extends JPanel
 	// JTexfield where it displayed the user ID
 	private JTextField ID = new JTextField(5);
 
-	private Vector <String> header = new Vector<String>();       
-	private DefaultTableModel tableModel = new DefaultTableModel() ;
-	private JTable table = new JTable(tableModel);
+	private String[] header = { "Staff Name", "Loaned Date", "Loan ID", "Lib Code", "Title", "Customer ID"};
+	private Object data[][] = new Object[][] {
+			{ "", "", "", "", "", ""}};
+	private JTable table = new JTable(data, header);
 
 	public LibrarianActivity()
 	{
-		
 
-		header.add("User ID");
-		header.add("User Name");
-		header.add("Loaned Date");
-		header.add("Loan ID");
-		header.add("Lib Code");
-		header.add("Title");
-		header.add("Customer ID");
-		tableModel.setColumnIdentifiers(header);
-		
-		
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
@@ -97,18 +83,18 @@ public class LibrarianActivity extends JPanel
 		this.add(name, gbcMain);
 
 		//JComboBox 
-		gbcMain.insets = new Insets(0, 0, -460, 300);
+		gbcMain.insets = new Insets(0, 0, -360, 300);
 		gbcMain.gridwidth = 1;
 		this.add(combo, gbcMain);
 		
 		// JtextField
-		gbcMain.insets = new Insets(0, 0, -460, 0);
+		gbcMain.insets = new Insets(0, 0, -360, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFbookName, gbcMain);
 
 
 		// JButton
-		gbcMain.insets = new Insets(0, -0, -460, -300);
+		gbcMain.insets = new Insets(0, -0, -360, -300);
 		gbcMain.gridwidth = 1;
 		this.add(search, gbcMain);
 
@@ -128,11 +114,9 @@ public class LibrarianActivity extends JPanel
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		gbcMain.insets = new Insets(0, 40, -100, 0);
+		gbcMain.insets = new Insets(0, 40, 0, 0);
 		gbcMain.ipady = -140;
-		gbcMain.ipadx = 63;
 		this.add(pane, gbcMain);
-
 
 	}
 
@@ -141,54 +125,28 @@ public class LibrarianActivity extends JPanel
 		return (this.back);
 	}
 
+	public int getRowCount()
+	{
+		return data.length;
+	}
+
+	public int getColumnCount()
+	{
+		return header.length;
+	}
+
+	public String getColumnName(int columnIndex)
+	{
+		return header[columnIndex];
+	}
+
+	public Object getValueAt(int rowIndex, int columnIndex)
+	{
+		return data[rowIndex][columnIndex];
+	}
 
 	public JTextField getUserID()
 	{
 		return (this.ID);
-	}
-	
-	public JTextField getJTFbookName() {
-		return JTFbookName;
-	}
-	
-	public Vector<String> getHeader()
-	{
-		return(this.header);
-	}
-	
-	public DefaultTableModel getTableModel()
-	{
-		return (this.tableModel);
-	}
-	
-	public JButton getSearch()
-	{
-		return (this.search);
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public JComboBox getSearchType()
-	{
-		return (this.combo);
-	}
-	
-	public JTextField getSearchJTF()
-	{
-		return (this.JTFbookName);
-	}
-	
-	public void EmptyFields()
-	{
-		this.JTFbookName.setText("");
-	}
-	
-	public void EmptyTable()
-	{
-		tableModel.setRowCount(0);
-	}
-	
-	public JTable getTable()
-	{
-		return (this.table);
 	}
 }
