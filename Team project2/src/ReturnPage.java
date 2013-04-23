@@ -47,15 +47,13 @@ public class ReturnPage extends JPanel
 		header.add("Lib code");
 		header.add("Book Title");
 		header.add("Customer Name");	
-		header.add("Loan Date");
 		header.add("Days over Due");
+		header.add("Genre");
 		tableModel.setColumnIdentifiers(header);
 		
 		JScrollPane pane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		
-		table.setEnabled(false);
 
 
 		this.setBackground(background);
@@ -176,20 +174,5 @@ public class ReturnPage extends JPanel
 	public JButton getDisplayOverDueBooks()
 	{
 		return displayOverDueBooks;
-	}
-	
-	public void emptyTable()
-	{
-		tableModel.setRowCount(0);
-	}
-	
-	public JTable getTable()
-	{
-		return (this.table);
-	}
-	
-	public void emptyFields()
-	{
-		JTFlibCode.setText("");
 	}
 }

@@ -259,16 +259,15 @@ public class ManageCustomer extends JPanel
 		return (this.discardChanges);
 	}
 	
-	public void emptyFields()
+	public void EmptyFields()
 	{
 		nameJTF.setText("");
 		addressJTF.setText("");
 		balanceJTF.setText("");
 		customerIDJTF.setText("");
-		JTFsearch.setText("");
 	}
 	
-	public void emptyTable()
+	public void EmptyTable()
 	{
 		tableModel.setRowCount(0);
 	}
