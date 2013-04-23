@@ -306,6 +306,7 @@ public class ManageUser extends JPanel
 	{
 		JTFuserID.setText("");
 		JTFname.setText("");
+		JTFsearch.setText("");
 		JPFpassword.setText("");
 		JPFconfirmPassword.setText("");
 		accessLevelCombo.setSelectedItem("Librarian");
@@ -322,18 +323,22 @@ public class ManageUser extends JPanel
 	}
 	
 	@SuppressWarnings("deprecation")
-	public int CheckData()
+	public boolean CheckPassword()
 	{
+		boolean passwordsMatch = true;
+		
 		if(JPFpassword.getText().equals("") || JPFconfirmPassword.getText().equals("") || JTFname.getText().equals(""))
 		{
-			return 1;		
+			MyFrame.SwingPopup("You must complete all fields");
+			passwordsMatch = false;
 		}
 		
 		if(!JPFpassword.getText().equals(JPFconfirmPassword.getText()))
 		{
-			return 2;
+			MyFrame.SwingPopup("Passwords do not match");
+			passwordsMatch = false;
 		}
 		
-		return 0;
+		return passwordsMatch;
 	}
 }

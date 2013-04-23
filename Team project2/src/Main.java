@@ -1,11 +1,9 @@
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
 import java.sql.*;
 
 public class Main
 {
-
 	public static void main(String[] args) throws SQLException
 	{
 		MyFrame frame = new MyFrame();

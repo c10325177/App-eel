@@ -196,8 +196,11 @@ public class DBConnector
 		}
 	}
 
-	public static int InsertUser(String Name, String accessLevel, String password)
+	public static void InsertUser(String Name, String accessLevel, String password)
 	{
+		System.out.println("Access Level Value:"
+				+ accessLevel);
+		
 		no_of_rows = 0;
 		Name=TitleCaseConverter.toTitleCase(Name);
 		ResultSet rs;
@@ -225,7 +228,9 @@ public class DBConnector
 		{
 			System.out.println("SQL exception occured" + e);
 		}
-				
+		
+		int id = 0;	
+		
 		try
 		{
 			stmt = con.createStatement();
@@ -233,12 +238,16 @@ public class DBConnector
 			
 			while (rs.next()) 
 			{
-				int id = rs.getInt(1);
+				id=rs.getInt(1);
 			    System.out.println("id=" + id);
-			    return id;
 			}
 			
-			rs.close();			
+			rs.close();
+			
+			MyFrame.SwingPopup("New user: "
+					+ Name
+					+ " has been added to database and allocated user id: "
+					+ id);
 		} 
 		
 		catch (SQLException e)
@@ -246,21 +255,29 @@ public class DBConnector
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return 0;
-	
 	}
 
-	public static void DeleteUser(int UserID)
+	public static void DeleteUser(ManageUser manageUser)
 	{
-		no_of_rows = 0;
 		try
 		{
+			int USERID = Integer.valueOf(manageUser.getuserID().getText());
+			
 			Statement stmt = con.createStatement();
-			int deletedRows = stmt
+			int rowsDeleted = stmt
 					.executeUpdate("DELETE FROM Users WHERE UserId = '"
-							+ UserID + "'");
-			System.out.println("Rows Deleted: " + deletedRows);
+							+ USERID + "'");
+			System.out.println("Rows Deleted: " + rowsDeleted);
+			
+			System.out.println("UID Deleted: "
+					+ USERID);
+		
+			if(rowsDeleted > 0)
+			{			
+				MyFrame.SwingPopup("User: "
+						+ manageUser.getname().getText() +" with User ID: " + manageUser.getuserID().getText()
+						+ " has been deleted from the database");
+			}
 		}
 
 		catch (SQLException e)
@@ -273,6 +290,9 @@ public class DBConnector
 	public static void UpdateUser(int userID, String name, String accessLevel,
 			String password)
 	{
+		
+		System.out.println("Access Level Value:"+ accessLevel);
+		
 		name=TitleCaseConverter.toTitleCase(name);
 		no_of_rows = 0;
 
@@ -284,6 +304,7 @@ public class DBConnector
 					+ accessLevel + "', password='" + password
 					+ "' WHERE UserID = '" + userID + "'");
 			System.out.println("Rows Updated: " + updateRow);
+			MyFrame.SwingPopup("User: " +name +" succesfully updated");
 		}
 
 		catch (SQLException e)
@@ -293,10 +314,8 @@ public class DBConnector
 	}
 	
 	
-	public static boolean SearchUserByID(ManageUser manageUser)
-	{		
-		boolean rowsFound=false;
-		
+	public static void SearchUserByID(ManageUser manageUser)
+	{				
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
@@ -309,6 +328,7 @@ public class DBConnector
 			if (!rs.next() ) 
 			{
 			    System.out.println("no data found");
+			    MyFrame.SwingPopup("User ID: "+ USERID + " not found in database" );
 			}
 			
 			else
@@ -332,7 +352,6 @@ public class DBConnector
 				System.out.println("Searched by USERID " + USERID);
 				manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
 				manageUser.getTable().setModel(manageUser.getTableModel());	
-				rowsFound=true;
 			}	
 		}
 		
@@ -340,14 +359,10 @@ public class DBConnector
 		{
 			System.out.println("SQL exception occured" + e);
 		}
-		
-		return rowsFound;
 	}
 		
-	public static boolean SearchUserByName(ManageUser manageUser)
-	{		      		
-		boolean rowsFound = false;
-		
+	public static void SearchUserByName(ManageUser manageUser)
+	{		      				
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
@@ -358,6 +373,8 @@ public class DBConnector
 			if(!rs.next())
 			{
 				System.out.println("No rows found");
+				MyFrame.SwingPopup("No users matching: \""+Name+ "\" found in the database\n" +
+						"you can use an empty search to display all users" );
 			}
 					
 			else
@@ -378,7 +395,6 @@ public class DBConnector
 				
 				while(rs.next());
 				
-				rowsFound = true;
 			}
 			
 			System.out.println("Searched by Name " + Name);
@@ -390,15 +406,11 @@ public class DBConnector
 		{
 			System.out.println("SQL exception occured" + e);
 		}
-		
-		return rowsFound;
 	}
 	
 	
-	public static boolean SearchUserByAccessLevel(ManageUser manageUser)
-	{			
-		boolean rowsFound = false;
-		
+	public static void SearchUserByAccessLevel(ManageUser manageUser)
+	{				
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
@@ -410,7 +422,8 @@ public class DBConnector
 					
 			if (!rs.next())
 			{
-	
+				MyFrame.SwingPopup("Access Level must be searched by \"Librarian\" or \"Admin\"\n" +
+						" or you can use an empty search to display all users" );
 			}
 			
 			else
@@ -430,8 +443,6 @@ public class DBConnector
 				}
 				
 				while(rs.next());
-				
-				rowsFound=true;
 			}
 			
 			System.out.println("Searched by Name " + AccessLevel);
@@ -444,7 +455,5 @@ public class DBConnector
 		{
 			System.out.println("SQL exception occured" + e);
 		}
-		
-		return rowsFound;
 	}
 }

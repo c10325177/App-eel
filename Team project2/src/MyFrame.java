@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -265,156 +266,64 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		
 		// USER DB STUFF
 		else if (e == manageUser.getInsert())
-		{			
-			int insertCheck = manageUser.CheckData();	
-			
-			if (insertCheck == 0)
-			{
-				if (manageUser.getPassword().getText()
-						.equals(manageUser.getConfirmPassword().getText()))
+		{						
+		
+				if (manageUser.CheckPassword())
 				{
-					int newUserID = DBConnector.InsertUser(manageUser.getname()
+					DBConnector.InsertUser(manageUser.getname()
 							.getText(), manageUser.getAccessLevel()
 							.getSelectedItem().toString(), manageUser
 							.getPassword().getText());
-
-					System.out.println("Access Level Value:"
-							+ manageUser.getAccessLevel().getSelectedItem()
-									.toString());
 					
-					
-					SwingPopup("New user: "
-							+ manageUser.getname().getText()
-							+ " has been added to database and allocated user id: "
-							+ newUserID);
-					
-					manageUser.EmptyFields();
-					manageUser.getTable().getSelectionModel()
-							.removeListSelectionListener(this);
-					manageUser.EmptyTable();
-					manageUser.getTable().getSelectionModel()
-							.addListSelectionListener(this);
+					ResetTable(manageUser);	
 				}
-			}
-			
-			else if (insertCheck == 1)
-			{
-				SwingPopup("You must complete all fields");				
-			}
-			
-			else
-			{
-				SwingPopup("Passwords do not match");
-			}
 		}
 
 		else if (e == manageUser.getUpdate())
 		{
-			int updateCheck = manageUser.CheckData();
-			System.out.println("Update check: " + updateCheck);
-
-			if (updateCheck == 0)
+			if (manageUser.CheckPassword())
 			{
 				DBConnector.UpdateUser(
 							Integer.valueOf(manageUser.getuserID().getText()),
 							manageUser.getname().getText(), manageUser
 							.getAccessLevel().getSelectedItem().toString(),
 							manageUser.getPassword().getText());
-
-				System.out.println("Access Level Value:"
-							+ manageUser.getAccessLevel().getSelectedItem()
-							.toString());
-				
-				SwingPopup("User: " + manageUser.getname().getText() +" succesfully updated");
-
-				manageUser.EmptyFields();			
-				manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
-				manageUser.EmptyTable();
-				manageUser.getTable().getSelectionModel().addListSelectionListener(this);			
-			}
 			
-			else if (updateCheck == 1)
-			{
-				SwingPopup("You must complete all fields");				
-			}
-
-			else
-			{
-				SwingPopup("Passwords do not match");
+				ResetTable(manageUser);		
 			}
 		}
 		
 		else if (e == manageUser.getDelete())
 		{
-			DBConnector.DeleteUser(Integer.valueOf(manageUser.getuserID()
-					.getText()));
-			System.out.println("UID: "
-					+ Integer.valueOf(manageUser.getuserID().getText()));
-			
-			SwingPopup("User: "
-					+ manageUser.getname().getText() +" with User ID: " + manageUser.getuserID().getText()
-					+ " has been deleted from the database");
-
-			manageUser.EmptyFields();			
-			manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
-			manageUser.EmptyTable();
-			manageUser.getTable().getSelectionModel().addListSelectionListener(this);			
+			DBConnector.DeleteUser(manageUser);		
+			ResetTable(manageUser);						
 		}
 		
 		else if (e == manageUser.getDiscard())
 		{
-			manageUser.EmptyFields();
-		}
-		
+			ResetTable(manageUser);
+		}		
 		
 		else if (e == manageUser.getSearch())
 		{						
 			String temp= manageUser.getSearchType().getSelectedItem().toString();
-			String searchText = manageUser.getSearchJTF().getText();
 			
 			if(temp.equals("User ID"))
-			{
-				
-				boolean integerValue=true;
-				
-				try 
-				{
-					Integer.valueOf(searchText);					
-				}
-				
-				catch(NumberFormatException e1)
-				{
-					SwingPopup("You must input a number to search by user id");
-					integerValue=false;
-				}
-				
-				if (integerValue==true)
+			{			
+				if (TestForIntegerValue(manageUser.getSearchJTF().getText()))
 				{			
-					if(DBConnector.SearchUserByID(manageUser)==false)
-					{
-						SwingPopup("User ID: "+ searchText + " not found in database" );
-					}
+					DBConnector.SearchUserByID(manageUser);
 				}
 			}
 			
 			if(temp.equals("Name"))
 			{			
-				if(!DBConnector.SearchUserByName(manageUser))
-				{
-					SwingPopup("No users matching: \""+searchText+ "\" found in the database\n" +
-							"you can use an empty search to display all users" );
-				}
-				
-						
+				DBConnector.SearchUserByName(manageUser);
 			}			
 			
 			if(temp.equals("Access Level"))
 			{			
-				if(!DBConnector.SearchUserByAccessLevel(manageUser))
-				{
-					SwingPopup("Access Level must be searched by \"Librarian\" or \"Admin\"\n" +
-							" or you can use an empty search to display all users" );
-				}
+				DBConnector.SearchUserByAccessLevel(manageUser);
 			}
 		}
 			
@@ -446,8 +355,34 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		}		
 	}
 	
-	public void SwingPopup(String Message)
+	public static boolean TestForIntegerValue(String ID)
 	{
-		JOptionPane.showMessageDialog(this,Message);
+		boolean integerValue=true;
+		
+		try 
+		{
+			Integer.valueOf(ID);					
+		}
+		
+		catch(NumberFormatException e1)
+		{
+			SwingPopup("You must input a number to search by an id");
+			integerValue=false;
+		}
+		
+		return integerValue;
+	}
+	
+	public static void SwingPopup(String Message)
+	{
+		JOptionPane.showMessageDialog(new JFrame(),Message);
+	}
+	
+	public void ResetTable(JPanel currentPanel)
+	{
+		((ManageUser) currentPanel).EmptyFields();			
+		((ManageUser) currentPanel).getTable().getSelectionModel().removeListSelectionListener(this);		
+		((ManageUser) currentPanel).EmptyTable();
+		((ManageUser) currentPanel).getTable().getSelectionModel().addListSelectionListener(this);	
 	}
 }
