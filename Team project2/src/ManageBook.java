@@ -333,12 +333,12 @@ public class ManageBook extends JPanel
 		return (this.tableModel);
 	}
 	
-	public void emptyTable()
+	public void EmptyTable()
 	{
 		tableModel.setRowCount(0);
 	}
 	
-	public void emptyFields()
+	public void EmptyFields()
 	{		
 		JTFauthor.setText("");
 		JTFavailable.setText("");
@@ -347,7 +347,6 @@ public class ManageBook extends JPanel
 		JTFgenre.setText("");
 		JTFISBN.setText("");
 		JTFcurrentLibCode.setText("");
-		JTFsearch.setText("");
 	}
 	
 	public JButton getDisplayAvailableBooks()

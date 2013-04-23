@@ -277,7 +277,7 @@ public class ManageUser extends JPanel
 		return (this.table);
 	}
 	
-	public void emptyFields()
+	public void EmptyFields()
 	{
 		JTFuserID.setText("");
 		JTFname.setText("");
@@ -292,13 +292,13 @@ public class ManageUser extends JPanel
 		return(this.header);
 	}
 	
-	public void emptyTable()
+	public void EmptyTable()
 	{
 		tableModel.setRowCount(0);
 	}
 	
 	@SuppressWarnings("deprecation")
-	public boolean checkPassword()
+	public boolean CheckPassword()
 	{
 		boolean passwordsMatch = true;
 		

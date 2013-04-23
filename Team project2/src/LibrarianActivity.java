@@ -4,7 +4,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Vector;
 
-public class CustomerPage extends JPanel
+public class LibrarianActivity extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -20,6 +20,8 @@ public class CustomerPage extends JPanel
 
 	private JTextField JTFbookName = new JTextField(10);
 
+
+
 	private JButton search = new JButton("Search");
 	private JButton print = new JButton("  Print  ");
 	private JButton back = new JButton("      Back     ");
@@ -27,7 +29,7 @@ public class CustomerPage extends JPanel
 
 	private Color background = new Color(152, 178, 255);
 	
-	private String[] itemBox = { "Customer ID", "Name"};
+	private String[] itemBox = { "User ID", "User Name"};
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private JComboBox combo = new JComboBox(itemBox);
@@ -39,18 +41,19 @@ public class CustomerPage extends JPanel
 	private DefaultTableModel tableModel = new DefaultTableModel() ;
 	private JTable table = new JTable(tableModel);
 
-	public CustomerPage()
+	public LibrarianActivity()
 	{
-
 		
-		header.add("Customer Name");
-		header.add("Book title");
+
+		header.add("User ID");
+		header.add("User Name");
 		header.add("Loaned Date");
-		header.add("Due Date");
-		header.add("Return Date");
+		header.add("Loan ID");
+		header.add("Lib Code");
+		header.add("Title");
+		header.add("Customer ID");
 		tableModel.setColumnIdentifiers(header);
 		
-		table.setEnabled(false);
 		
 		this.setBackground(background);
 		GridBagConstraints gbcMain = new GridBagConstraints();
@@ -94,18 +97,18 @@ public class CustomerPage extends JPanel
 		this.add(name, gbcMain);
 
 		//JComboBox 
-		gbcMain.insets = new Insets(0, 0, -360, 300);
+		gbcMain.insets = new Insets(0, 0, -460, 300);
 		gbcMain.gridwidth = 1;
 		this.add(combo, gbcMain);
 		
 		// JtextField
-		gbcMain.insets = new Insets(0, 0, -360, 0);
+		gbcMain.insets = new Insets(0, 0, -460, 0);
 		gbcMain.gridwidth = 1;
 		this.add(JTFbookName, gbcMain);
 
 
 		// JButton
-		gbcMain.insets = new Insets(0, -0, -360, -300);
+		gbcMain.insets = new Insets(0, -0, -460, -300);
 		gbcMain.gridwidth = 1;
 		this.add(search, gbcMain);
 
@@ -125,10 +128,11 @@ public class CustomerPage extends JPanel
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		gbcMain.insets = new Insets(0, 40, 0, 0);
+		gbcMain.insets = new Insets(0, 40, -100, 0);
 		gbcMain.ipady = -140;
 		gbcMain.ipadx = 63;
 		this.add(pane, gbcMain);
+
 
 	}
 
