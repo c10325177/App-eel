@@ -196,15 +196,17 @@ public class DBConnector
 		}
 	}
 
-	public static void InsertUser(String Name, String accessLevel, String password)
+	public static int InsertUser(String Name, String accessLevel, String password)
 	{
 		no_of_rows = 0;
 		Name=TitleCaseConverter.toTitleCase(Name);
+		ResultSet rs;
+		Statement stmt;
 		
 		try
 		{
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
+			stmt = con.createStatement();
+			rs = stmt
 					.executeQuery("INSERT INTO Users(Userid, Name, Accesslevel, password) " 
 							+ "values (USERID.nextVal,'"
 							+ Name
@@ -218,11 +220,35 @@ public class DBConnector
 			System.out.println("There are " + no_of_rows
 					+ " record in the table");
 		}
-
+		
 		catch (SQLException e)
 		{
 			System.out.println("SQL exception occured" + e);
 		}
+				
+		try
+		{
+			stmt = con.createStatement();
+			rs = stmt.executeQuery("SELECT Userid FROM Users WHERE Name LIKE '%"+Name+"%'");
+			
+			while (rs.next()) 
+			{
+				int id = rs.getInt(1);
+			    System.out.println("id=" + id);
+			    return id;
+			}
+			
+			rs.close();			
+		} 
+		
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return 0;
+	
 	}
 
 	public static void DeleteUser(int UserID)
@@ -310,7 +336,7 @@ public class DBConnector
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
 			String Name = TitleCaseConverter.toTitleCase(manageUser.getSearchJTF().getText().toString());
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%'");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%' ORDER BY UserID");
 			
 			while (rs.next())
 			{
@@ -347,7 +373,7 @@ public class DBConnector
 			System.out.println("Access Level Text: "+AccessLevel);
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%'");
+					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%' ORDER BY UserID");
 			while (rs.next())
 			{
 				Vector <Object> newRow = new Vector<Object>();

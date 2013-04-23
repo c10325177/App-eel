@@ -21,7 +21,7 @@ public class ManageUser extends JPanel
 	private JLabel password = new JLabel("PASSWORD");
 	private JLabel confirmPassword = new JLabel("CONFIRM PASSWORD");
 
-	private JLabel JLuserID = new JLabel();
+	private JTextField JTFuserID = new JTextField(10);
 	private JTextField JTFname = new JTextField(10);
 	private JPasswordField JPFpassword = new JPasswordField(10);
 	private JPasswordField JPFconfirmPassword = new JPasswordField(10);
@@ -53,7 +53,7 @@ public class ManageUser extends JPanel
 	private JTable table = new JTable(tableModel);	
 	
 	public ManageUser()
-	{	
+	{		
 		header.add("User ID");
 		header.add("Name");
 		header.add("Access Level");
@@ -65,6 +65,7 @@ public class ManageUser extends JPanel
 		this.setLayout(new GridBagLayout());
 		this.home.setForeground(Color.red);
 		userID.setFont(new Font("Serif", Font.BOLD, 12));
+		JTFuserID.setEditable(false);
 		name.setFont(new Font("Serif", Font.BOLD, 12));
 		accessLevel.setFont(new Font("Serif", Font.BOLD, 12));
 		password.setFont(new Font("Serif", Font.BOLD, 12));
@@ -126,7 +127,7 @@ public class ManageUser extends JPanel
 		// JtextField
 		gbcMain.insets = new Insets(0, 0, -100, 0);
 		gbcMain.gridwidth = 1;
-		this.add(JLuserID, gbcMain);
+		this.add(JTFuserID, gbcMain);
 
 		gbcMain.insets = new Insets(0, 0, -160, 0);
 		gbcMain.gridwidth = 1;
@@ -210,9 +211,9 @@ public class ManageUser extends JPanel
 		return (this.JTFname);
 	}
 
-	public JLabel getuserID()
+	public JTextField getuserID()
 	{
-		return (this.JLuserID);
+		return (this.JTFuserID);
 	}
 
 	public JPasswordField getPassword()
@@ -304,7 +305,7 @@ public class ManageUser extends JPanel
 	
 	public void EmptyFields()
 	{
-		JLuserID.setText("");
+		JTFuserID.setText("");
 		JTFname.setText("");
 		JPFpassword.setText("");
 		JPFconfirmPassword.setText("");
@@ -314,5 +315,26 @@ public class ManageUser extends JPanel
 	public Vector<String> getHeader()
 	{
 		return(this.header);
+	}
+	
+	public void EmptyTable()
+	{
+		tableModel.setRowCount(0);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public int CheckData()
+	{
+		if(JPFpassword.getText().equals("") || JPFconfirmPassword.getText().equals("") || JTFname.getText().equals(""))
+		{
+			return 1;		
+		}
+		
+		if(!JPFpassword.getText().equals(JPFconfirmPassword.getText()))
+		{
+			return 2;
+		}
+		
+		return 0;
 	}
 }

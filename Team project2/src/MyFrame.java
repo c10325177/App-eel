@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -234,7 +235,7 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		}
 		
 		else if (e == manageCustomer.getUpdate())
-		{
+		{					
 			DBConnector.UpdateCustomer(Integer.valueOf(manageCustomer
 					.getCustomerID().getText()), manageCustomer.getname()
 					.getText(), manageCustomer.getAddress().getText(), Double
@@ -260,46 +261,86 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		else if (e == manageCustomer.getSearch())
 		{
 
-		}
-				
-		
-		
-		
+		}			
 		
 		// USER DB STUFF
 		else if (e == manageUser.getInsert())
-		{
-			if (manageUser.getPassword().getText()
-					.equals(manageUser.getConfirmPassword().getText()))
+		{			
+			int insertCheck = manageUser.CheckData();	
+			
+			if (insertCheck == 0)
 			{
-				DBConnector.InsertUser(manageUser.getname().getText(), manageUser
-								.getAccessLevel().getSelectedItem().toString(),
-						manageUser.getPassword().getText());
+				if (manageUser.getPassword().getText()
+						.equals(manageUser.getConfirmPassword().getText()))
+				{
+					int newUserID = DBConnector.InsertUser(manageUser.getname()
+							.getText(), manageUser.getAccessLevel()
+							.getSelectedItem().toString(), manageUser
+							.getPassword().getText());
 
-				System.out.println("Access Level Value:"
-						+ manageUser.getAccessLevel().getSelectedItem()
-								.toString());
-
-				manageUser.EmptyFields();
+					System.out.println("Access Level Value:"
+							+ manageUser.getAccessLevel().getSelectedItem()
+									.toString());
+					
+					
+					SwingPopup("New User: "
+							+ manageUser.getname().getText()
+							+ " added to database and allocated user id: "
+							+ newUserID);
+					
+					manageUser.EmptyFields();
+					manageUser.getTable().getSelectionModel()
+							.removeListSelectionListener(this);
+					manageUser.EmptyTable();
+					manageUser.getTable().getSelectionModel()
+							.addListSelectionListener(this);
+				}
+			}
+			
+			else if (insertCheck == 1)
+			{
+				SwingPopup("You must complete all fields");				
+			}
+			
+			else
+			{
+				SwingPopup("Passwords do not match");
 			}
 		}
 
 		else if (e == manageUser.getUpdate())
 		{
-			if (manageUser.getPassword().getText()
-					.equals(manageUser.getConfirmPassword().getText()))
+			int updateCheck = manageUser.CheckData();
+			System.out.println("Update check: " + updateCheck);
+
+			if (updateCheck == 0)
 			{
 				DBConnector.UpdateUser(
-						Integer.valueOf(manageUser.getuserID().getText()),
-						manageUser.getname().getText(), manageUser
-								.getAccessLevel().getSelectedItem().toString(),
-						manageUser.getPassword().getText());
+							Integer.valueOf(manageUser.getuserID().getText()),
+							manageUser.getname().getText(), manageUser
+							.getAccessLevel().getSelectedItem().toString(),
+							manageUser.getPassword().getText());
 
 				System.out.println("Access Level Value:"
-						+ manageUser.getAccessLevel().getSelectedItem()
-								.toString());
+							+ manageUser.getAccessLevel().getSelectedItem()
+							.toString());
+				
+				SwingPopup("User: " + manageUser.getname().getText() +" succesfully updated");
 
-				manageUser.EmptyFields();
+				manageUser.EmptyFields();			
+				manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
+				manageUser.EmptyTable();
+				manageUser.getTable().getSelectionModel().addListSelectionListener(this);			
+			}
+			
+			else if (updateCheck == 1)
+			{
+				SwingPopup("You must complete all fields");				
+			}
+
+			else
+			{
+				SwingPopup("Passwords do not match");
 			}
 		}
 		
@@ -310,7 +351,10 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 			System.out.println("UID: "
 					+ Integer.valueOf(manageUser.getuserID().getText()));
 
-			manageUser.EmptyFields();
+			manageUser.EmptyFields();			
+			manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
+			manageUser.EmptyTable();
+			manageUser.getTable().getSelectionModel().addListSelectionListener(this);			
 		}
 		
 		else if (e == manageUser.getDiscard())
@@ -367,5 +411,10 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 				manageUser.getAccessLevel().setSelectedItem("Admin");
 			}
 		}		
+	}
+	
+	public void SwingPopup(String Message)
+	{
+		JOptionPane.showMessageDialog(this,Message);
 	}
 }
