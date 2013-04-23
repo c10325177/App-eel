@@ -283,9 +283,9 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 									.toString());
 					
 					
-					SwingPopup("New User: "
+					SwingPopup("New user: "
 							+ manageUser.getname().getText()
-							+ " added to database and allocated user id: "
+							+ " has been added to database and allocated user id: "
 							+ newUserID);
 					
 					manageUser.EmptyFields();
@@ -350,6 +350,10 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 					.getText()));
 			System.out.println("UID: "
 					+ Integer.valueOf(manageUser.getuserID().getText()));
+			
+			SwingPopup("User: "
+					+ manageUser.getname().getText() +" with User ID: " + manageUser.getuserID().getText()
+					+ " has been deleted from the database");
 
 			manageUser.EmptyFields();			
 			manageUser.getTable().getSelectionModel().removeListSelectionListener(this);		
@@ -364,24 +368,53 @@ public class MyFrame extends JFrame implements ActionListener, ListSelectionList
 		
 		
 		else if (e == manageUser.getSearch())
-		{
-			System.out.println("Searching");
-						
+		{						
 			String temp= manageUser.getSearchType().getSelectedItem().toString();
+			String searchText = manageUser.getSearchJTF().getText();
 			
 			if(temp.equals("User ID"))
 			{
-				DBConnector.SearchUserByID(manageUser);				
+				
+				boolean integerValue=true;
+				
+				try 
+				{
+					Integer.valueOf(searchText);					
+				}
+				
+				catch(NumberFormatException e1)
+				{
+					SwingPopup("You must input a number to search by user id");
+					integerValue=false;
+				}
+				
+				if (integerValue==true)
+				{			
+					if(DBConnector.SearchUserByID(manageUser)==false)
+					{
+						SwingPopup("User ID: "+ searchText + " not found in database" );
+					}
+				}
 			}
 			
 			if(temp.equals("Name"))
 			{			
-				DBConnector.SearchUserByName(manageUser);			
+				if(!DBConnector.SearchUserByName(manageUser))
+				{
+					SwingPopup("No users matching: \""+searchText+ "\" found in the database\n" +
+							"you can use an empty search to display all users" );
+				}
+				
+						
 			}			
 			
 			if(temp.equals("Access Level"))
 			{			
-				DBConnector.SearchUserByAccessLevel(manageUser);
+				if(!DBConnector.SearchUserByAccessLevel(manageUser))
+				{
+					SwingPopup("Access Level must be searched by \"Librarian\" or \"Admin\"\n" +
+							" or you can use an empty search to display all users" );
+				}
 			}
 		}
 			

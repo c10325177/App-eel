@@ -287,7 +287,6 @@ public class ManageUser extends JPanel
 	}
 	*/
 	
-	
 	public JTextField getUserID()
 	{
 		return (this.ID);

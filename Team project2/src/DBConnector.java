@@ -30,9 +30,9 @@ public class DBConnector
 
 		catch (ClassNotFoundException e)
 		{
-			System.out.println("Class not found " + e);
+			System.out.println("Oracle Server not found " + e);
 		}
-		System.out.println("Class found ");
+		System.out.println("Oracle Server Connected");
 	}
 	
 	
@@ -293,8 +293,10 @@ public class DBConnector
 	}
 	
 	
-	public static void SearchUserByID(ManageUser manageUser)
+	public static boolean SearchUserByID(ManageUser manageUser)
 	{		
+		boolean rowsFound=false;
+		
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
@@ -304,33 +306,48 @@ public class DBConnector
 			ResultSet rs = stmt
 					.executeQuery("SELECT * FROM Users where Userid = "+USERID);
 			
-			while (rs.next())
+			if (!rs.next() ) 
 			{
-				Vector <Object> newRow = new Vector<Object>();
-				
-				for (int i = 1; i <= 3; i++) 
-			    {		    	
-					newRow.addElement(rs.getObject(i));
-					System.out.println(rs.getString("Name")+", Column: "+i);
-			    }
-				
-				System.out.println("Row added to Vector");
-				rows.add(newRow);
+			    System.out.println("no data found");
 			}
 			
-			System.out.println("Searched by USERID " + USERID);
-			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
-			manageUser.getTable().setModel(manageUser.getTableModel());		
+			else
+			{		
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
+				
+					for (int i = 1; i <= 3; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Name")+", Column: "+i);
+					}
+				
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while (rs.next());
+			
+				System.out.println("Searched by USERID " + USERID);
+				manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
+				manageUser.getTable().setModel(manageUser.getTableModel());	
+				rowsFound=true;
+			}	
 		}
 		
 		catch (SQLException e)
 		{
 			System.out.println("SQL exception occured" + e);
 		}
+		
+		return rowsFound;
 	}
 		
-	public static void SearchUserByName(ManageUser manageUser)
+	public static boolean SearchUserByName(ManageUser manageUser)
 	{		      		
+		boolean rowsFound = false;
+		
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
@@ -338,18 +355,30 @@ public class DBConnector
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE Name LIKE '%"+Name+"%' ORDER BY UserID");
 			
-			while (rs.next())
+			if(!rs.next())
 			{
-				Vector <Object> newRow = new Vector<Object>();
+				System.out.println("No rows found");
+			}
+					
+			else
+			{
+				do
+				{
+					Vector <Object> newRow = new Vector<Object>();
 				
-				for (int i = 1; i <= 3; i++) 
-			    {		    	
-					newRow.addElement(rs.getObject(i));
-					System.out.println(rs.getString("Name")+", Column: "+i);
-			    }
+					for (int i = 1; i <= 3; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Name")+", Column: "+i);
+					}
 				
-				System.out.println("Row added to Vector");
-				rows.add(newRow);
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while(rs.next());
+				
+				rowsFound = true;
 			}
 			
 			System.out.println("Searched by Name " + Name);
@@ -361,11 +390,15 @@ public class DBConnector
 		{
 			System.out.println("SQL exception occured" + e);
 		}
+		
+		return rowsFound;
 	}
 	
 	
-	public static void SearchUserByAccessLevel(ManageUser manageUser)
+	public static boolean SearchUserByAccessLevel(ManageUser manageUser)
 	{			
+		boolean rowsFound = false;
+		
 		try
 		{
 			Vector<Vector<Object>> rows = new Vector<Vector<Object>>();
@@ -374,27 +407,44 @@ public class DBConnector
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
 					.executeQuery("SELECT * FROM Users WHERE AccessLevel LIKE '%"+AccessLevel+"%' ORDER BY UserID");
-			while (rs.next())
+					
+			if (!rs.next())
 			{
-				Vector <Object> newRow = new Vector<Object>();
+	
+			}
+			
+			else
+			{
+				do
+				{			
+					Vector <Object> newRow = new Vector<Object>();
 				
-				for (int i = 1; i <= 3; i++) 
-			    {		    	
-					newRow.addElement(rs.getObject(i));
-					System.out.println(rs.getString("Name")+", Column: "+i);
-			    }
+					for (int i = 1; i <= 3; i++) 
+					{		    	
+						newRow.addElement(rs.getObject(i));
+						System.out.println(rs.getString("Name")+", Column: "+i);
+					}
 				
-				System.out.println("Row added to Vector");
-				rows.add(newRow);
+					System.out.println("Row added to Vector");
+					rows.add(newRow);
+				}
+				
+				while(rs.next());
+				
+				rowsFound=true;
 			}
 			
 			System.out.println("Searched by Name " + AccessLevel);
 			manageUser.getTableModel().setDataVector(rows, manageUser.getHeader()); 
 			manageUser.getTable().setModel(manageUser.getTableModel());
+			
 		}
+		
 		catch (SQLException e)
 		{
 			System.out.println("SQL exception occured" + e);
 		}
+		
+		return rowsFound;
 	}
 }
